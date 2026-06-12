@@ -4,6 +4,7 @@ AppVersion=0.9.7
 AppPublisher=Redbook
 DefaultDirName={localappdata}\Redbook
 DefaultGroupName=Redbook
+UninstallDisplayName=Redbook v0.9.7
 UninstallDisplayIcon={app}\media\logo.ico
 OutputDir=Output
 OutputBaseFilename=Redbook-v0.9.7-win32-setup
@@ -57,9 +58,39 @@ Filename: "powershell.exe"; Parameters: "-NoProfile -ExecutionPolicy Bypass -Fil
 Filename: "{app}\Redbook.exe"; Description: "Launch Redbook"; Flags: postinstall skipifsilent nowait
 
 [UninstallDelete]
+; Electron runtime (downloaded at install, not tracked by Inno)
 Type: filesandordirs; Name: "{app}\electron"
+; Copied app.asar
+Type: filesandordirs; Name: "{app}\resources"
+; Session and recording data
 Type: filesandordirs; Name: "{app}\mods\sessions"
 Type: filesandordirs; Name: "{app}\mods\recordings"
+; Mods folder (in case any runtime-generated files)
+Type: filesandordirs; Name: "{app}\mods"
+; Media folder
+Type: filesandordirs; Name: "{app}\media"
+; Runtime logs
 Type: files; Name: "{app}\_run.log"
 Type: files; Name: "{app}\_inspect.txt"
 Type: files; Name: "{app}\_bg_dump.txt"
+; Nuke the install dir itself if empty
+Type: dirifempty; Name: "{app}"
+
+[UninstallRun]
+; Kill Redbook/Electron before uninstalling so files aren't locked
+Filename: "taskkill.exe"; Parameters: "/F /IM electron.exe"; Flags: runhidden; RunOnceId: "KillElectron"
+Filename: "taskkill.exe"; Parameters: "/F /IM Redbook.exe"; Flags: runhidden; RunOnceId: "KillRedbook"
+
+[Code]
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+var
+  InstallDir: String;
+begin
+  if CurUninstallStep = usPostUninstall then
+  begin
+    InstallDir := ExpandConstant('{app}');
+    // Clean up any remaining files Inno didn't track
+    if DirExists(InstallDir) then
+      DelTree(InstallDir, True, True, True);
+  end;
+end;
