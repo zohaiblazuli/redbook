@@ -4,16 +4,16 @@ analysis/node_modules/
 
 # ── Binaries ─────────────────────────────────────────────
 resources/app.asar
-electron.exe
+*.exe
+*.node
+*.asar
 
 # ── Analysis artifacts (extracted/decoded Bluebook source)
-analysis/main/*.node
 analysis/main/*.orig
 analysis/_*.js
 analysis/_*.log
 analysis/_*.txt
 analysis/_*.bat
-analysis/node_modules/electron/dist/electron.exe
 
 # ── Runtime logs & debug dumps ───────────────────────────
 _run.log
