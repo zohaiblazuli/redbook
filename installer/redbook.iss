@@ -11,7 +11,8 @@ OutputBaseFilename=Redbook-v0.9.7-win32-setup
 SetupIconFile=..\media\logo.ico
 Compression=lzma2/max
 SolidCompression=yes
-PrivilegesRequired=lowest
+PrivilegesRequired=admin
+UsedUserAreasWarning=no
 DisableProgramGroupPage=yes
 WizardStyle=modern
 
