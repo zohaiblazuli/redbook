@@ -1,0 +1,12 @@
+[2026-06-11T06:21:42.356Z] SAFE MODE - NO DEVTOOLS
+require start
+[blocked] app.exit(0)
+require returned
+app event: ready
+browser-window-created id= 1
+forced show
+ready-to-show
+did-finish-load app://dap-electron.collegeboard.org/
+[blocked] app.quit()
+SUPPRESSED dialog: An Unexpected Error Occured | An unexpected error occured, closing the app.
+[blocked] app.exit(1)

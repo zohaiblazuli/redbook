@@ -1,0 +1,26 @@
+[2026-06-11T04:34:00.024Z] launch v5
+require start
+fs.realpathSync("F:\\app_extracted\\main\\index.js") ok
+fs.readFileSync("F:\\app_extracted\\main\\index.js") ok
+fs.realpathSync("F:\\app_extracted\\node_modules\\keytar\\lib\\keytar.js") ok
+fs.readFileSync("F:\\app_extracted\\node_modules\\keytar\\lib\\keytar.js") ok
+fs.realpathSync("F:\\app_extracted\\node_modules\\keytar\\build\\Release\\keytar.node") ok
+[blocked] app.exit(undefined)
+[blocked] app.exit(0)
+>>>> BUNDLE CATCH @V_$0: Error
+    at V_$0 (F:\app_extracted\main\index.js:7:3502365)
+    at q8sC (F:\app_extracted\main\index.js:1:2354466)
+    at F:\app_extracted\main\index.js:1:2353094
+    at t8_S.g8uDEWR (F:\app_extracted\main\index.js:1:2354946)
+    at u6tO.m2Bj (F:\app_extracted\main\index.js:1:2343051)
+    at u6tO (F:\app_extracted\main\index.js:7:3365983)
+    at u6tO.next (<anonymous>)
+    at C2eR (F:\app_extracted\main\index.js:7:3561887)
+    at n2pJ (F:\app_extracted\main\index.js:7:3561398)
+    at F:\app_extracted\main\index.js:7:3826437
+require returned
+waiting
+app event: ready
+app:// protocol handler installed, root = F:\app_extracted\renderer
+fs.readFileSync("F:\\coconut.jpg") ok
+crypto.publicDecrypt ok, in= 512 bytes, out= 32 bytes, head= �m��m�F�kש�8Bq=,�H̋�V����

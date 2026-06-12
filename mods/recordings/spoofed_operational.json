@@ -1,0 +1,4738 @@
+{
+  "meta": {
+    "startedAt": "2026-06-11T17:16:04.328Z",
+    "url": "app://dap-electron.collegeboard.org/takeexam/fp_5c892712-ae0c-4ec6-a2c9-31060de828b4",
+    "eventCount": 371,
+    "categories": {
+      "fetch": 14,
+      "ws": 0,
+      "dispatch": 0,
+      "bridge": 0,
+      "ipc": 0,
+      "console": 5,
+      "window": 214,
+      "dom": 30,
+      "storage": 108
+    },
+    "spoof": {
+      "enabled": true,
+      "rewriteCount": 0,
+      "targetEventType": "OPERATIONAL",
+      "rewrites": []
+    }
+  },
+  "events": [
+    {
+      "t": 0.10000000009313226,
+      "cat": "window",
+      "type": "@@RB/recording-start",
+      "data": {
+        "url": "app://dap-electron.collegeboard.org/takeexam/fp_5c892712-ae0c-4ec6-a2c9-31060de828b4",
+        "time": "2026-06-11T17:16:04.328Z"
+      }
+    },
+    {
+      "t": 11813.899999999907,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": false,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 11814,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": false,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 11841,
+      "cat": "window",
+      "type": "resize",
+      "data": {
+        "vis": "visible",
+        "hasFocus": false,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 11843.700000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-edc254c4-1834-4f90-9c2b-78500d27644d",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 11962.100000000093,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  mutation SendTelemetry($input: [TelemetryItemInput!]!) {\\n    createTelemetryItem(input: $input) {\\n      statusCode\\n    }\\n  }\\n\",\"variables\":{\"input\":[{\"personId\":\"147960405\",\"deviceId\":\"f01db433-6381-4a96-beb1-9d6fdf2b3353-Strix\",\"rosterEntryId\":null,\"telemetryType\":\"LOCKDOWN_WINDOW_RESIZED\",\"telemetryEventTime\":\"2026-06-11T17:16:16.290Z\",\"payload\":\"{\\\"appWindowSize\\\":{\\\"x\\\":0,\\\"y\\\":0,\\\"width\\\":2560,\\\"height\\\":1440},\\\"monitorResolution\\\":{\\\"x\\\":0,\\\"y\\\":0,\\\"width\\\":2560,\\\"height"
+      }
+    },
+    {
+      "t": 12503.600000000093,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 542
+      }
+    },
+    {
+      "t": 13001.200000000186,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 13001.200000000186,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 21041,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 25733.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 27152.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 27152.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 27209.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 27211.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 27215.100000000093,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-34266fc9-68ac-409e-9f23-4f2afd37cb29",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 27216,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-34266fc9-68ac-409e-9f23-4f2afd37cb29",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 27216,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-34266fc9-68ac-409e-9f23-4f2afd37cb29",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 27216.399999999907,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 27315,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 28014.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 28014.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 29909.899999999907,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 29910.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 29985.100000000093,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 29987,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 29990.600000000093,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-8b5bf391-4de9-441c-b999-ed28fc7ae480",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 29991.399999999907,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-8b5bf391-4de9-441c-b999-ed28fc7ae480",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 29991.5,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-8b5bf391-4de9-441c-b999-ed28fc7ae480",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 29992,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 30090.700000000186,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 30655.100000000093,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 30655.200000000186,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 32133.399999999907,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 32133.600000000093,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 32183.5,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 32185.399999999907,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 32193.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-0c1591f1-c77e-4d2a-9e49-602c96f388ff",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 32194.600000000093,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-0c1591f1-c77e-4d2a-9e49-602c96f388ff",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 32194.600000000093,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-0c1591f1-c77e-4d2a-9e49-602c96f388ff",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 32195.200000000186,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 32287.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 32882.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 32882.39999999991,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 34181.39999999991,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 34181.60000000009,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 34255.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 34256.80000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 34261.10000000009,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-dc48490d-6003-4e4f-bfbb-12369a4803d9",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 34261.80000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-dc48490d-6003-4e4f-bfbb-12369a4803d9",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 34261.80000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-dc48490d-6003-4e4f-bfbb-12369a4803d9",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 34262.30000000028,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 34359,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 34933.80000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 34933.89999999991,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 36390.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 36390.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 36476.39999999991,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 36478.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 36482.10000000009,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-f95e8570-d4c2-44c3-b188-9274d09c11e4",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 36482.89999999991,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-f95e8570-d4c2-44c3-b188-9274d09c11e4",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 36482.89999999991,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-f95e8570-d4c2-44c3-b188-9274d09c11e4",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 36483.39999999991,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 36580,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 37082.10000000009,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 37082.39999999991,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 38409.39999999991,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 38409.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 38478.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 38480.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 38484.89999999991,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-bcc03748-f7fe-446f-8678-14b540ca9125",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 38485.80000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-bcc03748-f7fe-446f-8678-14b540ca9125",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 38485.80000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-bcc03748-f7fe-446f-8678-14b540ca9125",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 38486.200000000186,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 38582,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 39053.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 39053.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 40281.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 40281.39999999991,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 40371.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 40372.89999999991,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 40377.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-b4ee2890-bbae-4b88-97f5-488c709fb110",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 40378.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-b4ee2890-bbae-4b88-97f5-488c709fb110",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 40378.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-b4ee2890-bbae-4b88-97f5-488c709fb110",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 40378.80000000028,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 40475.700000000186,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 41188.10000000009,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 41188.200000000186,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 42360.5,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 42360.60000000009,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 42443.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 42445,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 42449.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-845fdd31-efab-4074-92ef-c2931ae6f832",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 42450.10000000009,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-845fdd31-efab-4074-92ef-c2931ae6f832",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 42450.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-845fdd31-efab-4074-92ef-c2931ae6f832",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 42450.700000000186,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 42547.80000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 43237.10000000009,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 43237.39999999991,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 44545.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 44545.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 44626.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 44627.89999999991,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 44631.60000000009,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-d8f0dbb7-2412-4d91-8a89-32727a517eeb",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 44632.39999999991,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-d8f0dbb7-2412-4d91-8a89-32727a517eeb",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 44632.39999999991,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-d8f0dbb7-2412-4d91-8a89-32727a517eeb",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 44632.80000000028,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 44730.10000000009,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 45206.5,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 45206.60000000009,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 47460.5,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 47460.60000000009,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 47549,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 47550.89999999991,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 47555.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-75b449a4-3bae-4824-b353-321b34a0d5fa",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 47556,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-75b449a4-3bae-4824-b353-321b34a0d5fa",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 47556,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-75b449a4-3bae-4824-b353-321b34a0d5fa",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 47556.5,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 47652,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 48077.39999999991,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 48077.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 49609.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 49609.39999999991,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 49685.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 49687,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 49691.39999999991,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-88d64f9c-6961-4655-a759-fad8327ff9a8",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 49692.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-88d64f9c-6961-4655-a759-fad8327ff9a8",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 49692.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-88d64f9c-6961-4655-a759-fad8327ff9a8",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 49692.60000000009,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 49789.10000000009,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 50209.5,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 50209.80000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 51462.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 51462.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 51535.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 51537.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 51541.60000000009,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-acb8e59f-677b-4e5b-b57d-400dda8e1a58",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 51542.39999999991,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-acb8e59f-677b-4e5b-b57d-400dda8e1a58",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 51542.39999999991,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-acb8e59f-677b-4e5b-b57d-400dda8e1a58",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 51542.89999999991,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 51638.80000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 52144.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 52144.39999999991,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 53876.39999999991,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 53876.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 53953.10000000009,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 53954.80000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 53958.80000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-31fca085-96a2-4018-9bc2-6fac35c2fa8c",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 53960.39999999991,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-31fca085-96a2-4018-9bc2-6fac35c2fa8c",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 53960.39999999991,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-31fca085-96a2-4018-9bc2-6fac35c2fa8c",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 53960.89999999991,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 54056.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 54752.10000000009,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 54752.200000000186,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 55011.10000000009,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 55011.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 56392.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 56392.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 56946.39999999991,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 56946.60000000009,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 57027.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 57028.89999999991,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 57033.60000000009,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-051072eb-355a-488a-bd4e-23d0c0a2710d",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 57034.39999999991,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-051072eb-355a-488a-bd4e-23d0c0a2710d",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 57034.39999999991,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-051072eb-355a-488a-bd4e-23d0c0a2710d",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 57034.89999999991,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 57132.10000000009,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 57745.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 57745.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 58747.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 58747.39999999991,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 59049.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 59049.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 59124.200000000186,
+      "cat": "storage",
+      "type": "localStorage",
+      "data": {
+        "key": "redbook-theme",
+        "valuePreview": "redbook"
+      }
+    },
+    {
+      "t": 59133.89999999991,
+      "cat": "console",
+      "type": "log",
+      "data": [
+        "[redbook] theme applied:",
+        "redbook"
+      ]
+    },
+    {
+      "t": 60140.10000000009,
+      "cat": "storage",
+      "type": "localStorage",
+      "data": {
+        "key": "redbook-theme",
+        "valuePreview": "default"
+      }
+    },
+    {
+      "t": 60140.30000000028,
+      "cat": "console",
+      "type": "log",
+      "data": [
+        "[redbook] theme applied:",
+        "default"
+      ]
+    },
+    {
+      "t": 60593.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 60593.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 60665.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 60666.89999999991,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 60671.5,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-93899ea8-37e6-4366-b323-7a2edcda0342",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 60672.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-93899ea8-37e6-4366-b323-7a2edcda0342",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 60672.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-93899ea8-37e6-4366-b323-7a2edcda0342",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 60672.89999999991,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 60770.10000000009,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 61371.10000000009,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 61371.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 63666.39999999991,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 63666.700000000186,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 63752.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 63754.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 63758.700000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-18156f80-962f-49d0-af85-a12ff698ad17",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 63759.39999999991,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-18156f80-962f-49d0-af85-a12ff698ad17",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 63759.5,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-18156f80-962f-49d0-af85-a12ff698ad17",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 63760.10000000009,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 63857,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 64901.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 64901.39999999991,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 66305.3999999999,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 66305.70000000019,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 66381.1000000001,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 66383,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 66386.70000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-3c58f2e1-d96e-4084-80eb-2bd807be7374",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 66387.6000000001,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-3c58f2e1-d96e-4084-80eb-2bd807be7374",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 66387.6000000001,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-3c58f2e1-d96e-4084-80eb-2bd807be7374",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 66388,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 66483.70000000019,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 67249.20000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 67249.3999999999,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 68517.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 68517.3999999999,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 68846.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 68846.70000000019,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 68933.1000000001,
+      "cat": "storage",
+      "type": "localStorage",
+      "data": {
+        "key": "redbook-theme",
+        "valuePreview": "redbook"
+      }
+    },
+    {
+      "t": 68941.8999999999,
+      "cat": "console",
+      "type": "log",
+      "data": [
+        "[redbook] theme applied:",
+        "redbook"
+      ]
+    },
+    {
+      "t": 69451.8999999999,
+      "cat": "storage",
+      "type": "localStorage",
+      "data": {
+        "key": "redbook-theme",
+        "valuePreview": "default"
+      }
+    },
+    {
+      "t": 69452,
+      "cat": "console",
+      "type": "log",
+      "data": [
+        "[redbook] theme applied:",
+        "default"
+      ]
+    },
+    {
+      "t": 72800.5,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 72800.70000000019,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 72885.20000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 72886.8999999999,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 72890.70000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-35d49b5f-c377-48e1-923d-a8884455d220",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 72891.3999999999,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-35d49b5f-c377-48e1-923d-a8884455d220",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 72891.5,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-35d49b5f-c377-48e1-923d-a8884455d220",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 72891.8999999999,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 72988,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 73563.3999999999,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 73563.6000000001,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 75470.20000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 75470.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 75553.1000000001,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 75555.20000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 75559,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-8c0a0c0a-082f-4326-be88-3ee190aaebd0",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 75559.8999999999,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-8c0a0c0a-082f-4326-be88-3ee190aaebd0",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 75559.8999999999,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-8c0a0c0a-082f-4326-be88-3ee190aaebd0",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 75560.30000000028,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 75658.80000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 76193.6000000001,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 76193.70000000019,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 76360.5,
+      "cat": "fetch",
+      "type": "request",
+      "data": {
+        "url": "https://dap-mc2-bootstrap.collegeboard.org/saveState",
+        "method": "POST",
+        "opName": null,
+        "body": "[non-string body: Blob]"
+      }
+    },
+    {
+      "t": 76965.5,
+      "cat": "fetch",
+      "type": "response",
+      "data": {
+        "url": "https://dap-mc2-bootstrap.collegeboard.org/saveState",
+        "opName": null,
+        "status": 200,
+        "dt": 605,
+        "body": null
+      }
+    },
+    {
+      "t": 77692.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 77692.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 77787.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 77789.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 77794.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-48f57b0d-14bf-4388-91bc-48ed0f926b25",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 77795.1000000001,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-48f57b0d-14bf-4388-91bc-48ed0f926b25",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 77795.1000000001,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-48f57b0d-14bf-4388-91bc-48ed0f926b25",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 77795.6000000001,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 77892.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 78562.20000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 78562.3999999999,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 80207.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 80207.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 80292.3999999999,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 80294.1000000001,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 80298.3999999999,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-6adea273-53ce-42d9-8d59-98b242497705",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 80329,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 80331.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-6adea273-53ce-42d9-8d59-98b242497705",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 80331.3999999999,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-6adea273-53ce-42d9-8d59-98b242497705",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 80397.3999999999,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 80869.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 80869.3999999999,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 83105.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 83105.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 83195.1000000001,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 83196.6000000001,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 83200.20000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-1d4a3e33-0ec4-4c25-ae45-b2b0b43c20e1",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 83200.80000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-1d4a3e33-0ec4-4c25-ae45-b2b0b43c20e1",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 83200.8999999999,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-1d4a3e33-0ec4-4c25-ae45-b2b0b43c20e1",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 83201.30000000028,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 83297.80000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 84125.1000000001,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 84125.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 87393.3999999999,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 87393.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 87474.1000000001,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 87475.70000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 87479.8999999999,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-b432a39b-431e-48b2-a288-b90621dc85a2",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 87480.70000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-b432a39b-431e-48b2-a288-b90621dc85a2",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 87480.70000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-b432a39b-431e-48b2-a288-b90621dc85a2",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 87481.20000000019,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 87577.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 88315.1000000001,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 88315.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 90338.5,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 90338.70000000019,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 90427.5,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 90429.1000000001,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 90433.5,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-6410c391-6426-480f-92fc-196111ee5893",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 90434.20000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-6410c391-6426-480f-92fc-196111ee5893",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 90434.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-6410c391-6426-480f-92fc-196111ee5893",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 90434.70000000019,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 90529.70000000019,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 91096.1000000001,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 91096.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 93032.3999999999,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 93032.6000000001,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 93131.20000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 93133,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 93137,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-04b3bac6-dd98-4175-96fe-31f3b4c6b88c",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 93137.70000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-04b3bac6-dd98-4175-96fe-31f3b4c6b88c",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 93137.70000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-04b3bac6-dd98-4175-96fe-31f3b4c6b88c",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 93138.20000000019,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 93234,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 93696.1000000001,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 93696.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 95809.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 95809.3999999999,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 95903.20000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 95905.3999999999,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 95906.6000000001,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 97792.3999999999,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 97792.6000000001,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 97885.1000000001,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 97886.80000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 97888.20000000019,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  mutation SendTelemetry($input: [TelemetryItemInput!]!) {\\n    createTelemetryItem(input: $input) {\\n      statusCode\\n    }\\n  }\\n\",\"variables\":{\"input\":[{\"personId\":\"147960405\",\"deviceId\":\"f01db433-6381-4a96-beb1-9d6fdf2b3353-Strix\",\"rosterEntryId\":\"fp_5c892712-ae0c-4ec6-a2c9-31060de828b4\",\"telemetryType\":\"SECTION_END_TIME\",\"telemetryEventTime\":\"2026-06-11T17:17:42.216Z\",\"payload\":\"{\\\"sectionId\\\":\\\"8cb6868e-20cc-4541-9d5b-1efcd00253cf\\\",\\\"sectionName\\\":\\\"Section 1, Module 2: Readi"
+      }
+    },
+    {
+      "t": 98450.70000000019,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 563
+      }
+    },
+    {
+      "t": 98453,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 103456.1000000001,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 103458.8999999999,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 103459.80000000028,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  mutation SendTelemetry($input: [TelemetryItemInput!]!) {\\n    createTelemetryItem(input: $input) {\\n      statusCode\\n    }\\n  }\\n\",\"variables\":{\"input\":[{\"personId\":\"147960405\",\"deviceId\":\"f01db433-6381-4a96-beb1-9d6fdf2b3353-Strix\",\"rosterEntryId\":\"fp_5c892712-ae0c-4ec6-a2c9-31060de828b4\",\"telemetryType\":\"SECTION_BREAK\",\"telemetryEventTime\":\"2026-06-11T17:17:47.788Z\",\"payload\":\"{\\\"completedSection\\\":\\\"8cb6868e-20cc-4541-9d5b-1efcd00253cf\\\",\\\"completedSectionName\\\":\\\"Section 1, Mo"
+      }
+    },
+    {
+      "t": 103976.1000000001,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 516
+      }
+    },
+    {
+      "t": 104459.3999999999,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 104459.6000000001,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 108150.3999999999,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 108150.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 108369.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 108662,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 108662.20000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 108662.3999999999,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 108665.3999999999,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "exam-calculator",
+        "testId": "",
+        "cls": ""
+      }
+    },
+    {
+      "t": 108665.3999999999,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "exam-reference-sheet",
+        "testId": "",
+        "cls": ""
+      }
+    },
+    {
+      "t": 108665.3999999999,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "section-room display-flex flex-column cb-esat-exam"
+      }
+    },
+    {
+      "t": 108668,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  query DateCheckQuery($rosterEntryId: String) {\\n    listRegistrations(rosterEntryId: $rosterEntryId) {\\n      statusCode\\n      message\\n      registrations {\\n        id\\n      }\\n    }\\n  }\\n\",\"variables\":null,\"operationName\":\"DateCheckQuery\"}"
+      }
+    },
+    {
+      "t": 108668.5,
+      "cat": "fetch",
+      "type": "request",
+      "data": {
+        "url": "https://dap-mc2-bootstrap.collegeboard.org/saveState",
+        "method": "POST",
+        "opName": null,
+        "body": "[non-string body: Blob]"
+      }
+    },
+    {
+      "t": 108758.30000000028,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  mutation SendTelemetry($input: [TelemetryItemInput!]!) {\\n    createTelemetryItem(input: $input) {\\n      statusCode\\n    }\\n  }\\n\",\"variables\":{\"input\":[{\"personId\":\"147960405\",\"deviceId\":\"f01db433-6381-4a96-beb1-9d6fdf2b3353-Strix\",\"rosterEntryId\":\"fp_5c892712-ae0c-4ec6-a2c9-31060de828b4\",\"telemetryType\":\"SECTION_START_TIME\",\"telemetryEventTime\":\"2026-06-11T17:17:53.086Z\",\"payload\":\"{\\\"sectionId\\\":\\\"b63fbf23-4b47-4c26-975a-3c840c44e8da\\\",\\\"sectionName\\\":\\\"Section 2, Module 1: Mat"
+      }
+    },
+    {
+      "t": 108899.20000000019,
+      "cat": "console",
+      "type": "info",
+      "data": [
+        "================= DEVICE INFO RETRIEVED",
+        "{\"currentTime\":1781197892142,\"timezone\":\"GMT+0500\",\"os\":{\"platform\":\"win32\",\"distro\":\"Microsoft Windows 11 Pro\",\"release\":\"10.0.26200\",\"arch\":\"ia32\",\"cpuManufacturer\":\"Intel(R)\",\"cpuBrand\":\"Core(TM) i5-14600K\",\"cpuModel\":\"183\",\"isVirtual\":false,\"virtualHost\":\"\",\"secureBoot\":true,\"driverSignaturesEnf…"
+      ]
+    },
+    {
+      "t": 108901.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 108901.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 108905.5,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 109241.3999999999,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 574
+      }
+    },
+    {
+      "t": 109244.6000000001,
+      "cat": "fetch",
+      "type": "response",
+      "data": {
+        "url": "https://dap-mc2-bootstrap.collegeboard.org/saveState",
+        "opName": null,
+        "status": 200,
+        "dt": 576,
+        "body": null
+      }
+    },
+    {
+      "t": 109282.8999999999,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 525
+      }
+    },
+    {
+      "t": 111302.6000000001,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 111302.8999999999,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 111397.3999999999,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 111397.80000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 113833.3999999999,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 113835.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 114554.80000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 114555.1000000001,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 115474,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 115474.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 117683.70000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 117684.1000000001,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 118391.70000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 118392,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 118495.70000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 118495.8999999999,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 119384.1000000001,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 119384.70000000019,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 121567.8999999999,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 121568,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 121654.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 121656.70000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 121662.80000000028,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container slide-right-for-dialog"
+      }
+    },
+    {
+      "t": 121759,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 134149,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 134149.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 134233.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1440,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    }
+  ]
+}

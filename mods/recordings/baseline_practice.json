@@ -1,0 +1,5024 @@
+{
+  "meta": {
+    "startedAt": "2026-06-11T17:12:25.776Z",
+    "url": "app://dap-electron.collegeboard.org/takeexam/fp_5c892712-ae0c-4ec6-a2c9-31060de828b4",
+    "eventCount": 393,
+    "categories": {
+      "fetch": 39,
+      "ws": 0,
+      "dispatch": 0,
+      "bridge": 0,
+      "ipc": 0,
+      "console": 8,
+      "window": 219,
+      "dom": 40,
+      "storage": 87
+    },
+    "spoof": {
+      "enabled": false,
+      "rewriteCount": 0,
+      "targetEventType": "OPERATIONAL",
+      "rewrites": []
+    }
+  },
+  "events": [
+    {
+      "t": 0.10000000009313226,
+      "cat": "window",
+      "type": "@@RB/recording-start",
+      "data": {
+        "url": "app://dap-electron.collegeboard.org/",
+        "time": "2026-06-11T17:12:25.776Z"
+      }
+    },
+    {
+      "t": 7807,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 7807.200000000186,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 7904.5,
+      "cat": "fetch",
+      "type": "request",
+      "data": {
+        "url": "https://bluebook.app.collegeboard.org/online.json",
+        "method": "GET",
+        "opName": null,
+        "body": null
+      }
+    },
+    {
+      "t": 7941.700000000186,
+      "cat": "fetch",
+      "type": "response",
+      "data": {
+        "url": "https://bluebook.app.collegeboard.org/online.json",
+        "opName": null,
+        "status": 200,
+        "dt": 37,
+        "body": null
+      }
+    },
+    {
+      "t": 7943.600000000093,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 7944.800000000279,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  query listProvisionableEvents($params: ProvisionableEventsInput!) {\\n    listProvisionableEvents(params: $params) {\\n      events {\\n        asmtEventId\\n        eventTitle\\n        asmtId\\n        asmtFamilyCd\\n        asmtSubtypeCd\\n      }\\n      accommodations {\\n        events\\n        groups {\\n          groupTitle\\n          maxSelections\\n          options {\\n            code\\n            description\\n          }\\n        }\\n      }\\n    }\\n  }\\n\",\"variables\":{\"params\":{\"as"
+      }
+    },
+    {
+      "t": 7946.100000000093,
+      "cat": "console",
+      "type": "log",
+      "data": [
+        "[redbook] switcher entered, CSS bytes:",
+        "10248"
+      ]
+    },
+    {
+      "t": 7946.200000000186,
+      "cat": "console",
+      "type": "log",
+      "data": [
+        "[redbook] theme applied:",
+        "default"
+      ]
+    },
+    {
+      "t": 8654.80000000028,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 710
+      }
+    },
+    {
+      "t": 8661.80000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 9192.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 9192.400000000373,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 10208.30000000028,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "P",
+        "id": "",
+        "testId": "",
+        "cls": "exam-builder-practice-download-footer"
+      }
+    },
+    {
+      "t": 10625.5,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 10625.80000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 14585.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 14585.600000000093,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 14685.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 14687.200000000186,
+      "cat": "fetch",
+      "type": "request",
+      "data": {
+        "url": "https://bluebook.app.collegeboard.org/online.json",
+        "method": "GET",
+        "opName": null,
+        "body": null
+      }
+    },
+    {
+      "t": 14692.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 14724.80000000028,
+      "cat": "fetch",
+      "type": "response",
+      "data": {
+        "url": "https://bluebook.app.collegeboard.org/online.json",
+        "opName": null,
+        "status": 200,
+        "dt": 38,
+        "body": null
+      }
+    },
+    {
+      "t": 14725.30000000028,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  mutation CreateProvisionedExam($input: CreateProvisionedExamInput!) {\\n    createProvisionedExam(input: $input) {\\n      statusCode\\n      message\\n    }\\n  }\\n\",\"variables\":{\"input\":{\"rosterEntryId\":\"fp_5c892712-ae0c-4ec6-a2c9-31060de828b4\",\"asmtEventId\":\"1000027\",\"accommodations\":[]}},\"operationName\":\"CreateProvisionedExam\"}"
+      }
+    },
+    {
+      "t": 17950.200000000186,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 3225
+      }
+    },
+    {
+      "t": 17951.80000000028,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  query ListRegistrationsQuery($rosterEntryId: String) {\\n    listRegistrations(rosterEntryId: $rosterEntryId) {\\n      statusCode\\n      message\\n      registrations {\\n        id\\n        asmtDeliveryMode\\n        accommodationsInfo {\\n          codes {\\n            code\\n            description\\n          }\\n          enableTts\\n          feature1\\n        }\\n        testCenter {\\n          aiCd\\n          testCenterId\\n          name\\n          address1\\n          address2\\n     "
+      }
+    },
+    {
+      "t": 18491.900000000373,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 540
+      }
+    },
+    {
+      "t": 18494.5,
+      "cat": "fetch",
+      "type": "request",
+      "data": {
+        "url": "https://bluebook.app.collegeboard.org/online.json",
+        "method": "GET",
+        "opName": null,
+        "body": null
+      }
+    },
+    {
+      "t": 18530.600000000093,
+      "cat": "fetch",
+      "type": "response",
+      "data": {
+        "url": "https://bluebook.app.collegeboard.org/online.json",
+        "opName": null,
+        "status": 200,
+        "dt": 36,
+        "body": null
+      }
+    },
+    {
+      "t": 18533,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  mutation ExamCheckin($input: ExamCheckinInput!) {\\n    examCheckin(input: $input) {\\n      credentials {\\n        accessKey\\n        secretKey\\n        sessionToken\\n      }\\n      uploadEncryptionInfo {\\n        publicKey\\n        keyName\\n        keyNamespace\\n      }\\n      resultsPackage {\\n        resultsPkgBucket\\n        resultsPkgPath\\n        resultsPkgKmsArn\\n      }\\n    }\\n  }\\n\",\"variables\":{\"input\":{\"rosterEntryId\":\"fp_5c892712-ae0c-4ec6-a2c9-31060de828b4\"}},\"operatio"
+      }
+    },
+    {
+      "t": 18534.200000000186,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  query GetExamDownloadInfo($params: ExamDownloadInput!) {\\n    getExamDownloadInfo(params: $params) {\\n      statusCode\\n      testPackageInfo {\\n        testPkgSignedUrl\\n        testPkgHash\\n      }\\n      referenceSheets\\n    }\\n  }\\n\",\"variables\":{\"params\":{\"rosterEntryId\":\"fp_5c892712-ae0c-4ec6-a2c9-31060de828b4\"}},\"operationName\":\"GetExamDownloadInfo\"}"
+      }
+    },
+    {
+      "t": 18929.80000000028,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 397
+      }
+    },
+    {
+      "t": 19041.700000000186,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 508
+      }
+    },
+    {
+      "t": 19042.5,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-testpackages-prod.collegeboard.org/fp_5c892712-ae0c-4ec6-a2c9-31060de828b4/encryptedDownload?timeNow=1781197963362&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9kYXAtdGVzdHBhY2thZ2VzLXByb2QuY29sbGVnZWJvYXJkLm9yZy9mcF81Yzg5MjcxMi1hZTBjLTRlYzYtYTJjOS0zMTA2MGRlODI4YjQvZW5jcnlwdGVkRG",
+        "method": "GET",
+        "body": null
+      }
+    },
+    {
+      "t": 20492.5,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-testpackages-prod.collegeboard.org/fp_5c892712-ae0c-4ec6-a2c9-31060de828b4/encryptedDownload?timeNow=1781197963362&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9kYXAtdGVzdHBhY2thZ2VzLXByb2QuY29sbGVnZWJvYXJkLm9yZy9mcF81Yzg5MjcxMi1hZTBjLTRlYzYtYTJjOS0zMTA2MGRlODI4YjQvZW5jcnlwdGVkRG",
+        "status": 200,
+        "dt": 1450
+      }
+    },
+    {
+      "t": 20534.900000000373,
+      "cat": "fetch",
+      "type": "request",
+      "data": {
+        "url": "https://assets.app.collegeboard.org/refsheets/sat.html",
+        "method": "GET",
+        "opName": null,
+        "body": null
+      }
+    },
+    {
+      "t": 21015,
+      "cat": "fetch",
+      "type": "response",
+      "data": {
+        "url": "https://assets.app.collegeboard.org/refsheets/sat.html",
+        "opName": null,
+        "status": 200,
+        "dt": 480,
+        "body": null
+      }
+    },
+    {
+      "t": 21049,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  mutation SendTelemetry($input: [TelemetryItemInput!]!) {\\n    createTelemetryItem(input: $input) {\\n      statusCode\\n    }\\n  }\\n\",\"variables\":{\"input\":[{\"personId\":\"147960405\",\"deviceId\":\"f01db433-6381-4a96-beb1-9d6fdf2b3353-Strix\",\"rosterEntryId\":\"fp_5c892712-ae0c-4ec6-a2c9-31060de828b4\",\"telemetryType\":\"PACKAGE_DOWNLOAD\",\"telemetryEventTime\":\"2026-06-11T17:12:46.825Z\",\"payload\":\"{\\\"startTime\\\":\\\"2026-06-11T17:12:44.307Z\\\",\\\"endTime\\\":\\\"2026-06-11T17:12:46.825Z\\\",\\\"seconds\\\":2.5"
+      }
+    },
+    {
+      "t": 21562.5,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 514
+      }
+    },
+    {
+      "t": 21566.900000000373,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 21570.100000000093,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 21572.100000000093,
+      "cat": "console",
+      "type": "log",
+      "data": [
+        "[redbook] switcher entered, CSS bytes:",
+        "10248"
+      ]
+    },
+    {
+      "t": 21572.30000000028,
+      "cat": "console",
+      "type": "log",
+      "data": [
+        "[redbook] theme applied:",
+        "default"
+      ]
+    },
+    {
+      "t": 23615.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 23615.400000000373,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 23690.900000000373,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 23692.700000000186,
+      "cat": "console",
+      "type": "log",
+      "data": [
+        "[redbook] switcher entered, CSS bytes:",
+        "10248"
+      ]
+    },
+    {
+      "t": 23692.900000000373,
+      "cat": "console",
+      "type": "log",
+      "data": [
+        "[redbook] theme applied:",
+        "default"
+      ]
+    },
+    {
+      "t": 23708.200000000186,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "exam-player-decrypt-failure-modal-container"
+      }
+    },
+    {
+      "t": 23708.200000000186,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "exam-player-reconnect-to-internet-modal-container hide-closer"
+      }
+    },
+    {
+      "t": 23708.200000000186,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "generic-exam-player-loader-spinner",
+        "testId": "",
+        "cls": "cb-spinner cb-spinner-light"
+      }
+    },
+    {
+      "t": 23708.30000000028,
+      "cat": "fetch",
+      "type": "request",
+      "data": {
+        "url": "https://bluebook.app.collegeboard.org/online.json",
+        "method": "GET",
+        "opName": null,
+        "body": null
+      }
+    },
+    {
+      "t": 23759.30000000028,
+      "cat": "fetch",
+      "type": "response",
+      "data": {
+        "url": "https://bluebook.app.collegeboard.org/online.json",
+        "opName": null,
+        "status": 200,
+        "dt": 51,
+        "body": null
+      }
+    },
+    {
+      "t": 23761.5,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  mutation GetDecryptionDataWithStartCode($input: DecryptionDataInput!) {\\n    getPackageDecryptionData(input: $input) {\\n      statusCode\\n      decryptKeyHash\\n      iv\\n      startTime\\n      endTime\\n      decryptKey\\n      message\\n      publicKey\\n    }\\n  }\\n\",\"variables\":{\"input\":{\"rosterEntryId\":\"fp_5c892712-ae0c-4ec6-a2c9-31060de828b4\",\"deviceId\":\"f01db433-6381-4a96-beb1-9d6fdf2b3353-Strix\",\"startCode\":null}},\"operationName\":\"GetDecryptionDataWithStartCode\"}"
+      }
+    },
+    {
+      "t": 24298.900000000373,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 537
+      }
+    },
+    {
+      "t": 24310.700000000186,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "generic-exam-player-loader-spinner",
+        "testId": "",
+        "cls": "cb-spinner cb-spinner-light"
+      }
+    },
+    {
+      "t": 24311,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  mutation SendTelemetry($input: [TelemetryItemInput!]!) {\\n    createTelemetryItem(input: $input) {\\n      statusCode\\n    }\\n  }\\n\",\"variables\":{\"input\":[{\"personId\":\"147960405\",\"deviceId\":\"f01db433-6381-4a96-beb1-9d6fdf2b3353-Strix\",\"rosterEntryId\":\"fp_5c892712-ae0c-4ec6-a2c9-31060de828b4\",\"telemetryType\":\"TEST_STARTED\",\"telemetryEventTime\":\"2026-06-11T17:12:50.087Z\",\"payload\":\"{\\\"type\\\":\\\"Full Length Practice\\\"}\"}]},\"operationName\":\"SendTelemetry\"}"
+      }
+    },
+    {
+      "t": 24318.400000000373,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "generic-exam-player-loader-spinner",
+        "testId": "",
+        "cls": "cb-spinner cb-spinner-light"
+      }
+    },
+    {
+      "t": 24318.400000000373,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "generic-exam-player-loader-spinner",
+        "testId": "",
+        "cls": "cb-spinner cb-spinner-light"
+      }
+    },
+    {
+      "t": 24318.400000000373,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "generic-exam-player-loader-spinner",
+        "testId": "",
+        "cls": "cb-spinner cb-spinner-light"
+      }
+    },
+    {
+      "t": 24318.400000000373,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "generic-exam-player-loader-spinner",
+        "testId": "",
+        "cls": "cb-spinner cb-spinner-light"
+      }
+    },
+    {
+      "t": 24319.600000000093,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  mutation SendTelemetry($input: [TelemetryItemInput!]!) {\\n    createTelemetryItem(input: $input) {\\n      statusCode\\n    }\\n  }\\n\",\"variables\":{\"input\":[{\"personId\":\"147960405\",\"deviceId\":\"f01db433-6381-4a96-beb1-9d6fdf2b3353-Strix\",\"rosterEntryId\":\"fp_5c892712-ae0c-4ec6-a2c9-31060de828b4\",\"telemetryType\":\"SECTION_START_TIME\",\"telemetryEventTime\":\"2026-06-11T17:12:50.093Z\",\"payload\":\"{\\\"sectionId\\\":\\\"c3041e74-888d-4548-a535-10d8e37be2ea\\\",\\\"sectionName\\\":\\\"Section 1, Module 1: Rea"
+      }
+    },
+    {
+      "t": 24338.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 24338.80000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 24339,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 24339.900000000373,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "section-room display-flex flex-column cb-esat-exam"
+      }
+    },
+    {
+      "t": 24369.400000000373,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-0f491c74-ee40-49cb-9df0-d872701527ad",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 24373.900000000373,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-0f491c74-ee40-49cb-9df0-d872701527ad",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 24374,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 24434.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 24434.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 24451.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 24451.400000000373,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 24502.80000000028,
+      "cat": "console",
+      "type": "info",
+      "data": [
+        "================= DEVICE INFO RETRIEVED",
+        "{\"currentTime\":1781197892142,\"timezone\":\"GMT+0500\",\"os\":{\"platform\":\"win32\",\"distro\":\"Microsoft Windows 11 Pro\",\"release\":\"10.0.26200\",\"arch\":\"ia32\",\"cpuManufacturer\":\"Intel(R)\",\"cpuBrand\":\"Core(TM) i5-14600K\",\"cpuModel\":\"183\",\"isVirtual\":false,\"virtualHost\":\"\",\"secureBoot\":true,\"driverSignaturesEnf…"
+      ]
+    },
+    {
+      "t": 24825.30000000028,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 514
+      }
+    },
+    {
+      "t": 24865.80000000028,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 546
+      }
+    },
+    {
+      "t": 25496.5,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 25496.700000000186,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 25577.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 25680.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 30340.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 30340.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 32368.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 32368.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 32450.400000000373,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 32452.5,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 32457.700000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-bdf079ff-0207-4fde-8559-9282552c6d79",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 32458.900000000373,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-bdf079ff-0207-4fde-8559-9282552c6d79",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 32459.5,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 32557.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 33184.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 33184.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 34224.40000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 34224.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 34304.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 34306.40000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 34311.10000000009,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-07908c7a-218a-4fac-a9f1-db488155f821",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 34312.10000000009,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-07908c7a-218a-4fac-a9f1-db488155f821",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 34312.700000000186,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 34407.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 34847.10000000009,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 34847.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 35895.40000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 35895.60000000009,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 35976.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 35978.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 35982.40000000037,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-8ed1b290-0617-4d50-a75f-c9d10cbeea5c",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 35983.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-8ed1b290-0617-4d50-a75f-c9d10cbeea5c",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 35983.90000000037,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 36081.10000000009,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 36642.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 36642.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 38033.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 38033.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 38121.40000000037,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 38123.10000000009,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 38127,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-0f8b749f-f347-4efb-8d56-32994b02aa26",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 38127.90000000037,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-0f8b749f-f347-4efb-8d56-32994b02aa26",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 38128.40000000037,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 38225,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 38888.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 38888.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 40168.5,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 40168.700000000186,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 40259.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 40260.80000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 40264.60000000009,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-f9f09d89-3a0e-441a-8f50-43fa6171be63",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 40265.40000000037,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-f9f09d89-3a0e-441a-8f50-43fa6171be63",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 40265.90000000037,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 40363.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 40772.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 40772.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 42271.40000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 42271.60000000009,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 42355.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 42357.10000000009,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 42361.5,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-f6a5f8a5-e256-4f09-828d-2aa948fbf77b",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 42362.40000000037,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-f6a5f8a5-e256-4f09-828d-2aa948fbf77b",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 42362.90000000037,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 42460,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 42762.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 42762.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 43713.10000000009,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 44135.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 44559.60000000009,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 44559.700000000186,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 44637.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 44638.700000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 44643.90000000037,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-29db3574-fdd4-4469-820d-609a5055e2c8",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 44645,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-29db3574-fdd4-4469-820d-609a5055e2c8",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 44645.60000000009,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 44743.200000000186,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 45071.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 45071.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 46804.40000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 46804.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 46888.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 46890.10000000009,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 46894.60000000009,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-dd1581f0-b660-41f6-8bf7-442f8d93f099",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 46895.40000000037,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-dd1581f0-b660-41f6-8bf7-442f8d93f099",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 46895.90000000037,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 46992.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 47396.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 47396.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 48160.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 48613.200000000186,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 49091.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 49523.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 49605.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 49607,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 49611.5,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-593c4d95-ec05-42db-bd5a-aadbb214c0b3",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 49612.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-593c4d95-ec05-42db-bd5a-aadbb214c0b3",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 49612.80000000028,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 49710.700000000186,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 50280.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 50280.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 51659.90000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 51660.200000000186,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 51742.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 51744.10000000009,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 51748.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-4d6a7c2d-f883-493c-8e4a-63295be2d5eb",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 51943.80000000028,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 52360,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-4d6a7c2d-f883-493c-8e4a-63295be2d5eb",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 52367.90000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 54075.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 54075.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 55237.5,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 55237.700000000186,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 55311.40000000037,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 55313.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 55317.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-67d82660-65af-4618-82eb-4629721abe2a",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 55318.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-67d82660-65af-4618-82eb-4629721abe2a",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 55318.80000000028,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 55414.200000000186,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 56043.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 56043.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 57420.10000000009,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 57420.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 57504.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 57506,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 57509.80000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-865e0ed7-6594-4f5f-81b4-38b99e573dec",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 57510.60000000009,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-865e0ed7-6594-4f5f-81b4-38b99e573dec",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 57511,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 57607.60000000009,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 58058.10000000009,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 58058.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 59105.700000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 59105.80000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 59168.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 59169.60000000009,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 59173.700000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-f3330875-ac10-4521-9381-7eb7d24654e7",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 59174.5,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-f3330875-ac10-4521-9381-7eb7d24654e7",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 59175.10000000009,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 59270.90000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 60031.10000000009,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 60031.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 62355.40000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 62355.60000000009,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 62473.10000000009,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 62474.90000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 62479.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-2fd536b4-929f-4dfb-9660-bdb191040d7d",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 62480.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-2fd536b4-929f-4dfb-9660-bdb191040d7d",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 62480.700000000186,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 62576.10000000009,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 63460.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 63460.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 64688.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 64688.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 64790.200000000186,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 64791.80000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 64795.90000000037,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-8de34591-08a1-49c0-9a8f-93f39399783c",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 64796.80000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-8de34591-08a1-49c0-9a8f-93f39399783c",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 64797.5,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 64895.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 65419.200000000186,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 65419.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 66488.40000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 66488.6000000001,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 66588.20000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 66590,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 66593.6000000001,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-a7f94079-8d16-4865-8568-b93718fa0fc2",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 66594.40000000037,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-a7f94079-8d16-4865-8568-b93718fa0fc2",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 66595,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 66755.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 67285.20000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 67285.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 68380.40000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 68380.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 68464.1000000001,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 68465.90000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 68470.20000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-dd7def7a-ad0f-4f3d-9e45-3d2a6e1f713d",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 68471.20000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-dd7def7a-ad0f-4f3d-9e45-3d2a6e1f713d",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 68471.80000000028,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 68567.6000000001,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 69185.20000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 69185.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 70341.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 70341.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 70424.20000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 70426,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 70430.1000000001,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-2ee89882-41bf-4c80-97a0-7f5d2e5acc2e",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 70430.90000000037,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-2ee89882-41bf-4c80-97a0-7f5d2e5acc2e",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 70431.5,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 70526.80000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 70975.20000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 70975.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 71838.40000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 71838.6000000001,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 71906.20000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 71907.70000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 71912.80000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-1fa0dbe4-06f8-402a-a1c7-0898d0b1fc96",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 71913.70000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-1fa0dbe4-06f8-402a-a1c7-0898d0b1fc96",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 71914.20000000019,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 72009.70000000019,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 72371.1000000001,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 72371.30000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 73444.40000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 73444.6000000001,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 73500.20000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 73501.80000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 73506.20000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-1533f675-3dd0-4adb-a555-a8314baf8a74",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 73506.90000000037,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-1533f675-3dd0-4adb-a555-a8314baf8a74",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 73507.30000000028,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 73602.80000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 73956.40000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 73956.6000000001,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 74691.5,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 74691.6000000001,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 74769.20000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 74770.70000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 74774.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-770ec423-e69e-4209-9b65-e44f6ca6f39d",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 74775,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-770ec423-e69e-4209-9b65-e44f6ca6f39d",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 74775.5,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 74872.20000000019,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 75183.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 75183.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 75790.20000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 75790.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 76210.1000000001,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 76463.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 76921.40000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 76921.6000000001,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 76992.20000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 76993.70000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 76997.80000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-93430976-ee9d-495f-8b83-a0aad72d16b6",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 76998.6000000001,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-93430976-ee9d-495f-8b83-a0aad72d16b6",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 76999.1000000001,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 77094.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 77406.5,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 77406.70000000019,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 78340.6000000001,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 78340.80000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 78409.1000000001,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 78410.70000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 78414.70000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-e4231bb6-89a3-4d0d-971d-dcb50699128f",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 78415.40000000037,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-e4231bb6-89a3-4d0d-971d-dcb50699128f",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 78416,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 78511.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 78973.20000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 78973.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 79977.6000000001,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 79977.70000000019,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 80084.6000000001,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 80086.6000000001,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 80091.80000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-0f1c0a8c-486d-4858-a118-a25c50106cae",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 80092.70000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-0f1c0a8c-486d-4858-a118-a25c50106cae",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 80093.20000000019,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 80189.80000000028,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 80685.5,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 80685.70000000019,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 81848.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 81848.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 81944.20000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 81945.70000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 81950.1000000001,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-3ecfb760-162e-4fdb-a92a-82869044e242",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 81950.80000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-3ecfb760-162e-4fdb-a92a-82869044e242",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 81951.30000000028,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 82047,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 90206,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 90206.1000000001,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 91656.40000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 91656.6000000001,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 91745.20000000019,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 91747,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 91751.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-8a2ee1ac-1e0a-4364-ab56-1ec677c85cd7",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 91752.1000000001,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-8a2ee1ac-1e0a-4364-ab56-1ec677c85cd7",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 91752.6000000001,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 91850.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 92349.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 92349.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 93371.20000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 93661.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 94060.40000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 94060.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 94146.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 94148.40000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 94150.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 96501.40000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 96501.6000000001,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 96580.30000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 96581.80000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 96583,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  mutation SendTelemetry($input: [TelemetryItemInput!]!) {\\n    createTelemetryItem(input: $input) {\\n      statusCode\\n    }\\n  }\\n\",\"variables\":{\"input\":[{\"personId\":\"147960405\",\"deviceId\":\"f01db433-6381-4a96-beb1-9d6fdf2b3353-Strix\",\"rosterEntryId\":\"fp_5c892712-ae0c-4ec6-a2c9-31060de828b4\",\"telemetryType\":\"SECTION_END_TIME\",\"telemetryEventTime\":\"2026-06-11T17:14:02.359Z\",\"payload\":\"{\\\"sectionId\\\":\\\"c3041e74-888d-4548-a535-10d8e37be2ea\\\",\\\"sectionName\\\":\\\"Section 1, Module 1: Readi"
+      }
+    },
+    {
+      "t": 96993.40000000037,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 410
+      }
+    },
+    {
+      "t": 96996.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 102006.20000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 102011.90000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 102012.20000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 102012.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 102015.40000000037,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "section-room display-flex flex-column cb-esat-exam"
+      }
+    },
+    {
+      "t": 102019.80000000028,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  query DateCheckQuery($rosterEntryId: String) {\\n    listRegistrations(rosterEntryId: $rosterEntryId) {\\n      statusCode\\n      message\\n      registrations {\\n        id\\n      }\\n    }\\n  }\\n\",\"variables\":null,\"operationName\":\"DateCheckQuery\"}"
+      }
+    },
+    {
+      "t": 102020.1000000001,
+      "cat": "fetch",
+      "type": "request",
+      "data": {
+        "url": "https://dap-mc2-bootstrap.collegeboard.org/saveState",
+        "method": "POST",
+        "opName": null,
+        "body": "[non-string body: Blob]"
+      }
+    },
+    {
+      "t": 102025.70000000019,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  mutation SendTelemetry($input: [TelemetryItemInput!]!) {\\n    createTelemetryItem(input: $input) {\\n      statusCode\\n    }\\n  }\\n\",\"variables\":{\"input\":[{\"personId\":\"147960405\",\"deviceId\":\"f01db433-6381-4a96-beb1-9d6fdf2b3353-Strix\",\"rosterEntryId\":\"fp_5c892712-ae0c-4ec6-a2c9-31060de828b4\",\"telemetryType\":\"SECTION_START_TIME\",\"telemetryEventTime\":\"2026-06-11T17:14:07.802Z\",\"payload\":\"{\\\"sectionId\\\":\\\"8cb6868e-20cc-4541-9d5b-1efcd00253cf\\\",\\\"sectionName\\\":\\\"Section 1, Module 2: Rea"
+      }
+    },
+    {
+      "t": 102029.80000000028,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-8548b072-10d0-4792-89e9-140857d98fc5",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 102031.5,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-8548b072-10d0-4792-89e9-140857d98fc5",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 102032.1000000001,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 102118.40000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 102118.70000000019,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 102199.1000000001,
+      "cat": "console",
+      "type": "info",
+      "data": [
+        "================= DEVICE INFO RETRIEVED",
+        "{\"currentTime\":1781197892142,\"timezone\":\"GMT+0500\",\"os\":{\"platform\":\"win32\",\"distro\":\"Microsoft Windows 11 Pro\",\"release\":\"10.0.26200\",\"arch\":\"ia32\",\"cpuManufacturer\":\"Intel(R)\",\"cpuBrand\":\"Core(TM) i5-14600K\",\"cpuModel\":\"183\",\"isVirtual\":false,\"virtualHost\":\"\",\"secureBoot\":true,\"driverSignaturesEnf…"
+      ]
+    },
+    {
+      "t": 102475.80000000028,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 456
+      }
+    },
+    {
+      "t": 102545.70000000019,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 520
+      }
+    },
+    {
+      "t": 102880.20000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 102880.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 102948.90000000037,
+      "cat": "fetch",
+      "type": "response",
+      "data": {
+        "url": "https://dap-mc2-bootstrap.collegeboard.org/saveState",
+        "opName": null,
+        "status": 200,
+        "dt": 929,
+        "body": null
+      }
+    },
+    {
+      "t": 104236.20000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 104638.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 104728.5,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 104730.40000000037,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 104734.1000000001,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-edc254c4-1834-4f90-9c2b-78500d27644d",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 104734.90000000037,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-edc254c4-1834-4f90-9c2b-78500d27644d",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 104735.40000000037,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 104831.40000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 113702.6000000001,
+      "cat": "fetch",
+      "type": "request",
+      "data": {
+        "url": "https://dap-mc2-bootstrap.collegeboard.org/saveState",
+        "method": "POST",
+        "opName": null,
+        "body": "[non-string body: Blob]"
+      }
+    },
+    {
+      "t": 113978.70000000019,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 113978.90000000037,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 114066.30000000028,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1008,
+          "h": 729,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    }
+  ]
+}

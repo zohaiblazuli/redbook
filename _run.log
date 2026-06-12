@@ -1,0 +1,75 @@
+[2026-06-12T01:57:26.243Z] run v2
+selfHealingCallbackFunction locked
+setAppPath: G:\redbook\resources\app.asar
+require start
+[blocked] app.exit(0)
+require returned
+waiting
+app event: ready
+browser-window-created id= 1
+forced show
+ready-to-show
+did-finish-load app://dap-electron.collegeboard.org/
+mods injected (120992 bytes)
+mods injected (120992 bytes)
+mods injected (120992 bytes)
+mods injected (120992 bytes)
+mods injected (120992 bytes)
+Insert hotkey fired
+Insert hotkey fired
+Insert hotkey fired
+Insert hotkey fired
+Insert hotkey fired
+Insert hotkey fired
+Insert hotkey fired
+Insert hotkey fired
+Insert hotkey fired
+AI view created, partition=persist:redbook-ai url=https://claude.ai
+AI view shown
+ready-to-show
+Insert hotkey fired
+Insert hotkey fired
+clipboard bypass enabled
+Insert hotkey fired
+clipboard: Ctrl+C detected
+clipboard: c active=DIV.highlightable shared-stimulus dap_body p text="mouths." selType=Range
+clipboard: stored 7 chars in buffer + system clipboard
+clipboard: BLOCKED clear() call
+clipboard: BLOCKED clear() call
+clipboard: Ctrl+C detected
+clipboard: c active=DIV.highlightable shared-stimulus dap_body p text="Predatory animals differ widely in how they ______blank food" selType=Range
+clipboard: stored 228 chars in buffer + system clipboard
+clipboard: BLOCKED clear() call
+clipboard: BLOCKED clear() call
+clipboard: Ctrl+C detected
+clipboard: c active=SECTION.focus-cycle-member text="Which choice completes the text with the most logical and pr" selType=Range
+clipboard: stored 132 chars in buffer + system clipboard
+clipboard: Ctrl+C detected
+clipboard: c active=SECTION.focus-cycle-member text="Which choice completes the text with the most logical and pr" selType=Range
+clipboard: stored 132 chars in buffer + system clipboard
+clipboard: BLOCKED clear() call
+Insert hotkey fired
+clipboard: BLOCKED clear() call
+AI navigate to https://gemini.google.com
+clipboard: BLOCKED clear() call
+ready-to-show
+Insert hotkey fired
+clipboard: BLOCKED clear() call
+clipboard: Ctrl+C detected
+clipboard: c active=SECTION.question-focus-on-navigation focus-cycle text="Predatory animals differ widely in how they ______blank food" selType=Range
+clipboard: stored 228 chars in buffer + system clipboard
+clipboard: Ctrl+C detected
+clipboard: c active=SECTION.question-focus-on-navigation focus-cycle text="Predatory animals differ widely in how they ______blank food" selType=Range
+clipboard: stored 228 chars in buffer + system clipboard
+clipboard: BLOCKED clear() call
+clipboard: BLOCKED clear() call
+clipboard: Ctrl+C detected
+clipboard: c active=SECTION.focus-cycle-member text="Which choice completes the text with the most logical and pr" selType=Range
+clipboard: stored 132 chars in buffer + system clipboard
+clipboard: Ctrl+C detected
+clipboard: c active=SECTION.focus-cycle-member text="Which choice completes the text with the most logical and pr" selType=Range
+clipboard: stored 132 chars in buffer + system clipboard
+clipboard: BLOCKED clear() call
+clipboard: BLOCKED clear() call
+clipboard: BLOCKED clear() call
+clipboard: BLOCKED clear() call

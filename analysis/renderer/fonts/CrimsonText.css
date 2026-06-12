@@ -1,0 +1,35 @@
+/* regular */
+@font-face {
+  font-family: "Crimson Text";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./CrimsonText-Regular.woff2) format("woff2");
+}
+
+/* bold */
+@font-face {
+  font-family: "Crimson Text";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(./CrimsonText-Bold.woff2) format("woff2");
+}
+
+/* italic */
+@font-face {
+  font-family: "Crimson Text";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./CrimsonText-Italic.woff2) format("woff2");
+}
+
+/* bold & italic */
+@font-face {
+  font-family: "Crimson Text";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url(./CrimsonText-BoldItalic.woff2) format("woff2");
+}

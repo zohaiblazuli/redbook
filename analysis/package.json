@@ -1,0 +1,17 @@
+{
+  "name": "bluebook",
+  "version": "0.9.651",
+  "author": "College Board",
+  "description": "The Bluebook App",
+  "main": "main/index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "keytar": "^7.9.0",
+    "win-verify-signature": "1.7.0"
+  },
+  "devDependencies": {
+    "electron": "^39.0.0"
+  }
+}

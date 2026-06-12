@@ -1,0 +1,33 @@
+[2026-06-11T03:31:01.650Z] decoder leak boot
+compiling patched bundle, original size: 9501122 patched size: 9501160
+[blocked] app.exit 0
+bundle compile finished
+captured x7. typeof u3Kd: function typeof Q2wJ: function
+
+=== sample decoder probes ===
+u3Kd(1499) = "error"    Q2wJ(1499) = "error"
+u3Kd(1719) = "includes"    Q2wJ(1719) = "includes"
+u3Kd(12782) = "PROD"    Q2wJ(12782) = "PROD"
+u3Kd(2877) = "argv"    Q2wJ(2877) = "argv"
+u3Kd(3603) = "bluebook://"    Q2wJ(3603) = "bluebook://"
+u3Kd(4592) = "app"    Q2wJ(4592) = "app"
+u3Kd(11300) = "exit"    Q2wJ(11300) = "exit"
+u3Kd(2350) = "https://3329de149c5d48cca00ee4598288e816@o516766.ingest.sentry.io/5641569"    Q2wJ(2350) = "https://3329de149c5d48cca00ee4598288e816@o516766.ingest.sentry.io/5641569"
+u3Kd(2715) = "exam-player-electron@0.9.651"    Q2wJ(2715) = "exam-player-electron@0.9.651"
+u3Kd(404) = "prod.electron-main.2026-05-10-14-52"    Q2wJ(404) = "prod.electron-main.2026-05-10-14-52"
+u3Kd(6447) = "second"    Q2wJ(6447) = "second"
+u3Kd(12674) = "length"    Q2wJ(12674) = "length"
+u3Kd(3420) = "filter"    Q2wJ(3420) = "filter"
+u3Kd(6166) = "QA"    Q2wJ(6166) = "QA"
+u3Kd(2778) = "INT"    Q2wJ(2778) = "INT"
+u3Kd(12709) = "fromCallback"    Q2wJ(12709) = "fromCallback"
+u3Kd(12941) = "name"    Q2wJ(12941) = "name"
+u3Kd(3500) = "fromPromise"    Q2wJ(3500) = "fromPromise"
+u3Kd(7503) = "push"    Q2wJ(7503) = "push"
+
+=== resolving all indices in _slices.txt ===
+wrote _slices_resolved.txt
+
+=== done, exiting ===
+[blocked] app.quit
+[blocked] app.exit 1

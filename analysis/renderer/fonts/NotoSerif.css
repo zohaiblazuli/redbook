@@ -1,0 +1,67 @@
+/* regular */
+@font-face {
+  font-family: "Noto Serif";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./NotoSerif-Regular.woff2) format("woff2");
+}
+
+/* bold */
+@font-face {
+  font-family: "Noto Serif";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(./NotoSerif-Bold.woff2) format("woff2");
+}
+
+/* italic */
+@font-face {
+  font-family: "Noto Serif";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./NotoSerif-Italic.woff2) format("woff2");
+}
+
+/* bold & italic */
+@font-face {
+  font-family: "Noto Serif";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url(./NotoSerif-BoldItalic.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "Noto Serif SC";
+  src: url(./NotoSerifSC-Medium.woff2) format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Serif SC";
+  src: url(./NotoSerifSC-Bold.woff2) format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Serif JP";
+  src: url(./NotoSerifJP-Medium.woff2) format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Serif JP";
+  src: url(./NotoSerifJP-Bold.woff2) format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

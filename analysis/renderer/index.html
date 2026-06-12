@@ -1,0 +1,339 @@
+
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-eval';
+font-src 'self' data:;
+style-src 'self' 'unsafe-inline';
+media-src 'self' blob: data: https://*.collegeboard.org:*;
+img-src 'self' data:;
+worker-src 'self' blob:;
+script-src-elem 'unsafe-inline' blob: 'self';
+connect-src https://*.collegeboard.org:* https://o516766.ingest.sentry.io/api/5649233/ https://agwtc.collegeboard.org/ 'self';">
+          <title>Bluebook</title>
+          <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+          <meta http-equiv="Pragma" content="no-cache" />
+          <meta http-equiv="Expires" content="0" />
+          <meta name="robots" content="noindex, nofollow">
+          <style>
+            body {
+                margin: 0;
+                padding: 0;
+            }
+          </style>
+          
+        
+        <script type="text/javascript">
+          navigator.userAgent.includes("Windows") &&
+            document.querySelector("meta[name=viewport]")?.setAttribute("content","width=device-width, initial-scale=" + 1 / window.devicePixelRatio);
+        </script>
+
+        
+  <script defer src="/desmos/calculator.js" id="Desmos-script"></script>
+
+  <script defer src="/ckeditor/ckeditor.js?v=44.2.0"></script>
+
+  <link rel="stylesheet" type="text/css" href="/fonts/NotoSerif.css" />
+  <link rel="stylesheet" type="text/css" href="/fonts/CourierPrime.css" />
+  <link rel="stylesheet" type="text/css" href="/fonts/CrimsonText.css" />
+
+        <style>
+          
+.app-loading {
+  width: 100vw;
+  height: 100vh;
+  background-color: #324dc7;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Roboto, sans-serif;
+  animation: app-loading__fade-in 0.5s ease-in-out;
+}
+
+.app-loading--vertical__logo {
+  fill: #fff;
+  height: 75px;
+  margin-bottom: 17px;
+  animation: app-loading__logo 1s 0.5s 1 ease-in-out both;
+}
+
+@media (orientation: landscape) {
+  .app-loading--vertical__logo  {
+    width: 0;
+    height: 0;
+  }
+}
+
+.app-loading--vertical__header {
+  height: 57px;
+  width: 313px;
+  padding: 0 0 0 15px;
+  opacity: 0;
+  animation: app-loading__appear 1s 1s ease-in-out both;
+  margin-bottom: -25px;
+}
+
+@media (orientation: landscape) {
+  /*
+    This is used to show the logo in stacked form vs horizontal form depending on
+    the screen orientation. I would have preferred to do this another way but other
+    strategies I tried resulted in fairly garish spacing/layout issues. The
+    negative margin-bottom above addresses part of this.
+  */
+  .app-loading--vertical__header {
+    width: 0;
+    height: 0;
+    margin-bottom: 0;
+  }
+}
+
+.app-loading__logo--horizontal {
+  margin: 24px 0;
+  height: 84px;
+  padding: 0px;
+  opacity: 0;
+  animation: app-loading__appear 1s 1s ease-in-out both;
+}
+
+@media (orientation: portrait) {
+  .app-loading__logo--horizontal {
+    width: 0;
+    height: 0;
+  }
+}
+
+.app-loading__content {
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1.5em;
+  margin: 0px;
+  padding: 0px;
+  opacity: 0;
+  animation: app-loading__appear 1s 1.5s ease-in-out both;
+}
+
+.app-loading__content:nth-of-type(2) {
+  animation-delay: 2s;
+}
+
+.app-loading__spinner {
+  margin-top: 32px;
+  width: 100px;
+  height: 100px;
+  fill: #fff;
+  animation: app-loading__appear 1s 2.5s ease-in-out both;
+}
+
+.app-loading__spinner circle {
+  --delay: 0.2s;
+  animation: app-loading__pulse calc(var(--delay) * 12) infinite ease-in-out;
+  animation-fill-mode: both;
+}
+
+.app-loading__spinner circle:nth-of-type(1) {
+  animation-delay: calc(var(--delay) * 1);
+  transform-origin: 50px 10px;
+}
+
+.app-loading__spinner circle:nth-of-type(2) {
+  animation-delay: calc(var(--delay) * 2);
+  transform-origin: 70px 15px;
+}
+
+.app-loading__spinner circle:nth-of-type(3) {
+  animation-delay: calc(var(--delay) * 3);
+  transform-origin: 85px 30px;
+}
+
+.app-loading__spinner circle:nth-of-type(4) {
+  animation-delay: calc(var(--delay) * 4);
+  transform-origin: 90px 50px;
+}
+
+.app-loading__spinner circle:nth-of-type(5) {
+  animation-delay: calc(var(--delay) * 5);
+  transform-origin: 85px 70px;
+}
+
+.app-loading__spinner circle:nth-of-type(6) {
+  animation-delay: calc(var(--delay) * 6);
+  transform-origin: 70px 85px;
+}
+
+.app-loading__spinner circle:nth-of-type(7) {
+  animation-delay: calc(var(--delay) * 7);
+  transform-origin: 50px 90px;
+}
+
+.app-loading__spinner circle:nth-of-type(8) {
+  animation-delay: calc(var(--delay) * 8);
+  transform-origin: 30px 85px;
+}
+
+.app-loading__spinner circle:nth-of-type(9) {
+  animation-delay: calc(var(--delay) * 9);
+  transform-origin: 15px 70px;
+}
+
+.app-loading__spinner circle:nth-of-type(10) {
+  animation-delay: calc(var(--delay) * 10);
+  transform-origin: 10px 50px;
+}
+
+.app-loading__spinner circle:nth-of-type(11) {
+  animation-delay: calc(var(--delay) * 11);
+  transform-origin: 15px 30px;
+}
+
+.app-loading__spinner circle:nth-of-type(12) {
+  animation-delay: calc(var(--delay) * 12);
+  transform-origin: 30px 15px;
+}
+
+@keyframes app-loading__fade-in {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+@keyframes app-loading__pulse {
+  0% {
+    opacity:0;
+    transform: scale(0%);
+  }
+  50% {
+    opacity:1;
+    transform: scale(100%);
+  }
+  100% {
+    opacity:0;
+    transform: scale(0%);
+  }
+}
+
+@keyframes app-loading__appear {
+  0% {
+    opacity:0;
+    transform: translateY(10%) scale(90%, 110%);
+  }
+  33% {
+    opacity:1;
+    transform: translateY(-5%) scale(105%, 95%);
+  }
+  66% {
+    opacity:1;
+    transform: translateY(2.5%) scale(95%, 105%);
+  }
+  100% {
+    opacity:1;
+    transform: translateY(0%) scale(100%, 100%);
+  }
+}
+
+@keyframes app-loading__logo {
+  0% {
+    opacity:0;
+    transform: translateY(20%) scale(80%, 120%);
+  }
+  33% {
+    opacity:1;
+    transform: translateY(-10%) scale(110%, 90%);
+  }
+  66% {
+    opacity:1;
+    transform: translateY(5%) scale(90%, 110%);
+  }
+  100% {
+    opacity:1;
+    transform: translateY(0%) scale(100%, 100%);
+  }
+}
+
+        </style>
+        
+          <script defer src="/vendor-public.js?0531eac5a5f668e2"></script><script defer src="/vendor-private.js?0531eac5a5f668e2"></script><script defer src="/main.js?0531eac5a5f668e2"></script>
+          
+        </head>
+        <body>
+          
+        
+        <div id="app-utility"></div>
+        <div id="app">
+          
+  <div class="app-loading">
+      <svg class="app-loading--vertical__logo" height="150px" viewBox="0 0 144 144">
+        <path d="M114.74,56.43l19.45-32.15c1.15-1.9-.79-4.16-2.84-3.32l-34.76,14.27c-.36,.15-.48,.61-.22,.91l17.43,20.36c.26,.3,.73,.26,.93-.08Z"/><path d="M38.66,59.32L4.08,73.87c-2.04,.86-1.81,3.83,.35,4.35l36.46,8.87c.38,.09,.74-.22,.71-.61l-2.14-26.68c-.03-.39-.44-.64-.8-.49Z"/><path d="M140.77,106.51L51.12,1.81c-1.45-1.68-4.2-.53-4.03,1.68l10.99,137.4c.19,2.21,3.08,2.9,4.25,1.01l25.82-41.84c.52-.84,1.52-1.26,2.48-1.03l47.87,11.21c2.16,.51,3.71-2.04,2.28-3.73Z"/>
+      </svg>
+      <svg class="app-loading--vertical__header" alt="Bluebook" width="125" height="22" viewBox="0 0 125 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 21.7194V1.13867H7.22683C9.73364 1.13867 11.6307 1.61729 12.9236 2.57454C14.2165 3.53178 14.8658 4.93386 14.8658 6.78077C14.8658 7.78869 14.6061 8.67836 14.0867 9.44416C13.5672 10.2099 12.8446 10.773 11.9186 11.1334C12.9744 11.3981 13.81 11.9274 14.4198 12.7326C15.0295 13.5378 15.3344 14.5119 15.3344 15.6719C15.3344 17.6483 14.7021 19.1517 13.4374 20.1653C12.1727 21.1845 10.366 21.7025 8.02291 21.7194H0V21.7194ZM4.25141 9.75949H7.39621C9.54167 9.72007 10.6144 8.86981 10.6144 7.20309C10.6144 6.26837 10.3434 5.5983 9.80139 5.18724C9.25938 4.77619 8.40119 4.57348 7.22683 4.57348H4.25141V9.75949V9.75949ZM4.25141 12.7551V18.3071H7.89305C8.89239 18.3071 9.67718 18.0706 10.2361 17.592C10.8007 17.119 11.0774 16.4602 11.0774 15.6212C11.0774 13.7349 10.1006 12.7832 8.14148 12.7495H4.25141V12.7551Z" fill="#FFFFFF"/>
+        <path d="M21.9967 21.7184H17.8865V0.00585938H21.9967V21.7184Z" fill="#FFFFFF"/>
+        <path d="M33.9717 20.155C32.961 21.3825 31.5608 21.9907 29.7767 21.9907C28.1337 21.9907 26.8803 21.5177 26.0165 20.5773C25.1527 19.637 24.7123 18.2574 24.6897 16.433V6.41016H28.7887V16.3035C28.7887 17.8971 29.517 18.6966 30.9737 18.6966C32.4303 18.6966 33.3167 18.2124 33.8362 17.2551V6.41579H37.9464V21.7091H34.0902L33.9773 20.155H33.9717Z" fill="#FFFFFF"/>
+        <path d="M47.5111 21.999C45.2641 21.999 43.4291 21.312 42.0176 19.9381C40.6061 18.5642 39.9004 16.7286 39.9004 14.4368V14.0426C39.9004 12.5054 40.1996 11.1315 40.7925 9.92087C41.3853 8.71024 42.2322 7.77552 43.3218 7.12235C44.4115 6.46917 45.6593 6.14258 47.0538 6.14258C49.1541 6.14258 50.8027 6.80139 52.0053 8.119C53.2079 9.43662 53.812 11.3117 53.812 13.7329V15.3997H44.0445C44.1744 16.3963 44.5752 17.2015 45.2415 17.804C45.9077 18.4065 46.7489 18.7106 47.7709 18.7106C49.3461 18.7106 50.5826 18.1419 51.469 16.9988L53.4789 19.2455C52.8635 20.1127 52.0336 20.7884 50.9834 21.2726C49.9333 21.7569 48.7702 21.999 47.4942 21.999H47.5111ZM47.0425 9.43099C46.2295 9.43099 45.5689 9.7069 45.0664 10.2531C44.5583 10.7993 44.2365 11.5876 44.0953 12.6124H49.7921V12.2858C49.7752 11.3793 49.5268 10.6754 49.0581 10.1799C48.5839 9.68438 47.912 9.43662 47.0425 9.43662V9.43099Z" fill="#FFFFFF"/>
+        <path d="M69.959 14.2125C69.959 16.6619 69.4339 18.5707 68.3838 19.9447C67.3336 21.3186 65.8713 21.9999 63.9912 21.9999C62.3257 21.9999 60.9989 21.3636 60.0108 20.0911L59.8245 21.7184H56.1377V0.00585938H60.2367V7.79331C61.1795 6.68966 62.4217 6.13784 63.963 6.13784C65.8318 6.13784 67.2998 6.8248 68.3612 8.1931C69.4226 9.56702 69.9534 11.4928 69.9534 13.9816V14.2068L69.959 14.2125ZM65.8657 13.914C65.8657 12.3712 65.6173 11.2394 65.1261 10.5299C64.6349 9.82041 63.9009 9.46003 62.9298 9.46003C61.6256 9.46003 60.7279 9.99497 60.2367 11.0592V17.0954C60.7392 18.1709 61.6425 18.7059 62.958 18.7059C64.2735 18.7059 65.1486 18.0583 65.5664 16.7576C65.7641 16.1382 65.8657 15.1866 65.8657 13.914Z" fill="#FFFFFF"/>
+        <path d="M72.1951 13.9242C72.1951 12.4095 72.4887 11.0524 73.0758 9.86996C73.663 8.68185 74.5043 7.76403 75.6052 7.11085C76.7062 6.45767 77.9822 6.13672 79.4388 6.13672C81.5109 6.13672 83.199 6.76737 84.5089 8.02868C85.8188 9.28998 86.5471 11.0074 86.6995 13.1753L86.7278 14.2226C86.7278 16.5707 86.0728 18.4514 84.7573 19.8703C83.4418 21.2893 81.6803 21.9988 79.4727 21.9988C77.2651 21.9988 75.498 21.2949 74.1768 19.876C72.8556 18.4626 72.2007 16.5425 72.2007 14.11V13.9242H72.1951ZM76.2884 14.217C76.2884 15.6697 76.565 16.779 77.1127 17.5504C77.6604 18.3218 78.4451 18.7047 79.4671 18.7047C80.489 18.7047 81.2342 18.3275 81.7932 17.5673C82.3521 16.8071 82.6288 15.5909 82.6288 13.9242C82.6288 12.4996 82.3521 11.3959 81.7932 10.6132C81.2342 9.83054 80.4495 9.43638 79.4388 9.43638C78.4282 9.43638 77.6604 9.82492 77.1127 10.602C76.565 11.379 76.2884 12.584 76.2884 14.217Z" fill="#FFFFFF"/>
+        <path d="M88.3145 13.9242C88.3145 12.4095 88.608 11.0524 89.1952 9.86996C89.7824 8.68185 90.6237 7.76403 91.7246 7.11085C92.8256 6.45767 94.1016 6.13672 95.5582 6.13672C97.6303 6.13672 99.3184 6.76737 100.628 8.02868C101.938 9.28998 102.666 11.0074 102.819 13.1753L102.847 14.2226C102.847 16.5707 102.192 18.4514 100.877 19.8703C99.5612 21.2893 97.7997 21.9988 95.5921 21.9988C93.3845 21.9988 91.6173 21.2949 90.2962 19.876C88.975 18.4626 88.3201 16.5425 88.3201 14.11V13.9242H88.3145ZM92.4078 14.217C92.4078 15.6697 92.6844 16.779 93.2321 17.5504C93.7797 18.3218 94.5645 18.7047 95.5865 18.7047C96.6084 18.7047 97.3536 18.3275 97.9126 17.5673C98.4715 16.8071 98.7482 15.5909 98.7482 13.9242C98.7482 12.4996 98.4715 11.3959 97.9126 10.6132C97.3536 9.83054 96.5688 9.43638 95.5582 9.43638C94.5476 9.43638 93.7797 9.82492 93.2321 10.602C92.6844 11.379 92.4078 12.584 92.4078 14.217Z" fill="#FFFFFF"/>
+        <path d="M110.356 15.5805L108.882 17.0502V21.7125H104.783V0H108.882V12.0275L109.678 11.0083L113.602 6.41352H118.52L112.976 12.7876L119 21.7069H114.297L110.356 15.5749V15.5805Z" fill="#FFFFFF"/>
+        <path d="M121.05 0.418912H120.278V2.48419H119.76V0.418912H119V0.00585938H121.056V0.418912H121.05Z" fill="#FFFFFF"/>
+        <path d="M122.38 0L123.025 1.79368L123.67 0H124.35V2.47833H123.832V1.79934L123.884 0.63373L123.204 2.47833H122.847L122.167 0.63373L122.219 1.79934V2.47833H121.701V0H122.38Z" fill="#FFFFFF"/>
+      </svg>
+
+      <svg class="app-loading__logo--horizontal" alt="Bluebook" id="a" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 285.16 61.44">
+      <defs>
+      <style>.b{fill:#fff;}
+      </style>
+      </defs>
+      <g>
+      <path class="b" d="M42.36,24.99l7.35-12.14c.43-.72-.3-1.57-1.07-1.25l-13.12,5.39c-.14,.06-.18,.23-.08,.34l6.58,7.69c.1,.11,.28,.1,.35-.03Z"/>
+      <path class="b" d="M13.63,26.08L.57,31.58c-.77,.32-.68,1.45,.13,1.64l13.77,3.35c.14,.04,.28-.08,.27-.23l-.81-10.07c-.01-.15-.17-.24-.3-.18Z"/>
+      <path class="b" d="M52.18,43.9L18.34,4.37c-.55-.63-1.59-.2-1.52,.63l4.15,51.88c.07,.83,1.16,1.1,1.6,.38l9.75-15.8c.2-.32,.57-.47,.94-.39l18.07,4.23c.82,.19,1.4-.77,.86-1.41Z"/>
+      </g>
+      <g>
+      <g>
+      <path class="b" d="M63.68,57.17V20.62h12.8c4.43,0,7.8,.85,10.09,2.55,2.29,1.7,3.44,4.19,3.44,7.47,0,1.79-.46,3.37-1.38,4.73-.92,1.36-2.2,2.36-3.84,3,1.87,.47,3.35,1.41,4.43,2.84,1.08,1.42,1.62,3.16,1.62,5.22,0,3.51-1.12,6.17-3.36,7.98s-5.44,2.73-9.59,2.76h-14.21Zm7.53-21.24h5.57c3.8-.07,5.7-1.58,5.7-4.54,0-1.66-.48-2.85-1.44-3.58-.96-.73-2.48-1.09-4.56-1.09h-5.27v9.21Zm0,5.32v9.86h6.45c1.77,0,3.16-.42,4.15-1.27,1-.84,1.49-2.01,1.49-3.5,0-3.35-1.73-5.04-5.2-5.1h-6.9Z"/>
+      <path class="b" d="M102.64,57.17h-7.28V18.61h7.28V57.17Z"/>
+      <path class="b" d="M123.85,54.41c-1.79,2.18-4.27,3.26-7.43,3.26-2.91,0-5.13-.84-6.66-2.51-1.53-1.67-2.31-4.12-2.35-7.35V30.01h7.25v17.57c0,2.83,1.29,4.25,3.86,4.25s4.15-.85,5.07-2.56V30.01h7.28v27.16h-6.83l-.2-2.76Z"/>
+      <path class="b" d="M147.82,57.67c-3.98,0-7.22-1.22-9.73-3.66-2.5-2.44-3.75-5.7-3.75-9.76v-.7c0-2.73,.53-5.17,1.58-7.32,1.05-2.15,2.55-3.81,4.48-4.97,1.93-1.16,4.14-1.74,6.61-1.74,3.72,0,6.64,1.17,8.77,3.51,2.13,2.34,3.2,5.67,3.2,9.97v2.96h-17.29c.23,1.77,.94,3.2,2.12,4.27,1.18,1.07,2.67,1.61,4.48,1.61,2.79,0,4.98-1.01,6.55-3.04l3.56,3.99c-1.09,1.54-2.56,2.74-4.42,3.6-1.86,.86-3.92,1.29-6.17,1.29Zm-.83-22.32c-1.44,0-2.61,.49-3.5,1.46-.9,.97-1.47,2.37-1.72,4.18h10.09v-.58c-.03-1.61-.47-2.86-1.3-3.74-.84-.88-2.03-1.32-3.57-1.32Z"/>
+      <path class="b" d="M187.58,43.84c0,4.35-.93,7.74-2.79,10.18-1.86,2.44-4.45,3.65-7.78,3.65-2.94,0-5.3-1.13-7.05-3.39l-.33,2.89h-6.53V18.61h7.25v13.83c1.67-1.96,3.87-2.94,6.6-2.94,3.31,0,5.91,1.22,7.79,3.65,1.88,2.44,2.82,5.86,2.82,10.28v.4Zm-7.25-.53c0-2.74-.44-4.75-1.31-6.01-.87-1.26-2.17-1.9-3.89-1.9-2.31,0-3.9,.95-4.77,2.84v10.72c.89,1.91,2.49,2.86,4.82,2.86s3.88-1.15,4.62-3.46c.35-1.1,.53-2.79,.53-5.05Z"/>
+      <path class="b" d="M191.54,43.34c0-2.69,.52-5.1,1.56-7.2,1.04-2.11,2.53-3.74,4.48-4.9,1.95-1.15,4.21-1.73,6.79-1.73,3.67,0,6.66,1.12,8.97,3.36,2.32,2.24,3.61,5.29,3.88,9.14l.05,1.86c0,4.17-1.16,7.51-3.49,10.03-2.33,2.52-5.45,3.78-9.36,3.78s-7.04-1.25-9.37-3.77c-2.34-2.51-3.5-5.92-3.5-10.24v-.33Zm7.25,.52c0,2.58,.49,4.55,1.46,5.92s2.36,2.05,4.17,2.05,3.13-.67,4.12-2.02c.99-1.35,1.48-3.51,1.48-6.47,0-2.53-.49-4.49-1.48-5.88-.99-1.39-2.38-2.09-4.17-2.09s-3.15,.69-4.12,2.07c-.97,1.38-1.46,3.52-1.46,6.42Z"/>
+      <path class="b" d="M220.09,43.34c0-2.69,.52-5.1,1.56-7.2,1.04-2.11,2.53-3.74,4.48-4.9s4.21-1.73,6.79-1.73c3.67,0,6.66,1.12,8.97,3.36,2.32,2.24,3.61,5.29,3.88,9.14l.05,1.86c0,4.17-1.16,7.51-3.49,10.03-2.33,2.52-5.45,3.78-9.36,3.78s-7.04-1.25-9.37-3.77c-2.34-2.51-3.5-5.92-3.5-10.24v-.33Zm7.25,.52c0,2.58,.49,4.55,1.46,5.92s2.36,2.05,4.17,2.05,3.13-.67,4.12-2.02c.99-1.35,1.48-3.51,1.48-6.47,0-2.53-.49-4.49-1.48-5.88-.99-1.39-2.38-2.09-4.17-2.09s-3.15,.69-4.12,2.07c-.97,1.38-1.46,3.52-1.46,6.42Z"/>
+      <path class="b" d="M259.13,46.28l-2.61,2.61v8.28h-7.25V18.61h7.25v21.36l1.41-1.81,6.95-8.16h8.71l-9.82,11.32,10.67,15.84h-8.33l-6.98-10.89Z"/>
+      </g>
+      <g>
+      <path class="b" d="M278.91,19.3h-1.34v3.65h-.9v-3.65h-1.32v-.73h3.57v.73Z"/>
+      <path class="b" d="M281.22,18.57l1.12,3.17,1.12-3.17h1.18v4.38h-.9v-1.2l.09-2.06-1.18,3.26h-.62l-1.18-3.26,.09,2.06v1.2h-.9v-4.38h1.18Z"/>
+      </g>
+      </g>
+      </svg>
+
+      <p class="app-loading__content">The application is loading.</p>
+      <p class="app-loading__content">Please stand by.</p>
+      <svg class="app-loading__spinner" role="img" aria-label="Loading...">
+        <circle cx="50" cy="10" r="5" />
+        <circle cx="70" cy="15" r="5" />
+        <circle cx="85" cy="30" r="5" />
+        <circle cx="90" cy="50" r="5" />
+        <circle cx="85" cy="70" r="5" />
+        <circle cx="70" cy="85" r="5" />
+        <circle cx="50" cy="90" r="5" />
+        <circle cx="30" cy="85" r="5" />
+        <circle cx="15" cy="70" r="5" />
+        <circle cx="10" cy="50" r="5" />
+        <circle cx="15" cy="30" r="5" />
+        <circle cx="30" cy="15" r="5" />
+      </svg>
+    </div>
+
+        </div>
+        
+          
+          
+        </body>
+      </html>
+      

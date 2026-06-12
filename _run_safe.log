@@ -1,0 +1,9 @@
+[2026-06-11T06:21:30.071Z] SAFE MODE
+selfHealingCallbackFunction locked
+setAppPath: F:\bluebook_runtime\resources\app.asar
+require start
+[blocked] app.exit(0)
+require returned
+waiting
+app event: ready
+browser-window-created id= 1

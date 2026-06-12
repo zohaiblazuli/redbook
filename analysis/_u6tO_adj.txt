@@ -1,0 +1,27 @@
+hex -> transitions | keywords
+0xa6000aaa7 -> 0xbbb0071c | YIELD,t_g1,v4KM,d$1m
+0x82d708e70 -> 0xbbb0071c | YIELD,t_g1,v4KM,d$1m
+0x7a3c0769b -> 0x12de512142 | YIELD,U9zG,Q8eu
+0x56c305a64 -> 0x12de512142 | YIELD,U9zG,Q8eu
+0x4e280428f -> 0xe1910ed36 | YIELD,J26A,f26X
+0x2aff02658 -> 0xe1910ed36 | YIELD,J26A,f26X
+0xebd00e777 -> 0x4f4b043ec | YIELD,t_g1
+0xc7e70cb40 -> 0x4f4b043ec | YIELD,t_g1
+0x526105ec6 -> 0x12903125a4 | YIELD,t_g1
+0x765a07afd -> 0x12903125a4 | YIELD,t_g1
+0x130bb13c1c -> 0xb86f0b4c8 | YIELD,J26A
+0x68600a21 -> 0xb86f0b4c8 | YIELD,J26A
+0x13b1d137ba -> 0xbcc10b066 | B$dw
+0x918005bf -> 0xbcc10b066 | B$dw
+0x10f09103ae -> 0x70fd07c5a | z$6b
+0x1134211fe5 -> 0x70fd07c5a | z$6b
+0x9e75092d2 -> 0x7d900b7e | YIELD
+0xa3ae0af09 -> 0x7d900b7e | YIELD
+0xf3eb0ff4c ->  | U2DV
+0x1172411b83 ->  | U2DV
+0x328a03e2d -> 0xe4730e8d4 | 
+0xefb20e315 -> 0x332d03f8a | 
+0xca790c6de -> 0x332d03f8a | 
+0xbfcc0b36b -> 0x6043046f1 | 
+0x9b9309734 -> 0x6370046f1 | 
+0x2d51021f6 -> 0xe4730e8d4 | 

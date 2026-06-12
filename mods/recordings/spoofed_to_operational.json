@@ -1,0 +1,3354 @@
+{
+  "meta": {
+    "startedAt": "2026-06-11T17:33:01.148Z",
+    "url": "app://dap-electron.collegeboard.org/takeexam/fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+    "eventCount": 190,
+    "categories": {
+      "fetch": 32,
+      "ws": 0,
+      "dispatch": 48,
+      "bridge": 1,
+      "ipc": 0,
+      "console": 7,
+      "window": 68,
+      "dom": 16,
+      "storage": 18
+    },
+    "spoof": {
+      "enabled": true,
+      "rewriteCount": 0,
+      "targetEventType": "OPERATIONAL",
+      "rewrites": []
+    }
+  },
+  "events": [
+    {
+      "t": 0,
+      "cat": "window",
+      "type": "@@RB/recording-start",
+      "data": {
+        "url": "app://dap-electron.collegeboard.org/",
+        "time": "2026-06-11T17:33:01.149Z"
+      }
+    },
+    {
+      "t": 45783.09999999963,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 50715.89999999944,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 50799.299999999814,
+      "cat": "fetch",
+      "type": "request",
+      "data": {
+        "url": "https://bluebook.app.collegeboard.org/online.json",
+        "method": "GET",
+        "opName": null,
+        "body": null
+      }
+    },
+    {
+      "t": 51214.59999999963,
+      "cat": "fetch",
+      "type": "response",
+      "data": {
+        "url": "https://bluebook.app.collegeboard.org/online.json",
+        "opName": null,
+        "status": 200,
+        "dt": 415,
+        "body": null
+      }
+    },
+    {
+      "t": 51217.699999999255,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 51218.89999999944,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  query listProvisionableEvents($params: ProvisionableEventsInput!) {\\n    listProvisionableEvents(params: $params) {\\n      events {\\n        asmtEventId\\n        eventTitle\\n        asmtId\\n        asmtFamilyCd\\n        asmtSubtypeCd\\n      }\\n      accommodations {\\n        events\\n        groups {\\n          groupTitle\\n          maxSelections\\n          options {\\n            code\\n            description\\n          }\\n        }\\n      }\\n    }\\n  }\\n\",\"variables\":{\"params\":{\"as"
+      }
+    },
+    {
+      "t": 51221.199999999255,
+      "cat": "console",
+      "type": "log",
+      "data": [
+        "[redbook] switcher entered, CSS bytes:",
+        "10248"
+      ]
+    },
+    {
+      "t": 51221.39999999944,
+      "cat": "console",
+      "type": "log",
+      "data": [
+        "[redbook] theme applied:",
+        "default"
+      ]
+    },
+    {
+      "t": 52159,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 940
+      }
+    },
+    {
+      "t": 52165.59999999963,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 54285.199999999255,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 54285.39999999944,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 54543.199999999255,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 54543.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 55375.59999999963,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "P",
+        "id": "",
+        "testId": "",
+        "cls": "exam-builder-practice-download-footer"
+      }
+    },
+    {
+      "t": 55783.299999999814,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 55783.699999999255,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 59832.199999999255,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 59832.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 59948.799999999814,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 59949.699999999255,
+      "cat": "fetch",
+      "type": "request",
+      "data": {
+        "url": "https://bluebook.app.collegeboard.org/online.json",
+        "method": "GET",
+        "opName": null,
+        "body": null
+      }
+    },
+    {
+      "t": 59952.59999999963,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 60091.199999999255,
+      "cat": "fetch",
+      "type": "response",
+      "data": {
+        "url": "https://bluebook.app.collegeboard.org/online.json",
+        "opName": null,
+        "status": 200,
+        "dt": 142,
+        "body": null
+      }
+    },
+    {
+      "t": 60091.799999999814,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  mutation CreateProvisionedExam($input: CreateProvisionedExamInput!) {\\n    createProvisionedExam(input: $input) {\\n      statusCode\\n      message\\n    }\\n  }\\n\",\"variables\":{\"input\":{\"rosterEntryId\":\"fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e\",\"asmtEventId\":\"1000101\",\"accommodations\":[]}},\"operationName\":\"CreateProvisionedExam\"}"
+      }
+    },
+    {
+      "t": 65281.299999999814,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 5190
+      }
+    },
+    {
+      "t": 65282.799999999814,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  query ListRegistrationsQuery($rosterEntryId: String) {\\n    listRegistrations(rosterEntryId: $rosterEntryId) {\\n      statusCode\\n      message\\n      registrations {\\n        id\\n        asmtDeliveryMode\\n        accommodationsInfo {\\n          codes {\\n            code\\n            description\\n          }\\n          enableTts\\n          feature1\\n        }\\n        testCenter {\\n          aiCd\\n          testCenterId\\n          name\\n          address1\\n          address2\\n     "
+      }
+    },
+    {
+      "t": 65715.39999999944,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 433
+      }
+    },
+    {
+      "t": 65715.69999999925,
+      "cat": "dispatch",
+      "type": "registrations/ADD_REGISTRATION",
+      "data": {
+        "payload": {
+          "registration": {
+            "id": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+            "asmtDeliveryMode": "digitalAdaptive",
+            "accommodationsInfo": {
+              "codes": [],
+              "enableTts": false,
+              "feature1": false
+            },
+            "testCenter": {
+              "aiCd": null,
+              "testCenterId": 0,
+              "name": "",
+              "address1": "",
+              "address2": "",
+              "address3": "",
+              "city": "",
+              "state": "",
+              "zip": "",
+              "country": "",
+              "isInternational": false,
+              "adminStatus": null,
+              "display": "ADDRESS",
+              "comments": "Thanks for participating in the Digital Exam!"
+            },
+            "event": {
+              "id": "1000101",
+              "name": "SAT Practice 11",
+              "testDisplayName": "SAT Practice 11",
+              "timing": {
+                "startTime": "2026-06-11T17:34:01.317Z",
+                "endTime": "2031-08-06T00:34:01.011Z",
+                "setupStartTime": "2026-06-11T17:34:01.011Z",
+                "setupEndTime": "2031-08-06T00:34:01.011Z",
+                "checkinStartTime": "2026-06-11T17:34:01.011Z",
+                "checkinEndTime": "2031-08-06T00:34:01.011Z",
+                "submissionStartTime": "2026-06-11T17:34:01.011Z",
+                "submissionEndTime": "2031-08-06T00:34:01.011Z"
+              },
+              "asmtId": 118,
+              "asmtSubtypeCd": 2,
+              "asmtFamilyCd": 1,
+              "asmtDeliveryMethodCd": 2,
+              "asmtEventTypeCd": 4,
+              "asmtStartMode": null
+            },
+            "timeZoneIndex": "America/New_York",
+            "timeZoneName": "EDT",
+            "timeOffsetToGMT": -240,
+            "isSetupComplete": false,
+            "isTestStarted": false,
+            "testStatus": null,
+            "responseRecoveryMode": false,
+            "multiDay": false,
+            "testPackageSeq": 1,
+            "testPackageCount": 1,
+            "testOverviewContentId": "",
+            "dependsOn": null,
+            "attemptNo": null,
+            "regNumber": null,
+            "features": "{\"oe007\":\"true\",\"ti004\":\"true\",\"wp008\":\"false\",\"xn002\":\"false\",\"zd009\":\"false\",\"uv009\":\"false\",\"ps006\":\"false\",\"qv002\":\"true\",\"pc006\":\"false\",\"lg001\":\"true\",\"mt009\":\"true\",\"ie001\":\"true\",\"qk006\":\"false\",\"lf008\":\"true\",\"fb000\":\"true\",\"dg001\":\"false\"}",
+            "examSettings": {
+              "audioInput": false,
+              "audioOutput": false,
+              "foreignLanguages": null,
+              "selectableLanguageContent": null
+            }
+          },
+          "removeDuplicateEvents": true
+        }
+      }
+    },
+    {
+      "t": 65716.69999999925,
+      "cat": "fetch",
+      "type": "request",
+      "data": {
+        "url": "https://bluebook.app.collegeboard.org/online.json",
+        "method": "GET",
+        "opName": null,
+        "body": null
+      }
+    },
+    {
+      "t": 65852.29999999981,
+      "cat": "fetch",
+      "type": "response",
+      "data": {
+        "url": "https://bluebook.app.collegeboard.org/online.json",
+        "opName": null,
+        "status": 200,
+        "dt": 136,
+        "body": null
+      }
+    },
+    {
+      "t": 65852.5,
+      "cat": "dispatch",
+      "type": "test-status/SET_CURRENT_TEST_STATUS",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "currentStatus": "Exam Setup Initiated"
+        }
+      }
+    },
+    {
+      "t": 65854.39999999944,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  mutation ExamCheckin($input: ExamCheckinInput!) {\\n    examCheckin(input: $input) {\\n      credentials {\\n        accessKey\\n        secretKey\\n        sessionToken\\n      }\\n      uploadEncryptionInfo {\\n        publicKey\\n        keyName\\n        keyNamespace\\n      }\\n      resultsPackage {\\n        resultsPkgBucket\\n        resultsPkgPath\\n        resultsPkgKmsArn\\n      }\\n    }\\n  }\\n\",\"variables\":{\"input\":{\"rosterEntryId\":\"fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e\"}},\"operatio"
+      }
+    },
+    {
+      "t": 65855.39999999944,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  query GetExamDownloadInfo($params: ExamDownloadInput!) {\\n    getExamDownloadInfo(params: $params) {\\n      statusCode\\n      testPackageInfo {\\n        testPkgSignedUrl\\n        testPkgHash\\n      }\\n      referenceSheets\\n    }\\n  }\\n\",\"variables\":{\"params\":{\"rosterEntryId\":\"fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e\"}},\"operationName\":\"GetExamDownloadInfo\"}"
+      }
+    },
+    {
+      "t": 66347.5,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 493
+      }
+    },
+    {
+      "t": 66347.69999999925,
+      "cat": "dispatch",
+      "type": "checkin-setup-info/STORE_EXAM_CHECKIN_INFO",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "examCheckinInfo": {
+            "credentials": {
+              "accessKey": "",
+              "secretKey": "",
+              "sessionToken": ""
+            },
+            "uploadEncryptionInfo": {
+              "publicKey": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAn0BkWP28qiD/+CEGosLs\nT7hr/hc2mPUSodN8D6OAolePLHCQJVwGeW90QqnmfGYufaRlfxSpz9qxodMLQUYd\nwsiJR3rvVbwDb73SfY2CMdBZSf/fqegZ+wSTnPGffhU7LQyb+h5P/cpXnU9ogeaB\nyyJU1bJnsQX1LmyDhaKw/lk9PLyqi9c2qTMxjSGsixsRdkCgcFWqqK9D4jfodBz6\n8WOh+D89rLJcJvOcvJrsgMvmoxCUUnvIp2NIG6X2uPsC9brxlQHwqoMFLvsIeklb\nLNpLb9rLVLU2lab3+dzyO45F4lote5AF2G0wwiJZnHfMjl0Fg+Q683lJJWbeJ6El\nCScqi7SHtXndgFw3yXOH7MrvD//6uEm7Zy3oUc3Ylm8z3k3om1xbDtQXA5O/wTsI\n2zswi7/tjrdUu29dtW//HtE+AVddFhrOhTSgkkguRc9CTp0Ld4GsKxslQO8wDIQ1\n/ogQxSYRQqHXIz9WgIH/i7ET3/ZP0aX71VuVeKSZcRTkkhnH3l7CDVtgHoXv0b/R\n5KiWUbBCNEb04jp/C50y8RMGapHdSX/2/5tA7wGbjIDW35vPED/nohW4O34FLxFw\nwotj4C1+jaodJMTrOnS83DNuraiiOTUKb0nj2zAz6gUnoynS7jlqpJB7q25pbAlG\nt2P4C4ElCMvunDfQBvCladcCAwEAAQ==\n-----END PUBLIC KEY-----\n",
+              "keyName": "media",
+              "keyNamespace": "dap"
+            },
+            "resultsPackage": {
+              "resultsPkgBucket": "cb-dappackaging-prod-results-packager-responses-prod",
+              "resultsPkgPath": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+              "resultsPkgKmsArn": "arn:aws:kms:us-east-1:877617646588:key/c27d80e0-a7b7-47ea-810e-b773c5931ea3"
+            }
+          }
+        }
+      }
+    },
+    {
+      "t": 66357.69999999925,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 502
+      }
+    },
+    {
+      "t": 66358.79999999981,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-testpackages-prod.collegeboard.org/fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e/encryptedDownload?timeNow=1781199246081&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9kYXAtdGVzdHBhY2thZ2VzLXByb2QuY29sbGVnZWJvYXJkLm9yZy9mcF8wNTRjMmVkMy1hMmM4LTRlMGUtYTVmZi0yNjRmNmE3M2FmNGUvZW5jcnlwdGVkRG",
+        "method": "GET",
+        "body": null
+      }
+    },
+    {
+      "t": 67862.29999999981,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-testpackages-prod.collegeboard.org/fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e/encryptedDownload?timeNow=1781199246081&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9kYXAtdGVzdHBhY2thZ2VzLXByb2QuY29sbGVnZWJvYXJkLm9yZy9mcF8wNTRjMmVkMy1hMmM4LTRlMGUtYTVmZi0yNjRmNmE3M2FmNGUvZW5jcnlwdGVkRG",
+        "status": 200,
+        "dt": 1504
+      }
+    },
+    {
+      "t": 67866.39999999944,
+      "cat": "fetch",
+      "type": "request",
+      "data": {
+        "url": "https://assets.app.collegeboard.org/refsheets/sat.html",
+        "method": "GET",
+        "opName": null,
+        "body": null
+      }
+    },
+    {
+      "t": 67867.79999999981,
+      "cat": "fetch",
+      "type": "response",
+      "data": {
+        "url": "https://assets.app.collegeboard.org/refsheets/sat.html",
+        "opName": null,
+        "status": 200,
+        "dt": 1,
+        "body": null
+      }
+    },
+    {
+      "t": 67874.39999999944,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  mutation SendTelemetry($input: [TelemetryItemInput!]!) {\\n    createTelemetryItem(input: $input) {\\n      statusCode\\n    }\\n  }\\n\",\"variables\":{\"input\":[{\"personId\":\"147960405\",\"deviceId\":\"f01db433-6381-4a96-beb1-9d6fdf2b3353-Strix\",\"rosterEntryId\":\"fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e\",\"telemetryType\":\"PACKAGE_DOWNLOAD\",\"telemetryEventTime\":\"2026-06-11T17:34:09.024Z\",\"payload\":\"{\\\"startTime\\\":\\\"2026-06-11T17:34:07.002Z\\\",\\\"endTime\\\":\\\"2026-06-11T17:34:09.023Z\\\",\\\"seconds\\\":2.0"
+      }
+    },
+    {
+      "t": 68384.39999999944,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 510
+      }
+    },
+    {
+      "t": 68384.59999999963,
+      "cat": "dispatch",
+      "type": "test-status/SET_CURRENT_TEST_STATUS",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "currentStatus": "Checkin Complete"
+        }
+      }
+    },
+    {
+      "t": 68388.79999999981,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 68390.79999999981,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 68393.59999999963,
+      "cat": "console",
+      "type": "log",
+      "data": [
+        "[redbook] switcher entered, CSS bytes:",
+        "10248"
+      ]
+    },
+    {
+      "t": 68394,
+      "cat": "console",
+      "type": "log",
+      "data": [
+        "[redbook] theme applied:",
+        "default"
+      ]
+    },
+    {
+      "t": 70919.39999999944,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 70919.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 71014.59999999963,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 71025.29999999981,
+      "cat": "console",
+      "type": "log",
+      "data": [
+        "[redbook] switcher entered, CSS bytes:",
+        "10248"
+      ]
+    },
+    {
+      "t": 71025.5,
+      "cat": "console",
+      "type": "log",
+      "data": [
+        "[redbook] theme applied:",
+        "default"
+      ]
+    },
+    {
+      "t": 71029.29999999981,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "exam-player-decrypt-failure-modal-container"
+      }
+    },
+    {
+      "t": 71029.29999999981,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "exam-player-reconnect-to-internet-modal-container hide-closer"
+      }
+    },
+    {
+      "t": 71029.29999999981,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "generic-exam-player-loader-spinner",
+        "testId": "",
+        "cls": "cb-spinner cb-spinner-light"
+      }
+    },
+    {
+      "t": 71029.5,
+      "cat": "fetch",
+      "type": "request",
+      "data": {
+        "url": "https://bluebook.app.collegeboard.org/online.json",
+        "method": "GET",
+        "opName": null,
+        "body": null
+      }
+    },
+    {
+      "t": 71166.79999999981,
+      "cat": "fetch",
+      "type": "response",
+      "data": {
+        "url": "https://bluebook.app.collegeboard.org/online.json",
+        "opName": null,
+        "status": 200,
+        "dt": 137,
+        "body": null
+      }
+    },
+    {
+      "t": 71167.5,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  mutation GetDecryptionDataWithStartCode($input: DecryptionDataInput!) {\\n    getPackageDecryptionData(input: $input) {\\n      statusCode\\n      decryptKeyHash\\n      iv\\n      startTime\\n      endTime\\n      decryptKey\\n      message\\n      publicKey\\n    }\\n  }\\n\",\"variables\":{\"input\":{\"rosterEntryId\":\"fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e\",\"deviceId\":\"f01db433-6381-4a96-beb1-9d6fdf2b3353-Strix\",\"startCode\":null}},\"operationName\":\"GetDecryptionDataWithStartCode\"}"
+      }
+    },
+    {
+      "t": 71770.59999999963,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 603
+      }
+    },
+    {
+      "t": 71770.89999999944,
+      "cat": "dispatch",
+      "type": "checkin-setup-info/UPDATE_RESPONSE_ENCRYPTION_KEY",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "key": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAn0BkWP28qiD/+CEGosLs\nT7hr/hc2mPUSodN8D6OAolePLHCQJVwGeW90QqnmfGYufaRlfxSpz9qxodMLQUYd\nwsiJR3rvVbwDb73SfY2CMdBZSf/fqegZ+wSTnPGffhU7LQyb+h5P/cpXnU9ogeaB\nyyJU1bJnsQX1LmyDhaKw/lk9PLyqi9c2qTMxjSGsixsRdkCgcFWqqK9D4jfodBz6\n8WOh+D89rLJcJvOcvJrsgMvmoxCUUnvIp2NIG6X2uPsC9brxlQHwqoMFLvsIeklb\nLNpLb9rLVLU2lab3+dzyO45F4lote5AF2G0wwiJZnHfMjl0Fg+Q683lJJWbeJ6El\nCScqi7SHtXndgFw3yXOH7MrvD//6uEm7Zy3oUc3Ylm8z3k3om1xbDtQXA5O/wTsI\n2zswi7/tjrdUu29dtW//HtE+AVddFhrOhTSgkkguRc9CTp0Ld4GsKxslQO8wDIQ1\n/ogQxSYRQqHXIz9WgIH/i7ET3/ZP0aX71VuVeKSZcRTkkhnH3l7CDVtgHoXv0b/R\n5KiWUbBCNEb04jp/C50y8RMGapHdSX/2/5tA7wGbjIDW35vPED/nohW4O34FLxFw\nwotj4C1+jaodJMTrOnS83DNuraiiOTUKb0nj2zAz6gUnoynS7jlqpJB7q25pbAlG\nt2P4C4ElCMvunDfQBvCladcCAwEAAQ==\n-----END PUBLIC KEY-----\n"
+        }
+      }
+    },
+    {
+      "t": 71779.79999999981,
+      "cat": "dispatch",
+      "type": "exam-player/LOAD_MANIFEST_SUCCESS",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "currentStep": {
+            "id": "waiting-room-start",
+            "sectionIndex": 0,
+            "type": 4,
+            "sectionId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+            "testPackageId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+            "sectionName": "Section 1, Module 1: Reading and Writing",
+            "displayNumber": "waiting-room-start",
+            "enablePrevious": false,
+            "enableNext": true,
+            "endOfChunk": false,
+            "startOfChunk": false,
+            "openDirectionsOnShow": false,
+            "enableAnnotationsTool": false,
+            "supportingDocumentLabel": "",
+            "stackedSteps": []
+          }
+        }
+      }
+    },
+    {
+      "t": 71780.89999999944,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "generic-exam-player-loader-spinner",
+        "testId": "",
+        "cls": "cb-spinner cb-spinner-light"
+      }
+    },
+    {
+      "t": 71781.09999999963,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  mutation SendTelemetry($input: [TelemetryItemInput!]!) {\\n    createTelemetryItem(input: $input) {\\n      statusCode\\n    }\\n  }\\n\",\"variables\":{\"input\":[{\"personId\":\"147960405\",\"deviceId\":\"f01db433-6381-4a96-beb1-9d6fdf2b3353-Strix\",\"rosterEntryId\":\"fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e\",\"telemetryType\":\"TEST_STARTED\",\"telemetryEventTime\":\"2026-06-11T17:34:12.930Z\",\"payload\":\"{\\\"type\\\":\\\"Full Length Practice\\\"}\"}]},\"operationName\":\"SendTelemetry\"}"
+      }
+    },
+    {
+      "t": 71784.29999999981,
+      "cat": "dispatch",
+      "type": "exam-player/UPDATE_CURRENT_STEP",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "newStep": {
+            "id": "c3041e74-888d-4548-a535-10d8e37be2ea-section-start",
+            "sectionIndex": 0,
+            "type": 0,
+            "sectionId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+            "testPackageId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+            "sectionName": "Section 1, Module 1: Reading and Writing",
+            "displayNumber": "section-start-bookend",
+            "lastQuestionDisplayNumber": "27",
+            "totalQuestionsInSection": 27,
+            "enablePrevious": false,
+            "enableNext": true,
+            "endOfChunk": false,
+            "startOfChunk": false,
+            "openDirectionsOnShow": false,
+            "enableAnnotationsTool": false,
+            "supportingDocumentLabel": "",
+            "stackedSteps": []
+          }
+        }
+      }
+    },
+    {
+      "t": 71785,
+      "cat": "dispatch",
+      "type": "exam-player/UPDATE_CURRENT_STEP",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "newStep": {
+            "id": "b98a0d0e-fcce-436b-a96a-055fa51bb7f8",
+            "chunkId": "a202f0bb-8194-4c9b-8f78-22a9197d4d92",
+            "sectionIndex": 0,
+            "type": 1,
+            "sectionId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+            "testPackageId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+            "sectionName": "Section 1, Module 1: Reading and Writing",
+            "displayNumber": "1",
+            "numberInSection": 1,
+            "lastQuestionDisplayNumber": "27",
+            "totalQuestionsInSection": 27,
+            "enablePrevious": false,
+            "enableNext": true,
+            "endOfChunk": true,
+            "startOfChunk": true,
+            "openDirectionsOnShow": true,
+            "enableAnnotationsTool": true,
+            "supportingDocumentLabel": "Source",
+            "stackedSteps": []
+          }
+        }
+      }
+    },
+    {
+      "t": 71786.69999999925,
+      "cat": "dispatch",
+      "type": "test-status/SET_CURRENT_TEST_STATUS",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "currentStatus": "Test in Progress"
+        }
+      }
+    },
+    {
+      "t": 71788.39999999944,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "generic-exam-player-loader-spinner",
+        "testId": "",
+        "cls": "cb-spinner cb-spinner-light"
+      }
+    },
+    {
+      "t": 71788.39999999944,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "generic-exam-player-loader-spinner",
+        "testId": "",
+        "cls": "cb-spinner cb-spinner-light"
+      }
+    },
+    {
+      "t": 71788.39999999944,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "generic-exam-player-loader-spinner",
+        "testId": "",
+        "cls": "cb-spinner cb-spinner-light"
+      }
+    },
+    {
+      "t": 71788.39999999944,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "generic-exam-player-loader-spinner",
+        "testId": "",
+        "cls": "cb-spinner cb-spinner-light"
+      }
+    },
+    {
+      "t": 71788.5,
+      "cat": "dispatch",
+      "type": "exam-player/CLEAR_GRACEFUL_EXIT",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e"
+        }
+      }
+    },
+    {
+      "t": 71789,
+      "cat": "dispatch",
+      "type": "exam-player/CLEAR_GRACEFUL_EXIT",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e"
+        }
+      }
+    },
+    {
+      "t": 71789.39999999944,
+      "cat": "fetch",
+      "type": "xhr-send",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "method": "POST",
+        "body": "{\"query\":\"\\n  mutation SendTelemetry($input: [TelemetryItemInput!]!) {\\n    createTelemetryItem(input: $input) {\\n      statusCode\\n    }\\n  }\\n\",\"variables\":{\"input\":[{\"personId\":\"147960405\",\"deviceId\":\"f01db433-6381-4a96-beb1-9d6fdf2b3353-Strix\",\"rosterEntryId\":\"fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e\",\"telemetryType\":\"SECTION_START_TIME\",\"telemetryEventTime\":\"2026-06-11T17:34:12.936Z\",\"payload\":\"{\\\"sectionId\\\":\\\"c3041e74-888d-4548-a535-10d8e37be2ea\\\",\\\"sectionName\\\":\\\"Section 1, Module 1: Rea"
+      }
+    },
+    {
+      "t": 71799,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 71799.39999999944,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 71799.59999999963,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 71800.09999999963,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "section-room display-flex flex-column cb-esat-exam"
+      }
+    },
+    {
+      "t": 71816.5,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-b98a0d0e-fcce-436b-a96a-055fa51bb7f8",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 71818,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-b98a0d0e-fcce-436b-a96a-055fa51bb7f8",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 71818.89999999944,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 71898.89999999944,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 71899.19999999925,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 71911,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 71911.19999999925,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 71943.19999999925,
+      "cat": "console",
+      "type": "info",
+      "data": [
+        "================= DEVICE INFO RETRIEVED",
+        "{\"currentTime\":1781198774089,\"timezone\":\"GMT+0500\",\"os\":{\"platform\":\"win32\",\"distro\":\"Microsoft Windows 11 Pro\",\"release\":\"10.0.26200\",\"arch\":\"ia32\",\"cpuManufacturer\":\"Intel(R)\",\"cpuBrand\":\"Core(TM) i5-14600K\",\"cpuModel\":\"183\",\"isVirtual\":false,\"virtualHost\":\"\",\"secureBoot\":true,\"driverSignaturesEnf…"
+      ]
+    },
+    {
+      "t": 71943.39999999944,
+      "cat": "bridge",
+      "type": "onDeviceInfoReceived",
+      "data": {
+        "currentTime": 1781198774089,
+        "timezone": "GMT+0500",
+        "os": {
+          "platform": "win32",
+          "distro": "Microsoft Windows 11 Pro",
+          "release": "10.0.26200",
+          "arch": "ia32",
+          "cpuManufacturer": "Intel(R)",
+          "cpuBrand": "Core(TM) i5-14600K",
+          "cpuModel": "183",
+          "isVirtual": false,
+          "virtualHost": "",
+          "secureBoot": true,
+          "driverSignaturesEnforced": true
+        },
+        "registryKeys": {
+          "appInitDLLs": "",
+          "loadAppInitDLLs": false
+        },
+        "memory": {
+          "total": 34059325440,
+          "free": 20203151360,
+          "available": 20203151360
+        },
+        "storage": {
+          "total": 4000662417408,
+          "available": 15161667584
+        },
+        "processes": [
+          "System Idle Process",
+          "System",
+          "Secure System",
+          "Registry",
+          "smss.exe",
+          "csrss.exe",
+          "wininit.exe",
+          "csrss.exe",
+          "services.exe",
+          "winlogon.exe",
+          "LsaIso.exe",
+          "lsass.exe",
+          "svchost.exe",
+          "fontdrvhost.exe",
+          "fontdrvhost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "dwm.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "IntelCpHDCPSvc.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "NVDisplay.Container.exe",
+          "svchost.exe",
+          "AsusCertService.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "Memory Compression",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "atkexComSvc.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "audiodg.exe",
+          "svchost.exe",
+          "NVDisplay.Container.exe",
+          "WmiPrvSE.exe",
+          "WmiPrvSE.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "NgcIso.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "spoolsv.exe",
+          "wlanext.exe",
+          "svchost.exe",
+          "DisplayWidgetService.exe",
+          "ArmouryCrate.Service.exe",
+          "nssm.exe",
+          "AnyDesk.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "DeepCoolDisplayService.exe",
+          "DSAService.exe",
+          "DSAUpdateService.exe",
+          "OfficeClickToRun.exe",
+          "LightKeeperService.exe",
+          "GameInputRedistService.exe",
+          "svchost.exe",
+          "jhi_service.exe",
+          "collector_service.exe",
+          "GameSDK.exe",
+          "svchost.exe",
+          "MonectServerService.exe",
+          "LightingService.exe",
+          "RzSDKService.exe",
+          "Mystic_Light_Service.exe",
+          "HapticService.exe",
+          "GameManagerService3.exe",
+          "MSI_Central_Service.exe",
+          "nvcontainer.exe",
+          "MSI_Case_Service.exe",
+          "RzDiagnosticService.exe",
+          "SurSvc.exe",
+          "RzSDKServer.exe",
+          "PresentMonService.exe",
+          "ROGLiveService.exe",
+          "MpDefenderCoreService.exe",
+          "GooglePlayGamesServices.exe",
+          "RtkAudUService64.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "vmnetdhcp.exe",
+          "vgc.exe",
+          "vmware-authd.exe",
+          "svchost.exe",
+          "vmnat.exe",
+          "WMIRegistrationService.exe",
+          "vmware-usbarbitrator64.exe",
+          "MsMpEng.exe",
+          "WindscribeService.exe",
+          "XtuService.exe",
+          "wslservice.exe",
+          "TeamViewer_Service.exe",
+          "RzAppManager",
+          "cowork-svc.exe",
+          "RzBTLEManager",
+          "gamingservicesnet.exe",
+          "RzChromaConnectManager",
+          "IntelGraphicsSoftware.Service.exe",
+          "gamingservices.exe",
+          "RzChromaConnectServer",
+          "RzDeviceManager",
+          "RzDeviceManagerEx",
+          "RzIoTDeviceManager",
+          "RzSmartlightingDeviceManager",
+          "RzWDLDeviceManager",
+          "MonectServer.exe",
+          "WmiPrvSE.exe",
+          "MSI.CentralServer.exe",
+          "conhost.exe",
+          "conhost.exe",
+          "conhost.exe",
+          "conhost.exe",
+          "conhost.exe",
+          "conhost.exe",
+          "conhost.exe",
+          "conhost.exe",
+          "conhost.exe",
+          "conhost.exe",
+          "deep_service.exe",
+          "AggregatorHost.exe",
+          "extensionCardHal_x86.exe",
+          "Aac3572DramHal_x86.exe",
+          "crashpad_handler.exe",
+          "crashpad_handler.exe",
+          "AacKingstonDramHal_x86.exe",
+          "telemetry_agent.exe",
+          "PresentMonService.exe",
+          "conhost.exe",
+          "svchost.exe",
+          "nvcontainer.exe",
+          "SearchIndexer.exe",
+          "svchost.exe",
+          "NisSrv.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "GameInputSvc.exe",
+          "GameInputSvc.exe",
+          "svchost.exe",
+          "C:\\Program Files\\Microsoft GameInput\\x64\\GameInputRedistService.exe",
+          "C:\\Program Files\\NVIDIA Corporation\\NvContainer\\nvcontainer.exe",
+          "C:\\Program Files\\NVIDIA Corporation\\NvContainer\\nvcontainer.exe",
+          "C:\\Windows\\system32\\sihost.exe",
+          "ArmouryCrate.UserSessionHelper.exe",
+          "conhost.exe",
+          "C:\\Windows\\system32\\svchost.exe",
+          "C:\\Windows\\system32\\svchost.exe",
+          "C:\\Windows\\system32\\svchost.exe",
+          "C:\\Windows\\system32\\svchost.exe",
+          "svchost.exe",
+          "C:\\Windows\\system32\\taskhostw.exe",
+          "LEDKeeper2.exe",
+          "svchost.exe",
+          "C:\\Windows\\System32\\ShellHost.exe",
+          "C:\\Program Files (x86)\\Intel\\Driver and Support Assistant\\x86\\DSATray.exe",
+          "svchost.exe",
+          "C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\CrossDeviceResume.exe",
+          "AcPowerNotification.exe",
+          "C:\\Windows\\system32\\svchost.exe",
+          "ArmourySocketServer.exe",
+          "C:\\Program Files\\WindowsApps\\MicrosoftWindows.Client.WebExperience_526.11701.40.0_x64__cw5n1h2txyewy\\Dashboard\\Widgets.exe",
+          "C:\\Windows\\System32\\RuntimeBroker.exe",
+          "C:\\Windows\\system32\\svchost.exe",
+          "nvsphelper64.exe",
+          "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe",
+          "C:\\Program Files\\WindowsApps\\Microsoft.WidgetsPlatformRuntime_1.6.18.0_x64__8wekyb3d8bbwe\\WidgetService\\WidgetService.exe",
+          "svchost.exe",
+          "C:\\Program Files\\WindowsApps\\B9ECED6F.ArmouryCrate_6.5.7.0_x64__qmba6cd70vzyy\\ArmouryCrate.exe",
+          "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe",
+          "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe",
+          "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe",
+          "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe",
+          "MSI.TerminalServer.exe",
+          "C:\\Users\\Evo\\AppData\\Local\\Discord\\app-1.0.9241\\Discord.exe",
+          "asus_framework.exe",
+          "C:\\Users\\Evo\\AppData\\Local\\Discord\\app-1.0.9241\\Discord.exe",
+          "C:\\Users\\Evo\\AppData\\Local\\Discord\\app-1.0.9241\\Discord.exe",
+          "C:\\Users\\Evo\\AppData\\Local\\Discord\\app-1.0.9241\\Discord.exe",
+          "C:\\Users\\Evo\\AppData\\Local\\Discord\\app-1.0.9241\\Discord.exe",
+          "C:\\Program Files\\WindowsApps\\Microsoft.YourPhone_1.26032.102.0_x64__8wekyb3d8bbwe\\PhoneExperienceHost.exe",
+          "C:\\Program Files (x86)\\ASUS\\ArmouryDevice\\asus_framework.exe",
+          "asus_framework.exe",
+          "C:\\Users\\Evo\\AppData\\Local\\Discord\\app-1.0.9241\\Discord.exe",
+          "CC_Engine_x64.exe",
+          "conhost.exe",
+          "C:\\Windows\\System32\\DriverStore\\FileRepository\\realtekservice.inf_amd64_31dd95d009763f70\\RtkAudUService64.exe",
+          "C:\\Program Files\\Riot Vanguard\\vgtray.exe",
+          "C:\\Users\\Evo\\AppData\\Local\\FluxSoftware\\Flux\\flux.exe",
+          "C:\\Program Files\\WindowsApps\\28017CharlesMilette.TranslucentTB_2026.1.0.0_x64__v826wp6bftszj\\TranslucentTB.exe",
+          "DiscordSystemHelper.exe",
+          "DiscordSystemHelper.exe",
+          "C:\\Windows\\System32\\RuntimeBroker.exe",
+          "C:\\Program Files (x86)\\Skillbrains\\lightshot\\5.5.0.7\\Lightshot.exe",
+          "MSI_LAN_Manager_Tool.exe",
+          "PowerModeWatcher.exe",
+          "conhost.exe",
+          "esrv_svc.exe",
+          "svchost.exe",
+          "RzChromaStreamServer.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.11321.0_x64__8wekyb3d8bbwe\\WindowsTerminal.exe",
+          "C:\\Windows\\system32\\ApplicationFrameHost.exe",
+          "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "C:\\Windows\\system32\\svchost.exe",
+          "C:\\Windows\\System32\\oobe\\UserOOBEBroker.exe",
+          "svchost.exe",
+          "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\149.0.4022.52\\msedgewebview2.exe",
+          "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\149.0.4022.52\\msedgewebview2.exe",
+          "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\149.0.4022.52\\msedgewebview2.exe",
+          "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\149.0.4022.52\\msedgewebview2.exe",
+          "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\149.0.4022.52\\msedgewebview2.exe",
+          "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\149.0.4022.52\\msedgewebview2.exe",
+          "C:\\Windows\\System32\\RuntimeBroker.exe",
+          "svchost.exe",
+          "SecurityHealthService.exe",
+          "conhost.exe",
+          "C:\\Program Files\\Intel\\SUR\\QUEENCREEK\\x64\\esrv.exe",
+          "C:\\Windows\\system32\\backgroundTaskHost.exe",
+          "C:\\Windows\\System32\\RuntimeBroker.exe",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\AppActions.exe",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "C:\\Program Files\\WindowsApps\\Microsoft.GamingApp_2605.1001.13.0_x64__8wekyb3d8bbwe\\XboxPcAppFT.exe",
+          "svchost.exe",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "svchost.exe",
+          "svchost.exe",
+          "C:\\Windows\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe",
+          "Taskmgr.exe",
+          "ctfmon.exe",
+          "WmiApSrv.exe",
+          "C:\\Windows\\explorer.exe",
+          "C:\\Windows\\SystemApps\\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\\StartMenuExperienceHost.exe",
+          "C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\SearchHost.exe",
+          "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\149.0.4022.62\\msedgewebview2.exe",
+          "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\149.0.4022.62\\msedgewebview2.exe",
+          "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\149.0.4022.62\\msedgewebview2.exe",
+          "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\149.0.4022.62\\msedgewebview2.exe",
+          "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\149.0.4022.62\\msedgewebview2.exe",
+          "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\149.0.4022.62\\msedgewebview2.exe",
+          "C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\TextInputHost.exe",
+          "C:\\Windows\\explorer.exe",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "C:\\Windows\\system32\\cmd.exe",
+          "C:\\Windows\\system32\\conhost.exe",
+          "C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.11321.0_x64__8wekyb3d8bbwe\\OpenConsole.exe",
+          "C:\\Users\\Evo\\.local\\bin\\claude.exe",
+          "C:\\Windows\\system32\\cmd.exe",
+          "C:\\Windows\\system32\\conhost.exe",
+          "C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.11321.0_x64__8wekyb3d8bbwe\\OpenConsole.exe",
+          "C:\\Program Files\\nodejs\\node.exe",
+          "F:\\app_extracted\\node_modules\\electron\\dist\\electron.exe",
+          "F:\\app_extracted\\node_modules\\electron\\dist\\electron.exe",
+          "F:\\app_extracted\\node_modules\\electron\\dist\\electron.exe",
+          "F:\\app_extracted\\node_modules\\electron\\dist\\electron.exe",
+          "F:\\app_extracted\\node_modules\\electron\\dist\\electron.exe",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "svchost.exe",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+        ],
+        "wifi": [],
+        "resolution": [
+          {
+            "main": true,
+            "sizex": 59,
+            "sizey": 33,
+            "resolutionx": 2560,
+            "resolutiony": 1440,
+            "maxresolutionx": 2560,
+            "maxresolutiony": 1440,
+            "connection": "DP"
+          },
+          {
+            "main": false,
+            "sizex": 53,
+            "sizey": 30,
+            "resolutionx": 1080,
+            "resolutiony": 1920,
+            "maxresolutionx": 1080,
+            "maxresolutiony": 1920,
+            "connection": "DP"
+          }
+        ],
+        "displayTopology": {
+          "nsAdapterPresent": false,
+          "nsAdapterConnected": false,
+          "adapters": [
+            {
+              "adapterDeviceId": "PCI\\VEN_10DE&DEV_2504&SUBSYS_397D1462&REV_A1",
+              "adapterDesc": "NVIDIA GeForce RTX 3060",
+              "displays": [
+                {
+                  "displayDeviceId": "\\\\?\\DISPLAY#AUS24B3#5&b518098&0&UID4353#{e6f07b5f-ee97-4a90-b076-33f57bf4eaa7}",
+                  "qdAdapter": "\\\\?\\PCI#VEN_10DE&DEV_2504&SUBSYS_397D1462&REV_A1#4&375498b8&0&0008#{5b45201d-f2f2-4f3b-85bb-30ff1f953599}",
+                  "qdDesc": "XG248Q"
+                }
+              ]
+            },
+            {
+              "adapterDeviceId": "PCI\\VEN_10DE&DEV_2504&SUBSYS_397D1462&REV_A1",
+              "adapterDesc": "NVIDIA GeForce RTX 3060",
+              "displays": [
+                {
+                  "displayDeviceId": "\\\\?\\DISPLAY#AUS27F2#5&b518098&0&UID4355#{e6f07b5f-ee97-4a90-b076-33f57bf4eaa7}",
+                  "qdAdapter": "\\\\?\\PCI#VEN_10DE&DEV_2504&SUBSYS_397D1462&REV_A1#4&375498b8&0&0008#{5b45201d-f2f2-4f3b-85bb-30ff1f953599}",
+                  "qdDesc": "XG27AQDMG"
+                }
+              ]
+            },
+            {
+              "adapterDeviceId": "PCI\\VEN_8086&DEV_A780&SUBSYS_7D911462&REV_04",
+              "adapterDesc": "Intel(R) UHD Graphics 770",
+              "displays": []
+            }
+          ]
+        },
+        "disks": [
+          {
+            "diskType": "NTFS",
+            "diskSize": 1999565221888,
+            "diskMount": "C:",
+            "diskUsedBytes": 1976040353792,
+            "diskAvailableBytes": 23524868096,
+            "diskUsedPercent": 98.82
+          },
+          {
+            "diskType": "NTFS",
+            "diskSize": 524283904,
+            "diskMount": "D:",
+            "diskUsedBytes": 18931712,
+            "diskAvailableBytes": 505352192,
+            "diskUsedPercent": 3.61
+          },
+          {
+            "diskType": "NTFS",
+            "diskSize": 512107737088,
+            "diskMount": "E:",
+            "diskUsedBytes": 367035293696,
+            "diskAvailableBytes": 145072443392,
+            "diskUsedPercent": 71.67
+          },
+          {
+            "diskType": "NTFS",
+            "diskSize": 4000662417408,
+            "diskMount": "F:",
+            "diskUsedBytes": 3985500749824,
+            "diskAvailableBytes": 15161667584,
+            "diskUsedPercent": 99.62
+          },
+          {
+            "diskType": "NTFS",
+            "diskSize": 499580399616,
+            "diskMount": "G:",
+            "diskUsedBytes": 173391917056,
+            "diskAvailableBytes": 326188482560,
+            "diskUsedPercent": 34.71
+          }
+        ],
+        "loadedDLLs": [
+          {
+            "path": "\\\\?\\c:\\users\\evo\\appdata\\local\\temp\\dd7bc394-20bb-4f04-8e9d-faf9796951da.tmp.node"
+          },
+          {
+            "path": "\\\\?\\c:\\users\\evo\\appdata\\local\\temp\\1e93d547-5a25-4f46-b09c-80l8ebc0f328.tmp.node"
+          },
+          {
+            "path": "c:\\programdata\\microsoft\\windows defender\\platform\\4.18.26050.15-0\\x86\\mpoav.dll"
+          },
+          {
+            "path": "c:\\users\\evo\\appdata\\local\\temp\\3ec356e7-c1c9-4f3c-93ad-2fa314cdae8f.tmp.node"
+          },
+          {
+            "path": "c:\\users\\evo\\appdata\\local\\temp\\651fdc5e-58ae-422c-bef9-b2fadf28d1e4.tmp.node"
+          },
+          {
+            "path": "c:\\windows\\globalization\\els\\spelldictionaries\\mssp7en-us.lex"
+          },
+          {
+            "path": "c:\\windows\\system32\\advapi32.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\amsi.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\atlthunk.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\bcp47langs.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\bcryptprimitives.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\cfgmgr32.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\clbcatq.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\combase.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\coremessaging.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\coreuicomponents.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\crypt32.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\cryptbase.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\cryptsp.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\dataexchange.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\devobj.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\dhcpcsvc.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\dhcpcsvc6.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\directmanipulation.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\dnsapi.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\dpapi.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\dsparse.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\dwmapi.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\dwrite.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\edputil.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\explorerframe.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\gdi32.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\gdi32full.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\gpapi.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\imm32.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\inputhost.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\iphlpapi.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\kernel.appcore.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\kernel32.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\kernelbase.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\mmdevapi.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\mobilenetworking.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\msasn1.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\mscms.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\msctf.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\msspellcheckingfacility.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\msvcp_win.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\msvcrt.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\mswsock.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\napinsp.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\netprofm.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\nlansp_c.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\npmproxy.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\nsi.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\ntdll.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\ntmarta.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\ole32.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\oleacc.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\oleaut32.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\onecoreuapcommonproxystub.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\powrprof.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\profapi.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\rpcrt4.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\rsaenh.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\sechost.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\secur32.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\shcore.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\shell32.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\shlwapi.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\speech\\common\\sapi.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\sspicli.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\textinputframework.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\twinapi.appcore.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\twinapi.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\ucrtbase.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\umpdc.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\user32.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\userenv.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\uxtheme.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\version.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\wbem\\fastprox.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\wbem\\wbemprox.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\wbem\\wbemsvc.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\wbemcomn.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\win32u.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\windows.globalization.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\windows.storage.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\windows.ui.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\windows.ui.immersive.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\windowscodecs.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\winhttp.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\winmm.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\winrnr.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\winspool.drv"
+          },
+          {
+            "path": "c:\\windows\\system32\\winsta.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\wintrust.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\wintypes.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\wlanapi.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\ws2_32.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\wshbth.dll"
+          },
+          {
+            "path": "c:\\windows\\system32\\wtsapi32.dll"
+          },
+          {
+            "path": "c:\\windows\\winsxs\\x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.26100.8521_none_85b5ee33f7b02cb9\\comctl32.dll"
+          },
+          {
+            "path": "f:\\app_extracted\\node_modules\\electron\\dist\\electron.exe"
+          },
+          {
+            "path": "kernel32.dll"
+          },
+          {
+            "path": "oleaccrc.dll"
+          }
+        ]
+      }
+    },
+    {
+      "t": 72294.39999999944,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 513
+      }
+    },
+    {
+      "t": 72298,
+      "cat": "fetch",
+      "type": "xhr-done",
+      "data": {
+        "url": "https://dap-mc2-graphql-us-east-1.collegeboard.org/graphql",
+        "status": 200,
+        "dt": 509
+      }
+    },
+    {
+      "t": 72298.19999999925,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_START",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "durationInMinutes": 32
+        }
+      }
+    },
+    {
+      "t": 73168.09999999963,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 73168.29999999981,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 73249.29999999981,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 73353.79999999981,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 76800.39999999944,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1914999.7000000002
+        }
+      }
+    },
+    {
+      "t": 81804.39999999944,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1910000
+        }
+      }
+    },
+    {
+      "t": 86800.09999999963,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1904999.6000000006
+        }
+      }
+    },
+    {
+      "t": 91800.19999999925,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1899998.2000000002
+        }
+      }
+    },
+    {
+      "t": 96800.09999999963,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1894997
+        }
+      }
+    },
+    {
+      "t": 101800.59999999963,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1889999.6000000006
+        }
+      }
+    },
+    {
+      "t": 106800.5,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1884998.6000000006
+        }
+      }
+    },
+    {
+      "t": 111804.59999999963,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1879999.7999999998
+        }
+      }
+    },
+    {
+      "t": 116800.19999999925,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1874998
+        }
+      }
+    },
+    {
+      "t": 121800.19999999925,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1869999.9000000004
+        }
+      }
+    },
+    {
+      "t": 126802.09999999963,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1864996.2000000002
+        }
+      }
+    },
+    {
+      "t": 131801.19999999925,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1859999.7999999998
+        }
+      }
+    },
+    {
+      "t": 136801.39999999944,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1854999.9000000004
+        }
+      }
+    },
+    {
+      "t": 141801.2999999998,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1849998.4000000004
+        }
+      }
+    },
+    {
+      "t": 146632.69999999925,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 146632.89999999944,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 146715.5,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_QUESTION_ATTEMPT",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "sectionId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "questionId": "b98a0d0e-fcce-436b-a96a-055fa51bb7f8",
+          "isAnswered": true
+        }
+      }
+    },
+    {
+      "t": 146800.89999999944,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1844997.2999999998
+        }
+      }
+    },
+    {
+      "t": 148284.2999999998,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 148284.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 148357.2999999998,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 148357.69999999925,
+      "cat": "dispatch",
+      "type": "exam-player/UPDATE_CURRENT_STEP",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "newStep": {
+            "id": "946c95f9-9700-48ae-bab0-7aac01a28574",
+            "chunkId": "517a93a5-e14f-4bc5-bebc-57881977d452",
+            "sectionIndex": 0,
+            "type": 1,
+            "sectionId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+            "testPackageId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+            "sectionName": "Section 1, Module 1: Reading and Writing",
+            "displayNumber": "2",
+            "numberInSection": 2,
+            "lastQuestionDisplayNumber": "27",
+            "totalQuestionsInSection": 27,
+            "enablePrevious": true,
+            "enableNext": true,
+            "endOfChunk": true,
+            "startOfChunk": true,
+            "openDirectionsOnShow": true,
+            "enableAnnotationsTool": true,
+            "supportingDocumentLabel": "Source",
+            "stackedSteps": []
+          }
+        }
+      }
+    },
+    {
+      "t": 148360.19999999925,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 148365,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-946c95f9-9700-48ae-bab0-7aac01a28574",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 148366.19999999925,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-946c95f9-9700-48ae-bab0-7aac01a28574",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 148366.7999999998,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 148462,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 148970.19999999925,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 148970.2999999998,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 149038,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_QUESTION_ATTEMPT",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "sectionId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "questionId": "946c95f9-9700-48ae-bab0-7aac01a28574",
+          "isAnswered": true
+        }
+      }
+    },
+    {
+      "t": 150335.2999999998,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 150335.39999999944,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 150420.19999999925,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 150420.2999999998,
+      "cat": "dispatch",
+      "type": "exam-player/UPDATE_CURRENT_STEP",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "newStep": {
+            "id": "9ad9ff2e-ede3-4394-a21c-48fe7f05d472",
+            "chunkId": "d983ddfe-7e57-4760-9dfc-03df3440e53e",
+            "sectionIndex": 0,
+            "type": 1,
+            "sectionId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+            "testPackageId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+            "sectionName": "Section 1, Module 1: Reading and Writing",
+            "displayNumber": "3",
+            "numberInSection": 3,
+            "lastQuestionDisplayNumber": "27",
+            "totalQuestionsInSection": 27,
+            "enablePrevious": true,
+            "enableNext": true,
+            "endOfChunk": true,
+            "startOfChunk": true,
+            "openDirectionsOnShow": true,
+            "enableAnnotationsTool": true,
+            "supportingDocumentLabel": "Source",
+            "stackedSteps": []
+          }
+        }
+      }
+    },
+    {
+      "t": 150422.09999999963,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 150426.89999999944,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-9ad9ff2e-ede3-4394-a21c-48fe7f05d472",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 150427.7999999998,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-9ad9ff2e-ede3-4394-a21c-48fe7f05d472",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 150428.39999999944,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 150524.39999999944,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 150913.09999999963,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 150913.2999999998,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 151206.19999999925,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 151206.39999999944,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 151291.09999999963,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_QUESTION_ATTEMPT",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "sectionId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "questionId": "9ad9ff2e-ede3-4394-a21c-48fe7f05d472",
+          "isAnswered": true
+        }
+      }
+    },
+    {
+      "t": 151800.19999999925,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1839995.4000000004
+        }
+      }
+    },
+    {
+      "t": 152205.39999999944,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 152205.59999999963,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 152278.19999999925,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 152278.2999999998,
+      "cat": "dispatch",
+      "type": "exam-player/UPDATE_CURRENT_STEP",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "newStep": {
+            "id": "a6288ecc-552e-4c90-9067-f4f52f1529fa",
+            "chunkId": "318adeb0-eb52-4918-a833-37165eb7640e",
+            "sectionIndex": 0,
+            "type": 1,
+            "sectionId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+            "testPackageId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+            "sectionName": "Section 1, Module 1: Reading and Writing",
+            "displayNumber": "4",
+            "numberInSection": 4,
+            "lastQuestionDisplayNumber": "27",
+            "totalQuestionsInSection": 27,
+            "enablePrevious": true,
+            "enableNext": true,
+            "endOfChunk": true,
+            "startOfChunk": true,
+            "openDirectionsOnShow": true,
+            "enableAnnotationsTool": true,
+            "supportingDocumentLabel": "Source",
+            "stackedSteps": []
+          }
+        }
+      }
+    },
+    {
+      "t": 152280.09999999963,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 152284.89999999944,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-a6288ecc-552e-4c90-9067-f4f52f1529fa",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 152285.7999999998,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-a6288ecc-552e-4c90-9067-f4f52f1529fa",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 152286.5,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 152383.09999999963,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 152828.19999999925,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 152828.2999999998,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 152904.59999999963,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_QUESTION_ATTEMPT",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "sectionId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "questionId": "a6288ecc-552e-4c90-9067-f4f52f1529fa",
+          "isAnswered": true
+        }
+      }
+    },
+    {
+      "t": 154044.2999999998,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 154044.39999999944,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 154110.09999999963,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 154110.19999999925,
+      "cat": "dispatch",
+      "type": "exam-player/UPDATE_CURRENT_STEP",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "newStep": {
+            "id": "d3313eb6-7c32-46f8-8f87-c60b888441b2",
+            "chunkId": "133a3768-bb60-4f10-97e2-b5cc7433f7b0",
+            "sectionIndex": 0,
+            "type": 1,
+            "sectionId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+            "testPackageId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+            "sectionName": "Section 1, Module 1: Reading and Writing",
+            "displayNumber": "5",
+            "numberInSection": 5,
+            "lastQuestionDisplayNumber": "27",
+            "totalQuestionsInSection": 27,
+            "enablePrevious": true,
+            "enableNext": true,
+            "endOfChunk": true,
+            "startOfChunk": true,
+            "openDirectionsOnShow": true,
+            "enableAnnotationsTool": true,
+            "supportingDocumentLabel": "Source",
+            "stackedSteps": []
+          }
+        }
+      }
+    },
+    {
+      "t": 154112,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 154116.39999999944,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-d3313eb6-7c32-46f8-8f87-c60b888441b2",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 154117.2999999998,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-d3313eb6-7c32-46f8-8f87-c60b888441b2",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 154117.89999999944,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 154216.5,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 154526.09999999963,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 154526.19999999925,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 154604.5,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_QUESTION_ATTEMPT",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "sectionId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "questionId": "d3313eb6-7c32-46f8-8f87-c60b888441b2",
+          "isAnswered": true
+        }
+      }
+    },
+    {
+      "t": 156754.59999999963,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 156754.7999999998,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 156800.5,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1834999.4000000004
+        }
+      }
+    },
+    {
+      "t": 156864.19999999925,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "defaultMJXA11y",
+        "valuePreview": "true"
+      }
+    },
+    {
+      "t": 156864.2999999998,
+      "cat": "dispatch",
+      "type": "exam-player/UPDATE_CURRENT_STEP",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "newStep": {
+            "id": "e2e7c895-f662-4817-97ea-f9b172ff3e81",
+            "chunkId": "affcf34c-0ace-4d48-8703-bc5283b2595d",
+            "sectionIndex": 0,
+            "type": 1,
+            "sectionId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+            "testPackageId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+            "sectionName": "Section 1, Module 1: Reading and Writing",
+            "displayNumber": "6",
+            "numberInSection": 6,
+            "lastQuestionDisplayNumber": "27",
+            "totalQuestionsInSection": 27,
+            "enablePrevious": true,
+            "enableNext": true,
+            "endOfChunk": true,
+            "startOfChunk": true,
+            "openDirectionsOnShow": true,
+            "enableAnnotationsTool": true,
+            "supportingDocumentLabel": "Source",
+            "stackedSteps": []
+          }
+        }
+      }
+    },
+    {
+      "t": 156866,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 156869.59999999963,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-e2e7c895-f662-4817-97ea-f9b172ff3e81",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 156870.5,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-e2e7c895-f662-4817-97ea-f9b172ff3e81",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 156871,
+      "cat": "dom",
+      "type": "mount",
+      "data": {
+        "tag": "DIV",
+        "id": "",
+        "testId": "",
+        "cls": "cb-exam-question-container"
+      }
+    },
+    {
+      "t": 156968.19999999925,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 157333.19999999925,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 157333.2999999998,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 1291,
+          "h": 911,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 161022,
+      "cat": "fetch",
+      "type": "request",
+      "data": {
+        "url": "https://dap-mc2-bootstrap.collegeboard.org/saveState",
+        "method": "POST",
+        "opName": null,
+        "body": "[non-string body: Blob]"
+      }
+    },
+    {
+      "t": 161629.39999999944,
+      "cat": "fetch",
+      "type": "response",
+      "data": {
+        "url": "https://dap-mc2-bootstrap.collegeboard.org/saveState",
+        "opName": null,
+        "status": 200,
+        "dt": 607,
+        "body": null
+      }
+    },
+    {
+      "t": 161800.19999999925,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1829999.4000000004
+        }
+      }
+    },
+    {
+      "t": 166804.69999999925,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1824996.9000000004
+        }
+      }
+    },
+    {
+      "t": 171800.89999999944,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1820000
+        }
+      }
+    },
+    {
+      "t": 176803.59999999963,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1814998.7999999998
+        }
+      }
+    },
+    {
+      "t": 181800.7999999998,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1810000.1000000006
+        }
+      }
+    },
+    {
+      "t": 186801.19999999925,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1804998.4000000004
+        }
+      }
+    },
+    {
+      "t": 191017.7999999998,
+      "cat": "window",
+      "type": "resize",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1369,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 191021.2999999998,
+      "cat": "storage",
+      "type": "sessionStorage",
+      "data": {
+        "key": "splitter-state-key-e2e7c895-f662-4817-97ea-f9b172ff3e81",
+        "valuePreview": "[50,50]"
+      }
+    },
+    {
+      "t": 191800.89999999944,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1799998.2999999998
+        }
+      }
+    },
+    {
+      "t": 196800.69999999925,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1794998.5
+        }
+      }
+    },
+    {
+      "t": 201802.09999999963,
+      "cat": "dispatch",
+      "type": "exam-player/RECORD_EXAM_UNIT_PULSE",
+      "data": {
+        "payload": {
+          "rosterEntryId": "fp_054c2ed3-a2c8-4e0e-a5ff-264f6a73af4e",
+          "unitId": "c3041e74-888d-4548-a535-10d8e37be2ea",
+          "remainingTime": 1789999.9000000004
+        }
+      }
+    },
+    {
+      "t": 204548.5,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1369,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 204548.7999999998,
+      "cat": "window",
+      "type": "focus",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1369,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    },
+    {
+      "t": 204649.09999999963,
+      "cat": "window",
+      "type": "blur",
+      "data": {
+        "vis": "visible",
+        "hasFocus": true,
+        "size": {
+          "w": 2560,
+          "h": 1369,
+          "sw": 2560,
+          "sh": 1440
+        }
+      }
+    }
+  ]
+}
