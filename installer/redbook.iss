@@ -53,7 +53,7 @@ Name: "{userdesktop}\Redbook"; Filename: "{app}\Redbook.exe"; WorkingDir: "{app}
 
 [Run]
 ; Download Electron + locate app.asar (visible PS window so user sees download progress)
-Filename: "powershell.exe"; Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{tmp}\install_helpers.ps1"" ""{app}"""; StatusMsg: "Downloading Electron runtime (~65MB) and locating Bluebook..."; Flags: waituntilterminated
+Filename: "{sys}\WindowsPowerShell\v1.0\powershell.exe"; Parameters: "-NoProfile -NonInteractive -ExecutionPolicy Bypass -File ""{tmp}\install_helpers.ps1"" ""{app}"""; StatusMsg: "Downloading Electron runtime and configuring Redbook..."; Flags: waituntilterminated
 
 ; Option to launch after install
 Filename: "{app}\Redbook.exe"; Description: "Launch Redbook"; Flags: postinstall skipifsilent nowait
