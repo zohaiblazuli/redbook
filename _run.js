@@ -1365,14 +1365,30 @@ app.on('ready', () => {
 
 // ── Load the bundle ───────────────────────────────────────────────────────────
 const asarPath = path.join(__dirname, 'resources', 'app.asar');
-app.setAppPath(asarPath);
-log('setAppPath:', asarPath);
 
-log('require start');
-try {
-  require(path.join(asarPath, 'main', 'index.js'));
-  log('require returned');
-} catch (e) {
-  log('require threw', e && e.stack);
+if (!fs.existsSync(asarPath)) {
+  log('FATAL: app.asar not found at', asarPath);
+  app.whenReady().then(() => {
+    dialog.showMessageBoxSync({
+      type: 'error',
+      title: 'Redbook — Bluebook Not Found',
+      message: 'app.asar is missing.',
+      detail: `Redbook needs Bluebook's app.asar to run.\n\nExpected location:\n${asarPath}\n\nEither:\n  1. Install Bluebook from collegeboard.org, then re-run RedbookSetup.exe\n  2. Manually copy app.asar into:\n     ${path.dirname(asarPath)}`,
+      buttons: ['OK']
+    });
+    _allowExit = true;
+    app.quit();
+  });
+} else {
+  app.setAppPath(asarPath);
+  log('setAppPath:', asarPath);
+
+  log('require start');
+  try {
+    require(path.join(asarPath, 'main', 'index.js'));
+    log('require returned');
+  } catch (e) {
+    log('require threw', e && e.stack);
+  }
+  log('waiting');
 }
-log('waiting');

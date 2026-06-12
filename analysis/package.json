@@ -12,6 +12,6 @@
     "win-verify-signature": "1.7.0"
   },
   "devDependencies": {
-    "electron": "^39.0.0"
+    "electron": "^39.8.10"
   }
 }

@@ -1,4 +1,4 @@
-[2026-06-12T06:49:19.412Z] run v2
+[2026-06-12T10:17:41.656Z] run v2
 selfHealingCallbackFunction locked
 setAppPath: G:\redbook\resources\app.asar
 require start
@@ -10,91 +10,11 @@ browser-window-created id= 1
 forced show
 ready-to-show
 did-finish-load app://dap-electron.collegeboard.org/
-mods injected (224194 bytes)
-mods injected (224194 bytes)
-mods injected (224194 bytes)
-Insert hotkey fired
-clipboard bypass enabled
-AI view created, partition=persist:redbook-ai url=https://gemini.google.com/app
-skin bg: rgb(50, 77, 199)
-AI did-finish-load
-skin bg: rgb(50, 77, 199)
-fade: fade active
-fade: already active
-drag: already active
-Insert hotkey fired
-AI hotkey fired
-AI view shown
-ready-to-show
-AI hotkey fired
-AI view hidden
-AI hotkey fired
-AI view shown
-skin bg: rgb(50, 77, 199)
-fade: already active
-clipboard: BLOCKED clear() call
-Insert hotkey fired
-AI view hidden
-AI view closed
-Insert hotkey fired
-Insert hotkey fired
-browser-window-created id= 2
-forced show
-clipboard: BLOCKED clear() call
-clipboard: BLOCKED clear() call
+mods injected (224471 bytes)
+mods injected (224471 bytes)
+mods injected (224471 bytes)
 Insert hotkey fired
 Insert hotkey fired
 Insert hotkey fired
-Insert hotkey fired
-Insert hotkey fired
-Insert hotkey fired
-AI view created, partition=persist:redbook-ai url=https://gemini.google.com/app
-Insert hotkey fired
-skin bg: rgb(50, 77, 199)
-AI did-finish-load
-skin bg: rgb(50, 77, 199)
-fade: fade active
-fade: already active
-drag: already active
-AI hotkey fired
-AI view shown
-ready-to-show
-AI hotkey fired
-AI view hidden
-skin bg sync: rgb(255, 255, 255)
-clipboard: BLOCKED clear() call
-mods injected (224194 bytes)
-skin bg sync: rgb(250, 250, 250)
-mods injected (224194 bytes)
-skin bg sync: #f8f9fa
-skin bg sync: rgb(250, 250, 250)
-mods injected (224194 bytes)
-mods injected (224194 bytes)
-clipboard: BLOCKED clear() call
-skin bg sync: rgb(0, 0, 0)
-skin bg sync: rgb(255, 255, 255)
-AI hotkey fired
-AI view shown
-clipboard: Ctrl+C detected
-clipboard: c active=DIV.highlightable shared-stimulus dap_body p text="In the early 1800s, the Cherokee scholar Sequoyah created th" selType=Range
-clipboard: stored 356 chars in buffer + system clipboard
-clipboard: Ctrl+C detected
-clipboard: c active=DIV.highlightable shared-stimulus dap_body p text="In the early 1800s, the Cherokee scholar Sequoyah created th" selType=Range
-clipboard: stored 356 chars in buffer + system clipboard
-clipboard: BLOCKED clear() call
-skin bg: rgb(255, 255, 255)
-fade: already active
-clipboard: BLOCKED clear() call
-clipboard: BLOCKED clear() call
-AI hotkey fired
-AI view hidden
-Insert hotkey fired
-Insert hotkey fired
-Insert hotkey fired
-Insert hotkey fired
-Insert hotkey fired
-clipboard: BLOCKED clear() call
-clipboard: BLOCKED clear() call
 Insert hotkey fired
 [blocked] app.quit() |     at app.quit (G:\redbook\_run.js:44:80) |     at EventEmitter.<anonymous> (node:electron/js2c/browser_init:2:141376)
-skin bg sync: #f8f9fa
