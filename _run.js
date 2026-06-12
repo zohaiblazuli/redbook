@@ -1009,6 +1009,14 @@ async function handleIpcCommand(cmd, args) {
       return lines.slice(-n).join('\n');
     }
 
+    case 'version': {
+      try {
+        return JSON.parse(fs.readFileSync(path.join(__dirname, 'version.json'), 'utf8'));
+      } catch (_) {
+        return { version: '0.0.0', electron: '?' };
+      }
+    }
+
     case 'shell.openPath': {
       await shell.openPath(args.path);
       return { ok: true };

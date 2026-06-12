@@ -1,0 +1,14 @@
+{
+  "FixedFileInfo": {
+    "FileVersion": { "Major": 0, "Minor": 9, "Patch": 7, "Build": 0 },
+    "ProductVersion": { "Major": 0, "Minor": 9, "Patch": 7, "Build": 0 }
+  },
+  "StringFileInfo": {
+    "FileDescription": "Redbook Launcher",
+    "ProductName": "Redbook",
+    "CompanyName": "",
+    "InternalName": "redbook",
+    "OriginalFilename": "Redbook.exe"
+  },
+  "IconPath": "logo.ico"
+}

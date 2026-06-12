@@ -520,9 +520,12 @@ function initDevPanel() {
   let history = [];
   let historyIdx = -1;
   let denseMode = false;
+  let rbVersion = { version: '0.0.0', electron: '?' };
   try { identity = localStorage.getItem(IDENTITY_KEY) || ''; } catch (_) {}
   try { history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch (_) { history = []; }
   try { denseMode = localStorage.getItem(DENSE_KEY) === '1'; } catch (_) {}
+  // Fetch version metadata asynchronously (banner will repaint when ready)
+  rbIpc('version').then(v => { if (v && v.version) rbVersion = v; }).catch(() => {});
 
   // ─── Window rect persistence ──────────────────────────────────────────────
   function loadRect() {
@@ -662,7 +665,7 @@ function initDevPanel() {
       `<span style="color:${bannerColors[i]}">${_esc(ln)}</span>`
     ).join('\n');
     con.raw(`<pre class="banner">${coloredLines}</pre>`);
-    con.raw(`<span class="dim">              v0.9.6 console · bluebook ${_esc(verBb)}</span>`);
+    con.raw(`<span class="dim">              v${_esc(rbVersion.version)} console · bluebook ${_esc(verBb)}</span>`);
     con.blank();
     if (identity) {
       showProviderSelect();
@@ -1329,7 +1332,8 @@ function initDevPanel() {
 
   registerCommand('version', () => {
     con.printKV([
-      ['redbook console', '0.9.6'],
+      ['redbook',         'v' + rbVersion.version, 'ok'],
+      ['electron',        'v' + rbVersion.electron],
       ['bluebook',        bridge()?.obj?.version || '(unknown)'],
       ['bridge',          bridge() ? 'window.' + bridge().key : '(not detected)'],
       ['user agent',      navigator.userAgent.match(/Electron\/[^ ]+/)?.[0] || navigator.userAgent.slice(0, 50)],

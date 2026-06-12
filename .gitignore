@@ -31,6 +31,14 @@ mods/sessions/*
 !mods/sessions/.gitkeep
 mods/recordings/*.json
 
+# ── Installer build artifacts ────────────────────────────
+installer/Output/
+installer/*.syso
+installer/*.o
+installer/logo.ico
+installer/gcc_err.txt
+installer/gcc_out.txt
+
 # ── OS / editor junk ─────────────────────────────────────
 Thumbs.db
 Desktop.ini
