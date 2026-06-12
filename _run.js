@@ -113,21 +113,579 @@ let _mainWin = null;
 let _aiView = null;
 let _aiViewVisible = false;
 const AI_PARTITION = 'persist:redbook-ai';
-const AI_VIEW_W = 480;
-const AI_VIEW_H = 700;
-const AI_VIEW_MARGIN = 20;
+const AI_VIEW_W = 520;
+const AI_VIEW_H = 800;
+const AI_VIEW_MARGIN = 12;
+
+let _aiSkinCssKey = null;
+let _aiColorSyncTimer = null;
+let _aiLastBg = '#f8f9fa';
+
+// Proximity fade — mouse-distance-based opacity (smooth gradient, no sudden pop)
+const FADE_JS = `(function() {
+  if (window._rbFadeActive) return 'already active';
+  window._rbFadeActive = true;
+  var REST = 0, MAX = 0.85, DECAY_MS = 600;
+  var cur = REST, target = REST, raf = null;
+  var root = document.documentElement;
+  root.style.opacity = REST;
+  root.style.transition = 'none';
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function tick() {
+    cur = lerp(cur, target, 0.18);
+    if (Math.abs(cur - target) < 0.005) cur = target;
+    root.style.opacity = cur.toFixed(3);
+    if (cur !== target) raf = requestAnimationFrame(tick);
+    else raf = null;
+  }
+  function kick() { if (!raf) raf = requestAnimationFrame(tick); }
+  document.addEventListener('mousemove', function(e) {
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var cx = vw / 2, cy = vh / 2;
+    var dx = (e.clientX - cx) / cx, dy = (e.clientY - cy) / cy;
+    var dist = Math.sqrt(dx * dx + dy * dy);
+    var t = 1 - Math.min(dist / 1.2, 1);
+    target = REST + (MAX - REST) * t * t;
+    kick();
+  }, { passive: true });
+  document.addEventListener('mouseleave', function() {
+    target = REST; kick();
+  });
+  document.addEventListener('mouseenter', function(e) {
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var cx = vw / 2, cy = vh / 2;
+    var dx = (e.clientX - cx) / cx, dy = (e.clientY - cy) / cy;
+    var dist = Math.sqrt(dx * dx + dy * dy);
+    var t = 1 - Math.min(dist / 1.2, 1);
+    target = REST + (MAX - REST) * t * t;
+    kick();
+  });
+  return 'fade active';
+})()`;
+
+// Drag/resize handles — injected into AI overlay, relays mouse deltas via console.log
+// Uses a 5px threshold before committing to drag so normal clicks on page elements still work
+const DRAG_RESIZE_JS = `(function() {
+  if (window._rbDragActive) return 'already active';
+  window._rbDragActive = true;
+  var EDGE = 6, TOP_BAR = 10;
+  var DRAG_THRESHOLD = 5;
+  var pending = null, mode = null, startX = 0, startY = 0, anchorX = 0, anchorY = 0;
+
+  function hitTest(x, y) {
+    var w = window.innerWidth, h = window.innerHeight;
+    var onLeft = x < EDGE, onRight = x > w - EDGE;
+    var onTop = y < EDGE, onBottom = y > h - EDGE;
+    if (onTop && onLeft) return 'nw-resize';
+    if (onTop && onRight) return 'ne-resize';
+    if (onBottom && onLeft) return 'sw-resize';
+    if (onBottom && onRight) return 'se-resize';
+    if (onLeft) return 'w-resize';
+    if (onRight) return 'e-resize';
+    if (onTop) return 'n-resize';
+    if (onBottom) return 's-resize';
+    if (y <= TOP_BAR) return 'move';
+    return null;
+  }
+
+  // Cursor hints on hover (only for edges, not top bar — keep top bar clickable)
+  document.addEventListener('mousemove', function(e) {
+    if (mode || pending) return;
+    var h = hitTest(e.clientX, e.clientY);
+    if (h && h !== 'move') document.documentElement.style.cursor = h;
+    else document.documentElement.style.cursor = '';
+  }, true);
+
+  // Mousedown: don't immediately capture — just record intent
+  document.addEventListener('mousedown', function(e) {
+    if (e.button !== 0) return;
+    var h = hitTest(e.clientX, e.clientY);
+    if (!h) return;
+    // For resize edges, commit immediately (no threshold needed, edges have no clickable content)
+    if (h !== 'move') {
+      mode = h;
+      startX = e.screenX;
+      startY = e.screenY;
+      document.documentElement.style.cursor = h;
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+    // For move (top bar), set pending — only commit after threshold
+    pending = h;
+    anchorX = e.screenX;
+    anchorY = e.screenY;
+    startX = e.screenX;
+    startY = e.screenY;
+    // Don't preventDefault here — let clicks through if user doesn't drag
+  }, true);
+
+  document.addEventListener('mousemove', function(e) {
+    // Check if pending drag should commit
+    if (pending && !mode) {
+      var pdx = e.screenX - anchorX, pdy = e.screenY - anchorY;
+      if (Math.abs(pdx) + Math.abs(pdy) >= DRAG_THRESHOLD) {
+        mode = pending;
+        pending = null;
+        document.documentElement.style.cursor = 'grabbing';
+        // Send the accumulated delta
+        console.log('__rb_drag__:' + mode + ':' + pdx + ':' + pdy);
+        startX = e.screenX;
+        startY = e.screenY;
+      }
+      return;
+    }
+    if (!mode) return;
+    var dx = e.screenX - startX, dy = e.screenY - startY;
+    if (dx === 0 && dy === 0) return;
+    startX = e.screenX;
+    startY = e.screenY;
+    console.log('__rb_drag__:' + mode + ':' + dx + ':' + dy);
+    e.preventDefault();
+    e.stopPropagation();
+  }, true);
+
+  document.addEventListener('mouseup', function(e) {
+    if (pending) { pending = null; return; }
+    if (!mode) return;
+    mode = null;
+    document.documentElement.style.cursor = '';
+    e.preventDefault();
+  }, true);
+
+  // Close button — small X in top-right corner, appears on hover
+  var closeBtn = document.createElement('div');
+  closeBtn.style.cssText = 'position:fixed;top:4px;right:8px;z-index:999999;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#888;cursor:pointer;opacity:0;transition:opacity 0.2s;user-select:none;font-family:sans-serif;border-radius:3px';
+  closeBtn.textContent = 'x';
+  closeBtn.title = 'Close AI';
+  closeBtn.addEventListener('mouseenter', function() { closeBtn.style.opacity = '1'; closeBtn.style.background = 'rgba(0,0,0,0.1)'; });
+  closeBtn.addEventListener('mouseleave', function() { closeBtn.style.opacity = '0'; closeBtn.style.background = 'none'; });
+  closeBtn.addEventListener('click', function(e) { e.stopPropagation(); console.log('__rb_close__'); });
+  document.body.appendChild(closeBtn);
+  document.addEventListener('mousemove', function(e) {
+    if (e.clientY < 40) closeBtn.style.opacity = '0.6';
+    else if (!closeBtn.matches(':hover')) closeBtn.style.opacity = '0';
+  });
+
+  return 'drag active';
+})()`;
+
+// Skin JS — hide AI branding/sidebars, expand main content
+const SKIN_JS = `(function() {
+  if (window._rbSkinActive) return 'already active';
+  window._rbSkinActive = true;
+  function skinApply() {
+    // Standard semantic sidebar/nav elements (NOT header/footer — those contain model selectors)
+    document.querySelectorAll('nav, aside, [role="navigation"], [role="complementary"]')
+      .forEach(function(el) { if (!el.dataset.rbSkinHidden) el.dataset.rbSkinHidden = '1'; });
+    // Position-based sidebar: any tall narrow element pinned to left edge
+    document.querySelectorAll('body > div > div, body > div > section, body > div > nav, body > div > aside, body > div > header').forEach(function(el) {
+      if (el.dataset.rbSkinHidden) return;
+      var r = el.getBoundingClientRect();
+      if (r.left <= 0 && r.width < 350 && r.height > window.innerHeight * 0.4)
+        el.dataset.rbSkinHidden = '1';
+    });
+    // Deep scan: Claude/ChatGPT nest sidebars inside #__next or deep div trees
+    document.querySelectorAll('div').forEach(function(el) {
+      if (el.dataset.rbSkinHidden || el.children.length === 0) return;
+      var r = el.getBoundingClientRect();
+      // Tall narrow panel on the left = sidebar
+      if (r.left <= 0 && r.width > 40 && r.width < 320 && r.height > window.innerHeight * 0.6) {
+        // Make sure it's not the main content by checking there's something wider next to it
+        var sibling = el.nextElementSibling || el.previousElementSibling;
+        if (sibling) {
+          var sr = sibling.getBoundingClientRect();
+          if (sr.width > r.width) el.dataset.rbSkinHidden = '1';
+        }
+      }
+    });
+    // Logos/icons in header area
+    document.querySelectorAll('svg, img').forEach(function(el) {
+      if (el.dataset.rbSkinHidden) return;
+      var r = el.getBoundingClientRect();
+      if (r.top < 80 && r.width < 200 && r.height < 80 && r.width > 8)
+        el.dataset.rbSkinHidden = '1';
+    });
+    // Brand links — only hide if they're clearly a homepage logo link, NOT a model selector
+    // Skip anything that has a sibling/child dropdown chevron or is inside a button/header
+    document.querySelectorAll('a').forEach(function(el) {
+      if (el.dataset.rbSkinHidden) return;
+      if (el.closest('button, header, [role="combobox"], [role="menu"], [role="listbox"]')) return;
+      var r = el.getBoundingClientRect();
+      if (r.top < 60 && /^(claude|gemini|chatgpt)$/i.test((el.textContent || '').trim()) && r.width > 40)
+        el.dataset.rbSkinHidden = '1';
+    });
+    // Expand main content to fill
+    document.querySelectorAll('main, [role="main"]').forEach(function(el) {
+      el.style.cssText += 'margin-left:0!important;max-width:100%!important;width:100%!important';
+    });
+
+    // ── Provider-specific landing page cleanup ──
+    var host = location.hostname;
+
+    // Claude: greeting spans, category chips, centered logo
+    if (host.includes('claude')) {
+      // "Welcome, Name" — span with whitespace-nowrap + select-none, in upper half
+      // "Paste a doc..." subtitle — span.text-text-500
+      document.querySelectorAll('h1, h2, span').forEach(function(el) {
+        if (el.dataset.rbSkinHidden) return;
+        var r = el.getBoundingClientRect();
+        if (r.top < 10 || r.top > window.innerHeight * 0.5) return;
+        var text = (el.textContent || '').trim();
+        if (/welcome|help you|good (morning|afternoon|evening)|hi,|hello|get started|paste a doc/i.test(text))
+          el.dataset.rbSkinHidden = '1';
+      });
+      // Category chips: "Write", "Learn", "Code", "Life stuff", "Claude's choice"
+      // These are span.font-normal with small SVG siblings, in the 300-500px vertical band
+      document.querySelectorAll('span.font-normal').forEach(function(el) {
+        if (el.dataset.rbSkinHidden) return;
+        var r = el.getBoundingClientRect();
+        if (r.top > 100 && r.top < window.innerHeight - 120) {
+          var text = (el.textContent || '').trim();
+          if (/^(write|learn|code|life stuff|claude.s choice|analyze|brainstorm|create|summarize)$/i.test(text))
+            el.dataset.rbSkinHidden = '1';
+        }
+      });
+      // SVG icons next to greeting and next to category chips (centered, upper half)
+      document.querySelectorAll('svg, img').forEach(function(el) {
+        if (el.dataset.rbSkinHidden) return;
+        var r = el.getBoundingClientRect();
+        if (r.top > 60 && r.top < window.innerHeight * 0.65 && r.width > 14 && r.width < 120 && r.height > 14 && r.height < 120) {
+          // Skip model selector area (around y=300-340, has "Sonnet"/"Medium" siblings)
+          var p = el.parentElement;
+          if (p && /sonnet|opus|haiku|flash|model|medium|fast/i.test((p.textContent || '').trim())) return;
+          el.dataset.rbSkinHidden = '1';
+        }
+      });
+      // Scrub "Claude" brand from input placeholder
+      document.querySelectorAll('[placeholder]').forEach(function(el) {
+        if (/claude/i.test(el.placeholder)) el.placeholder = 'Type here...';
+      });
+    }
+
+    // Gemini: greeting text, top toolbar, suggestion chips, star logo
+    if (host.includes('gemini') || host.includes('google')) {
+      // Greeting: Gemini randomizes every load ("what's on your mind",
+      // "let's get into it", "ask away, Name!", etc.)
+      // Strategy: any large-font text in the center zone on the landing page = greeting.
+      // On landing, there's no chat content, so any prominent text is a greeting.
+      document.querySelectorAll('h1, h2, span, p, [class*="greeting"], [class*="title"], .message-text').forEach(function(el) {
+        if (el.dataset.rbSkinHidden) return;
+        if (el.children.length > 3) return;
+        var r = el.getBoundingClientRect();
+        var text = (el.textContent || '').trim();
+        // Skip tiny text, very long text (not a greeting), and elements outside center zone
+        if (text.length < 5 || text.length > 100) return;
+        if (r.top < 80 || r.top > window.innerHeight * 0.75) return;
+        // Large font in the center = greeting
+        var fontSize = parseFloat(window.getComputedStyle(el).fontSize);
+        if (fontSize >= 20) {
+          el.dataset.rbSkinHidden = '1';
+        }
+      });
+      // Top toolbar cleanup — hide hamburger menu and compose/new-chat buttons,
+      // but KEEP the model selector ("Gemini Flash" dropdown)
+      document.querySelectorAll('button').forEach(function(el) {
+        if (el.dataset.rbSkinHidden) return;
+        var r = el.getBoundingClientRect();
+        if (r.top > 60) return;
+        // Skip the model picker button (contains "Gemini" + "Flash"/"Pro" text)
+        var text = (el.textContent || '').trim();
+        if (/gemini|flash|pro|ultra|nano/i.test(text) && text.length < 30) return;
+        // Hide toolbar buttons: hamburger (left), compose/new-chat (right)
+        if (r.width < 60 && r.height < 60)
+          el.dataset.rbSkinHidden = '1';
+      });
+      // Suggestion chips
+      document.querySelectorAll('[class*="chip"], [class*="suggestion"], [class*="prompt-suggestion"], [class*="query-chip"]').forEach(function(el) {
+        if (!el.dataset.rbSkinHidden) el.dataset.rbSkinHidden = '1';
+      });
+      // Large centered Gemini star/sparkle logo
+      document.querySelectorAll('svg, img').forEach(function(el) {
+        if (el.dataset.rbSkinHidden) return;
+        var r = el.getBoundingClientRect();
+        if (r.top > 40 && r.top < window.innerHeight * 0.5 && r.width > 24 && r.width < 200 && r.height > 24 && r.height < 200) {
+          var cx = r.left + r.width / 2;
+          if (cx > window.innerWidth * 0.25 && cx < window.innerWidth * 0.75)
+            el.dataset.rbSkinHidden = '1';
+        }
+      });
+      // Scrub brand text — hide "Gemini" from model picker, keep model name visible
+      document.querySelectorAll('.picker-primary-text, span').forEach(function(el) {
+        if (el.children.length > 0) return;
+        var text = (el.textContent || '').trim();
+        if (text === 'Gemini') el.style.setProperty('display', 'none', 'important');
+      });
+      // Neutralize "Ask Gemini" placeholder
+      document.querySelectorAll('[placeholder], [aria-label]').forEach(function(el) {
+        if (el.placeholder && /gemini/i.test(el.placeholder)) el.placeholder = 'Type here...';
+        if (el.ariaLabel && /gemini/i.test(el.ariaLabel)) el.ariaLabel = 'Type here';
+      });
+      // Also catch contenteditable or inner text placeholders
+      document.querySelectorAll('[data-placeholder]').forEach(function(el) {
+        if (/gemini/i.test(el.getAttribute('data-placeholder')))
+          el.setAttribute('data-placeholder', 'Type here...');
+      });
+      // Catch visible placeholder text spans inside input areas
+      document.querySelectorAll('span, p, div').forEach(function(el) {
+        if (el.children.length > 0) return;
+        var text = (el.textContent || '').trim();
+        if (text === 'Ask Gemini') el.textContent = 'Type here...';
+      });
+    }
+
+    // ChatGPT: "What can I help with?" heading, suggestion cards, logo
+    if (host.includes('chatgpt') || host.includes('openai')) {
+      document.querySelectorAll('h1, h2').forEach(function(el) {
+        if (el.dataset.rbSkinHidden) return;
+        if (/help with|what can i|how can i/i.test(el.textContent || ''))
+          el.dataset.rbSkinHidden = '1';
+      });
+      // Suggestion prompt buttons
+      document.querySelectorAll('button').forEach(function(el) {
+        if (el.dataset.rbSkinHidden) return;
+        var r = el.getBoundingClientRect();
+        if (r.top > 100 && r.top < window.innerHeight - 120 && r.width > 100 && r.height > 30 && r.height < 120) {
+          var text = (el.textContent || '').trim();
+          if (text.length > 10 && !/send|stop|cancel|upload|attach/i.test(text))
+            el.dataset.rbSkinHidden = '1';
+        }
+      });
+      // OpenAI logo in center
+      document.querySelectorAll('svg, img').forEach(function(el) {
+        if (el.dataset.rbSkinHidden) return;
+        var r = el.getBoundingClientRect();
+        if (r.top > 40 && r.top < window.innerHeight * 0.5 && r.width > 20 && r.width < 150 && r.height > 20 && r.height < 150) {
+          var cx = r.left + r.width / 2;
+          if (cx > window.innerWidth * 0.3 && cx < window.innerWidth * 0.7)
+            el.dataset.rbSkinHidden = '1';
+        }
+      });
+      // Scrub "ChatGPT" brand from input placeholder and model selector text
+      document.querySelectorAll('[placeholder]').forEach(function(el) {
+        if (/chatgpt/i.test(el.placeholder)) el.placeholder = 'Type here...';
+      });
+    }
+
+    // Container bg clearing is handled by CSS (cssOrigin:'user' makes
+    // div { background: transparent !important } beat all page styles)
+  }
+  skinApply();
+  window._rbSkinObs = new MutationObserver(function() { requestAnimationFrame(skinApply); });
+  window._rbSkinObs.observe(document.body, { childList: true, subtree: true });
+  return 'skin applied';
+})()`;
+
+const UNSKIN_JS = `(function() {
+  document.querySelectorAll('[data-rb-skin-hidden]').forEach(function(el) {
+    el.style.display = ''; el.style.opacity = ''; el.style.visibility = '';
+    delete el.dataset.rbSkinHidden;
+  });
+  document.querySelectorAll('main, [role="main"]').forEach(function(el) {
+    el.style.marginLeft = ''; el.style.width = ''; el.style.maxWidth = '';
+  });
+  if (window._rbSkinObs) { window._rbSkinObs.disconnect(); window._rbSkinObs = null; }
+  window._rbSkinActive = false;
+  return 'skin removed';
+})()`;
+
+// Build dynamic skin CSS — lightweight CB reference sheet styling
+// Does NOT override fonts on every element (that breaks AI pages).
+// Instead: grayscale + edge feather + CB color accents + scrollbar/cursor cleanup
+
+// Sample the dominant page-level background from Bluebook.
+// Walks the largest containers (body, #app, main, sections) and picks
+// the most common non-transparent bg. Avoids buttons/navbars/small elements
+// that carry accent colors like Bluebook's blue (rgb(50,77,199)).
+async function sampleBluebookBg() {
+  if (!_mainWin || _mainWin.isDestroyed()) return '#f8f9fa';
+  try {
+    const raw = await _mainWin.webContents.executeJavaScript(`(function() {
+      // Strategy 1: elementFromPoint at multiple spots near the left edge
+      // (where the AI overlay sits)
+      var samplePoints = [
+        [100, Math.round(window.innerHeight * 0.3)],
+        [100, Math.round(window.innerHeight * 0.5)],
+        [100, Math.round(window.innerHeight * 0.7)],
+        [250, Math.round(window.innerHeight * 0.5)],
+      ];
+      var colors = {};
+      for (var i = 0; i < samplePoints.length; i++) {
+        var el = document.elementFromPoint(samplePoints[i][0], samplePoints[i][1]);
+        while (el) {
+          var bg = window.getComputedStyle(el).backgroundColor;
+          if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
+            colors[bg] = (colors[bg] || 0) + 1;
+            break;
+          }
+          el = el.parentElement;
+        }
+      }
+      var best = '', bestCount = 0;
+      for (var c in colors) {
+        if (colors[c] > bestCount) { bestCount = colors[c]; best = c; }
+      }
+      if (best) return best;
+
+      // Strategy 2: fallback — largest element with a background
+      var fallback = null, fallbackArea = 0;
+      var all = document.querySelectorAll('*');
+      for (var j = 0; j < all.length; j++) {
+        var el2 = all[j];
+        var r = el2.getBoundingClientRect();
+        if (r.width < 200 || r.height < 200) continue;
+        var bg2 = window.getComputedStyle(el2).backgroundColor;
+        if (!bg2 || bg2 === 'rgba(0, 0, 0, 0)' || bg2 === 'transparent') continue;
+        var area = r.width * r.height;
+        if (area > fallbackArea) { fallbackArea = area; fallback = bg2; }
+      }
+      return fallback || '';
+    })()`);
+    if (raw && raw !== 'rgba(0, 0, 0, 0)' && raw !== 'transparent') return raw;
+  } catch (_) {}
+  return '#f8f9fa';
+}
+
+// Convert rgb(r,g,b) string to #RRGGBB hex for Electron's setBackgroundColor
+function rgbToHex(rgb) {
+  var m = rgb.match(/(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
+  if (!m) return rgb; // already hex or unknown format, pass through
+  var r = parseInt(m[1]), g = parseInt(m[2]), b = parseInt(m[3]);
+  return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
+// Push a bg color update into the AI overlay
+async function syncAiColor() {
+  if (!_aiView) return;
+  try {
+    const bg = await sampleBluebookBg();
+    if (bg === _aiLastBg) return;
+    _aiLastBg = bg;
+    log('skin bg sync: ' + bg);
+    // Set the native background — visible when page is at opacity 0 (FADE_JS rest)
+    const hex = rgbToHex(bg);
+    try { _aiView.setBackgroundColor(hex); } catch (e1) {
+      log('setBackgroundColor on view failed: ' + e1.message);
+      try { _aiView.webContents.setBackgroundColor(hex); } catch (e2) {
+        log('setBackgroundColor on webContents failed: ' + e2.message);
+      }
+    }
+    // Also update CSS variable for the in-page styles
+    await _aiView.webContents.executeJavaScript(
+      `document.documentElement.style.setProperty('--rb-bg', '${bg}')`
+    );
+  } catch (_) {}
+}
+
+function startAiColorSync() {
+  stopAiColorSync();
+  syncAiColor();
+  // Poll every 3 seconds — lightweight, only runs 2 queries
+  _aiColorSyncTimer = setInterval(syncAiColor, 3000);
+}
+
+function stopAiColorSync() {
+  if (_aiColorSyncTimer) { clearInterval(_aiColorSyncTimer); _aiColorSyncTimer = null; }
+}
+
+async function buildSkinCss() {
+  const bg = await sampleBluebookBg();
+  _aiLastBg = bg;
+  log('skin bg: ' + bg);
+
+  return `
+    /* ── grayscale + edge feather ── */
+    /* Background color is handled by the native WebContentsView (setBackgroundColor).
+       html/body are transparent so the native bg shows through un-grayscaled. */
+    html {
+      --rb-bg: ${bg};
+      filter: grayscale(1) !important;
+      background: transparent !important;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 90%, transparent 100%),
+                          linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%) !important;
+      -webkit-mask-composite: source-in !important;
+      mask-composite: intersect !important;
+    }
+    body { background: transparent !important; }
+
+    /* ── Force ALL elements transparent so html/body bg shows through ──
+       Uses * to catch Angular custom elements (mat-sidenav-container,
+       input-area-v2, chat-app, etc.) that standard tag selectors miss.
+       With cssOrigin:'user', our !important beats the page's !important. */
+    *:not(html):not(body):not(textarea):not(input):not(img):not(video):not(canvas):not(svg) {
+      background: transparent !important;
+      background-image: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+    /* Pseudo-elements can paint backgrounds too */
+    *::before, *::after {
+      background: transparent !important;
+      background-image: none !important;
+      box-shadow: none !important;
+    }
+
+    /* ── scrollbar kill ── */
+    ::-webkit-scrollbar { display: none !important; }
+    html, body { scrollbar-width: none !important; }
+
+    /* ── cursor override — no pointer/text giveaway ── */
+    *, *::before, *::after { cursor: default !important; }
+    textarea, input, [contenteditable="true"] { cursor: text !important; }
+
+    /* ── hide marked elements ── */
+    [data-rb-skin-hidden] { display: none !important; }
+  `;
+}
+
+// Re-inject active styles after SPA navigation inside the overlay
+function reapplyAiStealth() {
+  if (!_aiView) return;
+  const wc = _aiView.webContents;
+  // Proximity fade — always on
+  wc.executeJavaScript(FADE_JS).then(r => log('fade: ' + r)).catch(() => {});
+  // Skin — always on
+  buildSkinCss().then(css => {
+    wc.insertCSS(css, { cssOrigin: 'user' }).then(k => { _aiSkinCssKey = k; }).catch(() => {});
+    // Set native view background to match — visible when page is at opacity 0
+    var h = rgbToHex(_aiLastBg);
+    try { _aiView.setBackgroundColor(h); } catch (_e) {
+      try { _aiView.webContents.setBackgroundColor(h); } catch (_e2) {}
+    }
+  });
+  wc.executeJavaScript(SKIN_JS).catch(() => {});
+  // Background color sync — polls Bluebook bg every 2s
+  startAiColorSync();
+}
+
+// Current AI view bounds — persisted so drag/resize can modify them
+let _aiViewCurrentBounds = null;
 
 function getAiViewBounds() {
   if (!_mainWin || _mainWin.isDestroyed()) return null;
   const [w, h] = _mainWin.getContentSize();
-  const viewH = Math.min(AI_VIEW_H, h - 60);
-  return { x: w - AI_VIEW_W - AI_VIEW_MARGIN, y: 30, width: AI_VIEW_W, height: viewH };
+  // If we have user-set bounds from drag/resize, use those (clamped to window)
+  if (_aiViewCurrentBounds) {
+    const b = _aiViewCurrentBounds;
+    return {
+      x: Math.max(0, Math.min(b.x, w - 100)),
+      y: Math.max(0, Math.min(b.y, h - 50)),
+      width: Math.max(200, Math.min(b.width, w)),
+      height: Math.max(100, Math.min(b.height, h)),
+    };
+  }
+  // Default: left edge, vertically centered
+  const viewH = Math.min(AI_VIEW_H, h - 40);
+  const viewY = Math.round((h - viewH) / 2);
+  return { x: AI_VIEW_MARGIN, y: viewY, width: AI_VIEW_W, height: viewH };
 }
 
-function createAiView(url) {
+function createAiView(url, opts) {
+  const hidden = opts && opts.hidden;
   if (_aiView) {
     if (url) _aiView.webContents.loadURL(url);
-    if (!_aiViewVisible) showAiView();
+    if (!hidden && !_aiViewVisible) showAiView();
     return;
   }
   if (!_mainWin || _mainWin.isDestroyed()) { log('createAiView: no main window'); return; }
@@ -151,7 +709,46 @@ function createAiView(url) {
   const loadUrl = url || 'https://gemini.google.com/app';
   _aiView.webContents.loadURL(loadUrl);
   log('AI view created, partition=' + AI_PARTITION + ' url=' + loadUrl);
-  showAiView();
+
+  // Inject proximity fade + drag/resize + re-injection hooks for SPA navigation
+  _aiView.webContents.on('did-finish-load', () => {
+    log('AI did-finish-load');
+    reapplyAiStealth();
+    _aiView.webContents.executeJavaScript(DRAG_RESIZE_JS).then(r => log('drag: ' + r)).catch(() => {});
+  });
+  _aiView.webContents.on('did-navigate-in-page', () => {
+    reapplyAiStealth();
+    _aiView.webContents.executeJavaScript(DRAG_RESIZE_JS).catch(() => {});
+  });
+
+  // Listen for drag/resize/close messages from injected JS via console.log
+  _aiView.webContents.on('console-message', (_e, _level, msg) => {
+    if (msg === '__rb_close__') { closeAiView(); return; }
+    if (!msg.startsWith('__rb_drag__:')) return;
+    // format: __rb_drag__:{mode}:{dx}:{dy}
+    const parts = msg.split(':');
+    const mode = parts[1];
+    const dx = parseInt(parts[2], 10) || 0;
+    const dy = parseInt(parts[3], 10) || 0;
+    if (!_aiView || !_aiViewVisible) return;
+    const b = _aiView.getBounds();
+    let { x, y, width, height } = b;
+    if (mode === 'move') {
+      x += dx; y += dy;
+    } else {
+      if (mode.includes('e')) { width += dx; }
+      if (mode.includes('w')) { x += dx; width -= dx; }
+      if (mode.includes('s')) { height += dy; }
+      if (mode.includes('n')) { y += dy; height -= dy; }
+    }
+    width = Math.max(200, width);
+    height = Math.max(100, height);
+    const newBounds = { x, y, width, height };
+    _aiView.setBounds(newBounds);
+    _aiViewCurrentBounds = newBounds;
+  });
+
+  if (!hidden) showAiView();
 }
 
 function showAiView() {
@@ -181,6 +778,7 @@ function toggleAiView() {
 }
 
 function closeAiView() {
+  stopAiColorSync();
   hideAiView();
   if (_aiView) {
     try { _aiView.webContents.close(); } catch (_) {}
@@ -470,7 +1068,7 @@ async function handleIpcCommand(cmd, args) {
 
     // ── AI overlay management (WebContentsView — stealth) ─────────────
     case 'ai.open': {
-      createAiView(args && args.url ? args.url : undefined);
+      createAiView(args && args.url ? args.url : undefined, { hidden: !!(args && args.hidden) });
       return { ok: true };
     }
 
@@ -491,6 +1089,82 @@ async function handleIpcCommand(cmd, args) {
       return { open: !!_aiView, visible: _aiViewVisible, url };
     }
 
+    case 'ai.inspect': {
+      if (!_aiView) return { error: 'ai not open' };
+      try {
+        const result = await _aiView.webContents.executeJavaScript(`(function() {
+          var out = [];
+
+          // ── PART A: CSS variable & html/body check ──
+          out.push('=== CSS VARIABLE CHECK ===');
+          var htmlCs = window.getComputedStyle(document.documentElement);
+          out.push('--rb-bg value: ' + htmlCs.getPropertyValue('--rb-bg'));
+          out.push('html computed bg-color: ' + htmlCs.backgroundColor);
+          out.push('html computed background: ' + htmlCs.background);
+          out.push('html inline style: ' + document.documentElement.style.cssText);
+          out.push('html filter: ' + htmlCs.filter);
+          var bodyCs = window.getComputedStyle(document.body);
+          out.push('body computed bg-color: ' + bodyCs.backgroundColor);
+          out.push('body inline style: ' + document.body.style.cssText);
+          out.push('');
+
+          // ── PART B: Container chain walk (first-child) ──
+          out.push('=== CONTAINER CHAIN (first-child walk) ===');
+          var walker = document.documentElement;
+          for (var d = 0; d < 12; d++) {
+            var tag = walker.tagName.toLowerCase();
+            var id = walker.id || '';
+            var cls = (walker.className && typeof walker.className === 'string') ? walker.className.slice(0, 80) : '';
+            var r = walker.getBoundingClientRect();
+            var cs = window.getComputedStyle(walker);
+            var hasShadow = !!walker.shadowRoot;
+            var kids = walker.children.length;
+            out.push('depth=' + d + ' <' + tag + '#' + id + '> cls="' + cls + '"');
+            out.push('  size: ' + Math.round(r.width) + 'x' + Math.round(r.height));
+            out.push('  computed bg-color: ' + cs.backgroundColor);
+            out.push('  computed background: ' + cs.background.slice(0, 120));
+            out.push('  inline style: ' + (walker.style.cssText || '(none)').slice(0, 120));
+            out.push('  shadowRoot: ' + hasShadow + ' | children: ' + kids);
+            // Find next: pick the largest child
+            var best = null, bestArea = 0;
+            for (var i = 0; i < walker.children.length; i++) {
+              var ch = walker.children[i];
+              var cr = ch.getBoundingClientRect();
+              var area = cr.width * cr.height;
+              if (area > bestArea) { bestArea = area; best = ch; }
+            }
+            if (!best) break;
+            walker = best;
+          }
+          out.push('');
+
+          // ── PART C: ALL elements with non-transparent bg ──
+          out.push('=== ALL ELEMENTS WITH BACKGROUND (width>50%) ===');
+          var all = document.querySelectorAll('*');
+          for (var i = 0; i < all.length; i++) {
+            var el = all[i];
+            var r = el.getBoundingClientRect();
+            if (r.width < window.innerWidth * 0.3) continue;
+            if (r.height < 50) continue;
+            var cs = window.getComputedStyle(el);
+            var bg = cs.backgroundColor;
+            if (!bg || bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') continue;
+            var tag = el.tagName.toLowerCase();
+            var id = el.id || '';
+            var cls = (el.className && typeof el.className === 'string') ? el.className.slice(0, 80) : '';
+            var inline = el.style.cssText ? el.style.cssText.slice(0, 80) : '(none)';
+            out.push(Math.round(r.width) + 'x' + Math.round(r.height) + ' <' + tag + '#' + id + '.' + cls + '> bg=' + bg + ' inline="' + inline + '"');
+          }
+
+          return out.join('\\n');
+        })()`);
+        const dumpFile = path.join('G:\\\\redbook', '_inspect.txt');
+        fs.writeFileSync(dumpFile, result || '(empty)', 'utf8');
+        log('AI inspect written to ' + dumpFile);
+        return { file: dumpFile };
+      } catch (e) { return { error: e.message }; }
+    }
+
     case 'ai.navigate': {
       if (!args || !args.url) return { error: 'missing url' };
       let targetUrl = args.url.trim();
@@ -504,6 +1178,8 @@ async function handleIpcCommand(cmd, args) {
       log('AI navigate to ' + targetUrl);
       return { ok: true, url: targetUrl };
     }
+
+    // ── AI overlay modes ─────────────────────────────────────────────
 
     // ── Clipboard bypass control ───────────────────────────────────────
     case 'clipboard.enable': {
@@ -580,6 +1256,15 @@ app.on('browser-window-created', (e, win) => {
     } catch (e) { log('IPC parse err', e && e.message); }
   });
 
+  // Backtick panic key — must use before-input-event since ` is not a valid globalShortcut accelerator
+  win.webContents.on('before-input-event', (event, input) => {
+    if (input.type === 'keyDown' && input.key === '`' && !input.alt && !input.control && !input.meta && !input.shift) {
+      log('Panic hotkey fired');
+      doPanicToggle();
+      event.preventDefault();
+    }
+  });
+
   // Inject mods after every load
   const injectMods = async () => {
     const bundle = loadModsBundle();
@@ -597,6 +1282,31 @@ app.on('browser-window-created', (e, win) => {
   win.on('ready-to-show', () => { log('ready-to-show'); win.show(); });
   win.on('closed', () => { if (_mainWin === win) _mainWin = null; });
 });
+
+// ── Panic toggle (module scope so browser-window-created can reach it) ────────
+let _panicHidden = false;
+let _panicState = { ai: false, panel: false };
+
+function doPanicToggle() {
+  if (!_mainWin || _mainWin.isDestroyed()) return;
+  if (!_panicHidden) {
+    _panicState.ai = _aiViewVisible;
+    _panicState.panel = false;
+    if (_aiViewVisible) hideAiView();
+    _mainWin.webContents.executeJavaScript(
+      "window.dispatchEvent(new CustomEvent('rb-panic-hide'))"
+    ).catch(() => {});
+    _panicHidden = true;
+    log('PANIC: everything hidden');
+  } else {
+    if (_panicState.ai && _aiView) showAiView();
+    _mainWin.webContents.executeJavaScript(
+      "window.dispatchEvent(new CustomEvent('rb-panic-restore'))"
+    ).catch(() => {});
+    _panicHidden = false;
+    log('PANIC: restored');
+  }
+}
 
 app.on('ready', () => {
   log('app event: ready');
@@ -635,7 +1345,6 @@ app.on('ready', () => {
   });
 
   app.on('browser-window-blur', () => {
-    // Unregister when all our windows lose focus (app is no longer active)
     setTimeout(() => {
       if (_mainWin && !_mainWin.isDestroyed() && _mainWin.isFocused()) return;
       unregisterHotkeys();

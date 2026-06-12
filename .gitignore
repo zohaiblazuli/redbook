@@ -1,0 +1,40 @@
+# ── Dependencies ──────────────────────────────────────────
+node_modules/
+analysis/node_modules/
+
+# ── Bluebook app binary (63MB asar) ──────────────────────
+resources/app.asar
+
+# ── Analysis artifacts (extracted/decoded Bluebook source)
+analysis/main/*.node
+analysis/main/*.orig
+analysis/_*.js
+analysis/_*.log
+analysis/_*.txt
+analysis/_*.bat
+
+# ── Runtime logs & debug dumps ───────────────────────────
+_run.log
+_run_safe.log
+_run_safe_nodt.log
+_inspect.txt
+_bg_dump.txt
+
+# ── Media build artifacts (resized/base64 intermediates) ─
+media/*_64.png
+media/_b64_*.txt
+
+# ── Session & recording data (user-specific) ─────────────
+mods/sessions/*
+!mods/sessions/.gitkeep
+mods/recordings/*.json
+
+# ── OS / editor junk ─────────────────────────────────────
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
