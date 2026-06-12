@@ -2,8 +2,9 @@
 node_modules/
 analysis/node_modules/
 
-# ── Bluebook app binary (63MB asar) ──────────────────────
+# ── Binaries ─────────────────────────────────────────────
 resources/app.asar
+electron.exe
 
 # ── Analysis artifacts (extracted/decoded Bluebook source)
 analysis/main/*.node
