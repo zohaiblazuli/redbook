@@ -68,12 +68,17 @@ if (Test-Path $electronExe) {
 if (Test-Path $asarDest) {
     Write-Host "[SKIP] app.asar already present."
 } else {
-    $searchPaths = @(
-        (Join-Path $env:LOCALAPPDATA 'Programs\bluebook\resources\app.asar'),
-        (Join-Path $env:LOCALAPPDATA 'Programs\Bluebook\resources\app.asar'),
-        (Join-Path $env:ProgramFiles 'College Board\Bluebook\resources\app.asar'),
-        (Join-Path ${env:ProgramFiles(x86)} 'College Board\Bluebook\resources\app.asar')
-    )
+    $searchPaths = @()
+    if ($env:LOCALAPPDATA) {
+        $searchPaths += Join-Path $env:LOCALAPPDATA 'Programs\bluebook\resources\app.asar'
+        $searchPaths += Join-Path $env:LOCALAPPDATA 'Programs\Bluebook\resources\app.asar'
+    }
+    if ($env:ProgramFiles) {
+        $searchPaths += Join-Path $env:ProgramFiles 'College Board\Bluebook\resources\app.asar'
+    }
+    if (${env:ProgramFiles(x86)}) {
+        $searchPaths += Join-Path ${env:ProgramFiles(x86)} 'College Board\Bluebook\resources\app.asar'
+    }
 
     $found = $null
     foreach ($p in $searchPaths) {

@@ -520,12 +520,10 @@ function initDevPanel() {
   let history = [];
   let historyIdx = -1;
   let denseMode = false;
-  let rbVersion = { version: '0.0.0', electron: '?' };
+  let rbVersion = (typeof __RB_VERSION !== 'undefined') ? __RB_VERSION : { version: '0.0.0', electron: '?' };
   try { identity = localStorage.getItem(IDENTITY_KEY) || ''; } catch (_) {}
   try { history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch (_) { history = []; }
   try { denseMode = localStorage.getItem(DENSE_KEY) === '1'; } catch (_) {}
-  // Fetch version metadata asynchronously (banner will repaint when ready)
-  rbIpc('version').then(v => { if (v && v.version) rbVersion = v; }).catch(() => {});
 
   // ─── Window rect persistence ──────────────────────────────────────────────
   function loadRect() {

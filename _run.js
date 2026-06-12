@@ -76,9 +76,12 @@ function loadModsBundle() {
     const switchJs = fs.readFileSync(path.join(__dirname, 'mods', 'switcher.js'),  'utf8');
     const panelJs  = fs.readFileSync(path.join(__dirname, 'mods', 'devpanel.js'),  'utf8');
     const flags = { sentryDebug: FLAG_SENTRY_DEBUG, noCheckin: FLAG_NO_CHECKIN };
+    let version = { version: '0.0.0', electron: '?' };
+    try { version = JSON.parse(fs.readFileSync(path.join(__dirname, 'version.json'), 'utf8')); } catch (_) {}
     return `(()=>{
-      const __RB_CSS    = ${JSON.stringify(css)};
-      const __RB_FLAGS  = ${JSON.stringify(flags)};
+      const __RB_CSS     = ${JSON.stringify(css)};
+      const __RB_FLAGS   = ${JSON.stringify(flags)};
+      const __RB_VERSION = ${JSON.stringify(version)};
       ${switchJs}
       ${panelJs}
     })();`;

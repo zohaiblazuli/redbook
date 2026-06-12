@@ -24,9 +24,13 @@ func main() {
 	electron := filepath.Join(dir, "electron", "electron.exe")
 	runjs := filepath.Join(dir, "_run.js")
 
+	if _, err := os.Stat(electron); os.IsNotExist(err) {
+		msgBox("electron\\electron.exe is missing.\n\nThe Redbook installer should have downloaded Electron during setup.\nTry running RedbookSetup.exe again.", "Redbook")
+		os.Exit(1)
+	}
+
 	cmd := exec.Command(electron, runjs)
 	cmd.Dir = dir
-	cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
 
 	if err := cmd.Start(); err != nil {
 		msgBox("Failed to launch electron\\electron.exe.\nMake sure Electron is installed.", "Redbook")
