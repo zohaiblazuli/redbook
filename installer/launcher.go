@@ -14,11 +14,16 @@ import (
 var (
 	user32      = syscall.NewLazyDLL("user32.dll")
 	messageBoxW = user32.NewProc("MessageBoxW")
+	kernel32    = syscall.NewLazyDLL("kernel32.dll")
+	loadLibrary = kernel32.NewProc("LoadLibraryW")
 )
 
 const (
-	MB_OK      = 0x00000000
-	MB_ICONERR = 0x00000010
+	MB_OK        = 0x00000000
+	MB_ICONERR   = 0x00000010
+	MB_ICONWARN  = 0x00000030
+	MB_YESNO     = 0x00000004
+	IDYES        = 6
 )
 
 func msgBox(text, caption string) {
@@ -27,9 +32,26 @@ func msgBox(text, caption string) {
 	messageBoxW.Call(0, uintptr(unsafe.Pointer(t)), uintptr(unsafe.Pointer(c)), MB_OK|MB_ICONERR)
 }
 
+func msgBoxYesNo(text, caption string) int {
+	t, _ := syscall.UTF16PtrFromString(text)
+	c, _ := syscall.UTF16PtrFromString(caption)
+	ret, _, _ := messageBoxW.Call(0, uintptr(unsafe.Pointer(t)), uintptr(unsafe.Pointer(c)), MB_YESNO|MB_ICONWARN)
+	return int(ret)
+}
+
 func fileExists(p string) bool {
 	_, err := os.Stat(p)
 	return err == nil
+}
+
+func dllExists(name string) bool {
+	p, _ := syscall.UTF16PtrFromString(name)
+	h, _, _ := loadLibrary.Call(uintptr(unsafe.Pointer(p)))
+	if h != 0 {
+		syscall.FreeLibrary(syscall.Handle(h))
+		return true
+	}
+	return false
 }
 
 func main() {
@@ -39,7 +61,7 @@ func main() {
 	asar := filepath.Join(dir, "resources", "app.asar")
 	logFile := filepath.Join(dir, "_run.log")
 
-	// Pre-flight checks with specific error messages
+	// Pre-flight: check required files
 	var missing []string
 	if !fileExists(electron) {
 		missing = append(missing, fmt.Sprintf("  - electron\\electron.exe\n    (%s)", electron))
@@ -63,14 +85,34 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Launch electron with stderr/stdout capture
-	cmd := exec.Command(electron, runjs)
+	// Pre-flight: check VC++ runtime
+	if !dllExists("vcruntime140.dll") {
+		msgBox("Visual C++ Redistributable is not installed.\n\n"+
+			"Electron requires the Visual C++ 2015-2022 Redistributable (x86).\n\n"+
+			"Download it from:\nhttps://aka.ms/vs/17/release/vc_redist.x86.exe\n\n"+
+			"Install it, then try launching Redbook again.", "Redbook — Missing Runtime")
+		os.Exit(1)
+	}
+
+	// Build electron args: _run.js + chromium flags for VM/sandbox compat
+	args := []string{
+		runjs,
+		"--no-sandbox",
+		"--disable-gpu-sandbox",
+	}
+
+	// Pass through any extra args from the user
+	if len(os.Args) > 1 {
+		args = append(args, os.Args[1:]...)
+	}
+
+	cmd := exec.Command(electron, args...)
 	cmd.Dir = dir
 
-	// Write a launch marker to the log so we know the wrapper ran
+	// Write a launch marker to the log
 	f, err := os.OpenFile(logFile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
 	if err == nil {
-		fmt.Fprintf(f, "[%s] launcher: starting electron\n", time.Now().Format(time.RFC3339))
+		fmt.Fprintf(f, "[%s] launcher: starting electron (args: %s)\n", time.Now().Format(time.RFC3339), strings.Join(args, " "))
 		f.Close()
 	}
 
@@ -79,32 +121,43 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Wait 3 seconds — if electron dies immediately, show the error
+	// Wait 4 seconds — if electron dies immediately, show the error
 	done := make(chan error, 1)
 	go func() { done <- cmd.Wait() }()
 
 	select {
 	case err := <-done:
-		// Electron exited within 3 seconds — something crashed
 		if err != nil {
 			// Read log file for clues
 			logContent := ""
 			if data, e := os.ReadFile(logFile); e == nil {
 				lines := strings.Split(string(data), "\n")
-				// Last 15 lines
 				start := len(lines) - 15
 				if start < 0 {
 					start = 0
 				}
 				logContent = strings.Join(lines[start:], "\n")
 			}
-			msg := fmt.Sprintf("Electron exited immediately with an error.\n\nExit: %s\n\nInstall dir: %s", err.Error(), dir)
+
+			exitStr := err.Error()
+
+			// Detect common crash codes
+			hint := ""
+			if strings.Contains(exitStr, "80000003") {
+				hint = "\n\nThis usually means:\n" +
+					"  1. Missing Visual C++ Redistributable (x86)\n" +
+					"     → https://aka.ms/vs/17/release/vc_redist.x86.exe\n" +
+					"  2. GPU/driver issue in a VM — try running with --disable-gpu\n" +
+					"  3. Corrupted Electron download — re-run the installer"
+			}
+
+			msg := fmt.Sprintf("Electron exited immediately with an error.\n\nExit: %s\n\nInstall dir: %s%s", exitStr, dir, hint)
 			if logContent != "" {
 				msg += "\n\nLog tail:\n" + logContent
 			}
 			msgBox(msg, "Redbook — Crash")
 		}
-	case <-time.After(3 * time.Second):
-		// Still running after 3 seconds — all good, exit wrapper
+	case <-time.After(4 * time.Second):
+		// Still running — all good
 	}
 }

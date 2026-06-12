@@ -13,7 +13,11 @@ $electronExe = Join-Path $electronDir 'electron.exe'
 $resourcesDir = Join-Path $InstallDir 'resources'
 $asarDest = Join-Path $resourcesDir 'app.asar'
 
+$vcRedistUrl = 'https://aka.ms/vs/17/release/vc_redist.x86.exe'
+
 $host.UI.RawUI.WindowTitle = 'Redbook Setup'
+
+# ── Helper functions ────────────────────────────────────────────────────────────
 
 function Write-Step($icon, $msg) {
     Write-Host ""
@@ -51,6 +55,74 @@ function Format-Time($seconds) {
     return "{0}:{1:D2}" -f $m, $s
 }
 
+function Download-WithProgress($url, $destPath, $label) {
+    $uri = [System.Uri]::new($url)
+    $request = [System.Net.HttpWebRequest]::Create($uri)
+    $request.AllowAutoRedirect = $true
+    $request.UserAgent = 'RedbookSetup/1.0'
+    $request.Timeout = 30000
+
+    $response = $request.GetResponse()
+    $totalBytes = $response.ContentLength
+    $stream = $response.GetResponseStream()
+    $fileStream = [System.IO.File]::Create($destPath)
+    $buffer = New-Object byte[] 65536
+    $downloaded = 0
+    $startTime = [DateTime]::Now
+    $lastUpdate = [DateTime]::MinValue
+
+    if ($totalBytes -gt 0) {
+        Write-Host "     Size: $(Format-Bytes $totalBytes)" -ForegroundColor Gray
+    }
+
+    while (($read = $stream.Read($buffer, 0, $buffer.Length)) -gt 0) {
+        $fileStream.Write($buffer, 0, $read)
+        $downloaded += $read
+        $now = [DateTime]::Now
+
+        if (($now - $lastUpdate).TotalMilliseconds -ge 250) {
+            $lastUpdate = $now
+            $elapsed = ($now - $startTime).TotalSeconds
+            if ($totalBytes -gt 0) {
+                $pct = [math]::Round(($downloaded / $totalBytes) * 100, 1)
+                $speed = if ($elapsed -gt 0) { $downloaded / $elapsed } else { 0 }
+                $remaining = if ($speed -gt 0) { ($totalBytes - $downloaded) / $speed } else { 0 }
+                $barLen = 30
+                $filled = [math]::Floor($pct / 100 * $barLen)
+                $bar = ("=" * $filled) + ("." * ($barLen - $filled))
+                $line = "     [$bar] $pct%  $(Format-Bytes $downloaded)/$(Format-Bytes $totalBytes)  $(Format-Bytes $speed)/s  ETA $(Format-Time $remaining)"
+                Write-Host "`r$line" -NoNewline
+            } else {
+                Write-Host "`r     Downloaded $(Format-Bytes $downloaded)  $(Format-Bytes ($downloaded / [math]::Max($elapsed, 0.1)))/s" -NoNewline
+            }
+        }
+    }
+
+    $fileStream.Close()
+    $stream.Close()
+    $response.Close()
+
+    $elapsed = ([DateTime]::Now - $startTime).TotalSeconds
+    $avgSpeed = if ($elapsed -gt 0) { $downloaded / $elapsed } else { 0 }
+    Write-Host ""
+    Write-Host "     Downloaded $(Format-Bytes $downloaded) in $([math]::Round($elapsed, 1))s (avg $(Format-Bytes $avgSpeed)/s)" -ForegroundColor Gray
+}
+
+function Test-VCRedist {
+    # Check both native and WOW64 registry paths for VC++ 2015-2022 (x86)
+    $paths = @(
+        'HKLM:\SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x86',
+        'HKLM:\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\14.0\VC\Runtimes\x86'
+    )
+    foreach ($p in $paths) {
+        try {
+            $val = Get-ItemProperty -Path $p -Name 'Installed' -ErrorAction Stop
+            if ($val.Installed -eq 1) { return $true }
+        } catch {}
+    }
+    return $false
+}
+
 # ── Banner ──────────────────────────────────────────────────────────────────────
 
 Write-Host ""
@@ -59,9 +131,69 @@ Write-Host "       Redbook Setup — Post-Install Configuration" -ForegroundColo
 Write-Host "  ================================================================" -ForegroundColor DarkCyan
 Write-Host ""
 
-# ── Step 1: Download Electron ───────────────────────────────────────────────────
+# ── Step 1: Visual C++ Redistributable ──────────────────────────────────────────
 
-Write-Step "1/3" "Downloading Electron v$electronVersion (ia32)"
+Write-Step "1/4" "Checking Visual C++ Redistributable (x86)"
+
+if (Test-VCRedist) {
+    Write-Skip "Visual C++ Redistributable already installed."
+} else {
+    Write-Host "     VC++ 2015-2022 (x86) is required by Electron." -ForegroundColor Gray
+    Write-Host "     Downloading from Microsoft..." -ForegroundColor Gray
+
+    $vcRedistPath = Join-Path $env:TEMP 'vc_redist.x86.exe'
+
+    try {
+        Download-WithProgress $vcRedistUrl $vcRedistPath 'VC++ Redist'
+    } catch {
+        Write-Host ""
+        Write-Err "Download failed: $_"
+        [System.Windows.Forms.MessageBox]::Show(
+            "Failed to download Visual C++ Redistributable.`n`nURL: $vcRedistUrl`nError: $_`n`nYou can install it manually from:`nhttps://aka.ms/vs/17/release/vc_redist.x86.exe",
+            'Redbook Setup', 'OK', 'Error')
+        exit 1
+    }
+
+    if (!(Test-Path $vcRedistPath) -or (Get-Item $vcRedistPath).Length -lt 1000000) {
+        Write-Err "Download appears corrupt."
+        [System.Windows.Forms.MessageBox]::Show(
+            "VC++ Redistributable download appears corrupt.`nPlease try again or install manually from:`nhttps://aka.ms/vs/17/release/vc_redist.x86.exe",
+            'Redbook Setup', 'OK', 'Error')
+        exit 1
+    }
+
+    Write-Host "     Installing (requires admin privileges)..." -ForegroundColor Gray
+
+    try {
+        # Elevate via RunAs — will prompt UAC only if needed
+        $proc = Start-Process -FilePath $vcRedistPath -ArgumentList '/install /quiet /norestart' -Verb RunAs -Wait -PassThru
+        $exitCode = $proc.ExitCode
+
+        if ($exitCode -eq 0) {
+            Write-Ok "Visual C++ Redistributable installed."
+        } elseif ($exitCode -eq 1638) {
+            Write-Ok "Visual C++ Redistributable already up to date."
+        } elseif ($exitCode -eq 3010) {
+            Write-Ok "Visual C++ Redistributable installed (reboot recommended)."
+        } else {
+            Write-Err "VC++ installer returned exit code $exitCode"
+            [System.Windows.Forms.MessageBox]::Show(
+                "Visual C++ Redistributable installer returned exit code $exitCode.`n`nRedbook may not work correctly.`nYou can try installing it manually from:`nhttps://aka.ms/vs/17/release/vc_redist.x86.exe",
+                'Redbook Setup', 'OK', 'Warning')
+        }
+    } catch {
+        Write-Err "Failed to run VC++ installer: $_"
+        [System.Windows.Forms.MessageBox]::Show(
+            "Failed to install Visual C++ Redistributable.`nError: $_`n`nIf you declined the admin prompt, please install it manually from:`nhttps://aka.ms/vs/17/release/vc_redist.x86.exe",
+            'Redbook Setup', 'OK', 'Warning')
+    }
+
+    Remove-Item $vcRedistPath -Force -ErrorAction SilentlyContinue
+}
+
+# ── Step 2: Download Electron ───────────────────────────────────────────────────
+
+Write-Step "2/4" "Downloading Electron v$electronVersion (ia32)"
 
 if (Test-Path $electronExe) {
     Write-Skip "Electron already installed."
@@ -69,58 +201,7 @@ if (Test-Path $electronExe) {
     $zipPath = Join-Path $env:TEMP "electron-v$electronVersion-win32-ia32.zip"
 
     try {
-        # Use HttpWebRequest for streaming download with real-time progress
-        $uri = [System.Uri]::new($electronUrl)
-        $request = [System.Net.HttpWebRequest]::Create($uri)
-        $request.AllowAutoRedirect = $true
-        $request.UserAgent = 'RedbookSetup/1.0'
-        $request.Timeout = 30000
-
-        $response = $request.GetResponse()
-        $totalBytes = $response.ContentLength
-        $stream = $response.GetResponseStream()
-        $fileStream = [System.IO.File]::Create($zipPath)
-        $buffer = New-Object byte[] 65536
-        $downloaded = 0
-        $startTime = [DateTime]::Now
-        $lastUpdate = [DateTime]::MinValue
-
-        Write-Host "     Size: $(Format-Bytes $totalBytes)" -ForegroundColor Gray
-
-        while (($read = $stream.Read($buffer, 0, $buffer.Length)) -gt 0) {
-            $fileStream.Write($buffer, 0, $read)
-            $downloaded += $read
-            $now = [DateTime]::Now
-
-            # Update progress every 250ms (don't spam the console)
-            if (($now - $lastUpdate).TotalMilliseconds -ge 250) {
-                $lastUpdate = $now
-                $elapsed = ($now - $startTime).TotalSeconds
-                if ($totalBytes -gt 0) {
-                    $pct = [math]::Round(($downloaded / $totalBytes) * 100, 1)
-                    $speed = if ($elapsed -gt 0) { $downloaded / $elapsed } else { 0 }
-                    $remaining = if ($speed -gt 0) { ($totalBytes - $downloaded) / $speed } else { 0 }
-                    $bar = ""
-                    $barLen = 30
-                    $filled = [math]::Floor($pct / 100 * $barLen)
-                    $bar = ("=" * $filled) + ("." * ($barLen - $filled))
-                    $line = "     [$bar] $pct%  $(Format-Bytes $downloaded)/$(Format-Bytes $totalBytes)  $(Format-Bytes $speed)/s  ETA $(Format-Time $remaining)"
-                    Write-Host "`r$line" -NoNewline
-                } else {
-                    Write-Host "`r     Downloaded $(Format-Bytes $downloaded)  $(Format-Bytes ($downloaded / [math]::Max($elapsed, 0.1)))/s" -NoNewline
-                }
-            }
-        }
-
-        $fileStream.Close()
-        $stream.Close()
-        $response.Close()
-
-        $elapsed = ([DateTime]::Now - $startTime).TotalSeconds
-        $avgSpeed = if ($elapsed -gt 0) { $downloaded / $elapsed } else { 0 }
-        Write-Host ""
-        Write-Host "     Downloaded $(Format-Bytes $downloaded) in $([math]::Round($elapsed, 1))s (avg $(Format-Bytes $avgSpeed)/s)" -ForegroundColor Gray
-
+        Download-WithProgress $electronUrl $zipPath 'Electron'
     } catch {
         Write-Host ""
         Write-Err "Download failed: $_"
@@ -138,9 +219,9 @@ if (Test-Path $electronExe) {
         exit 1
     }
 
-    # ── Step 2: Extract ─────────────────────────────────────────────────────────
+    # ── Step 3: Extract ─────────────────────────────────────────────────────────
 
-    Write-Step "2/3" "Extracting Electron"
+    Write-Step "3/4" "Extracting Electron"
 
     if (!(Test-Path $electronDir)) { New-Item -ItemType Directory -Path $electronDir -Force | Out-Null }
 
@@ -168,9 +249,9 @@ if (Test-Path $electronExe) {
     Write-Ok "Electron v$electronVersion installed."
 }
 
-# ── Step 3: Locate and copy app.asar ────────────────────────────────────────────
+# ── Step 4: Locate and copy app.asar ────────────────────────────────────────────
 
-Write-Step "3/3" "Locating Bluebook (app.asar)"
+Write-Step "4/4" "Locating Bluebook (app.asar)"
 
 if (Test-Path $asarDest) {
     Write-Skip "app.asar already present."
@@ -223,5 +304,4 @@ Write-Host "       Setup complete. You can close this window." -ForegroundColor 
 Write-Host "  ================================================================" -ForegroundColor DarkCyan
 Write-Host ""
 
-# Keep window open for 3 seconds so user sees the result
 Start-Sleep -Seconds 3
