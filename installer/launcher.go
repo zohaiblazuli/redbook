@@ -85,15 +85,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Pre-flight: check VC++ runtime
-	if !dllExists("vcruntime140.dll") {
-		msgBox("Visual C++ Redistributable is not installed.\n\n"+
-			"Electron requires the Visual C++ 2015-2022 Redistributable (x86).\n\n"+
-			"Download it from:\nhttps://aka.ms/vs/17/release/vc_redist.x86.exe\n\n"+
-			"Install it, then try launching Redbook again.", "Redbook — Missing Runtime")
-		os.Exit(1)
-	}
-
 	// Build electron args: _run.js + chromium flags for VM/sandbox compat
 	args := []string{
 		runjs,
