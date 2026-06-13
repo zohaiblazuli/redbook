@@ -13,6 +13,7 @@ Compression=lzma2/max
 SolidCompression=yes
 PrivilegesRequired=admin
 UsedUserAreasWarning=no
+DisableDirPage=yes
 DisableProgramGroupPage=yes
 WizardStyle=modern
 

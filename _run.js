@@ -20,9 +20,25 @@ const Module = require('module');
 const electron = require('electron');
 const { app, dialog, shell, session } = electron;
 
-const logPath = path.join(__dirname, '_run.log');
-fs.writeFileSync(logPath, `[${new Date().toISOString()}] run v2\n`);
-const log = (...a) => fs.appendFileSync(logPath, a.map(x => typeof x === 'string' ? x : require('util').inspect(x, {depth: 3})).join(' ') + '\n');
+let logPath = path.join(__dirname, '_run.log');
+let logEnabled = true;
+try {
+    fs.writeFileSync(logPath, `[${new Date().toISOString()}] run v2\n`);
+} catch (e) {
+    // Can't write to install dir (EPERM, read-only, etc) -- fall back to temp
+    try {
+        logPath = path.join(require('os').tmpdir(), 'redbook_run.log');
+        fs.writeFileSync(logPath, `[${new Date().toISOString()}] run v2 (fallback log: ${e.message})\n`);
+    } catch (_) {
+        logEnabled = false;
+    }
+}
+const log = (...a) => {
+    if (!logEnabled) return;
+    try {
+        fs.appendFileSync(logPath, a.map(x => typeof x === 'string' ? x : require('util').inspect(x, {depth: 3})).join(' ') + '\n');
+    } catch (_) {}
+};
 
 // ── Launch flags ──────────────────────────────────────────────────────────────
 const FLAG_NO_CHECKIN   = process.argv.includes('--noCheckin');
