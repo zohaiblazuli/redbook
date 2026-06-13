@@ -99,6 +99,9 @@ func main() {
 		runjs,
 		"--no-sandbox",
 		"--disable-gpu-sandbox",
+		"--disable-gpu",
+		"--disable-gpu-compositing",
+		"--in-process-gpu",
 	}
 
 	// Pass through any extra args from the user
@@ -109,10 +112,14 @@ func main() {
 	cmd := exec.Command(electron, args...)
 	cmd.Dir = dir
 
-	// Write a launch marker to the log
+	// Write detailed launch diagnostics to the log
 	f, err := os.OpenFile(logFile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
 	if err == nil {
-		fmt.Fprintf(f, "[%s] launcher: starting electron (args: %s)\n", time.Now().Format(time.RFC3339), strings.Join(args, " "))
+		fmt.Fprintf(f, "\n[%s] === launcher start ===\n", time.Now().Format(time.RFC3339))
+		fmt.Fprintf(f, "  dir:      %s\n", dir)
+		fmt.Fprintf(f, "  electron: %s\n", electron)
+		fmt.Fprintf(f, "  args:     %s\n", strings.Join(args, " "))
+		fmt.Fprintf(f, "  exe:      %s\n", os.Args[0])
 		f.Close()
 	}
 
@@ -121,43 +128,64 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Wait 4 seconds — if electron dies immediately, show the error
+	// Log the PID
+	if f2, e := os.OpenFile(logFile, os.O_WRONLY|os.O_APPEND, 0644); e == nil {
+		fmt.Fprintf(f2, "  pid:      %d\n", cmd.Process.Pid)
+		f2.Close()
+	}
+
+	// Wait 4 seconds — if electron exits for ANY reason, show diagnostic dialog
 	done := make(chan error, 1)
 	go func() { done <- cmd.Wait() }()
 
 	select {
 	case err := <-done:
+		// Electron exited within 4 seconds — always suspicious
+		logContent := readLogTail(logFile, 25)
+
+		exitCode := 0
+		exitStr := "exit code 0 (clean)"
 		if err != nil {
-			// Read log file for clues
-			logContent := ""
-			if data, e := os.ReadFile(logFile); e == nil {
-				lines := strings.Split(string(data), "\n")
-				start := len(lines) - 15
-				if start < 0 {
-					start = 0
-				}
-				logContent = strings.Join(lines[start:], "\n")
+			exitStr = err.Error()
+			if ee, ok := err.(*exec.ExitError); ok {
+				exitCode = ee.ExitCode()
 			}
-
-			exitStr := err.Error()
-
-			// Detect common crash codes
-			hint := ""
-			if strings.Contains(exitStr, "80000003") {
-				hint = "\n\nThis usually means:\n" +
-					"  1. Missing Visual C++ Redistributable (x86)\n" +
-					"     → https://aka.ms/vs/17/release/vc_redist.x86.exe\n" +
-					"  2. GPU/driver issue in a VM — try running with --disable-gpu\n" +
-					"  3. Corrupted Electron download — re-run the installer"
-			}
-
-			msg := fmt.Sprintf("Electron exited immediately with an error.\n\nExit: %s\n\nInstall dir: %s%s", exitStr, dir, hint)
-			if logContent != "" {
-				msg += "\n\nLog tail:\n" + logContent
-			}
-			msgBox(msg, "Redbook — Crash")
 		}
+
+		hint := ""
+		if exitCode == 0 {
+			hint = "\n\nElectron exited cleanly but too quickly (under 4s).\n" +
+				"This usually means the app loaded but failed silently.\n" +
+				"Check the log for errors."
+		} else if strings.Contains(exitStr, "80000003") {
+			hint = "\n\nThis usually means:\n" +
+				"  1. Missing Visual C++ Redistributable (x86)\n" +
+				"     Download: https://aka.ms/vs/17/release/vc_redist.x86.exe\n" +
+				"  2. GPU/driver issue in a VM — try --disable-gpu\n" +
+				"  3. Corrupted Electron download — re-run installer"
+		}
+
+		msg := fmt.Sprintf("Electron exited within 4 seconds.\n\nExit: %s\n\nInstall dir: %s%s", exitStr, dir, hint)
+		if logContent != "" {
+			msg += "\n\nLog tail:\n" + logContent
+		}
+		msg += "\n\nFull log: " + logFile
+		msgBox(msg, "Redbook — Launch Failed")
+
 	case <-time.After(4 * time.Second):
 		// Still running — all good
 	}
+}
+
+func readLogTail(path string, lines int) string {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return ""
+	}
+	all := strings.Split(string(data), "\n")
+	start := len(all) - lines
+	if start < 0 {
+		start = 0
+	}
+	return strings.Join(all[start:], "\n")
 }

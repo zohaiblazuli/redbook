@@ -40,6 +40,13 @@ const log = (...a) => {
     } catch (_) {}
 };
 
+// ── GPU compatibility flags (must be set before app.ready) ───────────────────
+app.commandLine.appendSwitch('disable-gpu');
+app.commandLine.appendSwitch('disable-gpu-compositing');
+app.commandLine.appendSwitch('disable-software-rasterizer');
+app.commandLine.appendSwitch('in-process-gpu');
+log('GPU flags appended: disable-gpu, disable-gpu-compositing, disable-software-rasterizer, in-process-gpu');
+
 // ── Launch flags ──────────────────────────────────────────────────────────────
 const FLAG_NO_CHECKIN   = process.argv.includes('--noCheckin');
 const FLAG_SENTRY_DEBUG = process.argv.includes('--sentry-debug');
@@ -53,13 +60,101 @@ Object.defineProperty(global, 'selfHealingCallbackFunction', {
 });
 log('selfHealingCallbackFunction locked');
 
+// ── Error constructor proxy (captures ALL errors, even caught ones) ──────────
+const _OrigError = global.Error;
+const _ErrorLog = [];
+const _PatchedError = function(...args) {
+  const e = new.target ? Reflect.construct(_OrigError, args, new.target) : _OrigError(...args);
+  try {
+    if (e.message && !/blocked|SUPPRESSED|favicon/.test(e.message)) {
+      log('ERROR CREATED:', e.message);
+      _ErrorLog.push({ msg: e.message, stack: e.stack, time: Date.now() });
+    }
+  } catch (_) {}
+  return e;
+};
+_PatchedError.prototype = _OrigError.prototype;
+Object.setPrototypeOf(_PatchedError, _OrigError);
+_PatchedError.captureStackTrace = _OrigError.captureStackTrace;
+_PatchedError.stackTraceLimit = _OrigError.stackTraceLimit;
+try {
+  for (const k of Object.getOwnPropertyNames(_OrigError)) {
+    if (k !== 'prototype' && k !== 'length' && k !== 'name' && k !== 'captureStackTrace' && k !== 'stackTraceLimit') {
+      try { Object.defineProperty(_PatchedError, k, Object.getOwnPropertyDescriptor(_OrigError, k)); } catch (_) {}
+    }
+  }
+} catch (_) {}
+global.Error = _PatchedError;
+log('Error constructor proxy installed');
+
+// ── BrowserWindow constructor proxy ─────────────────────────────────────────
+const _OrigBrowserWindow = electron.BrowserWindow;
+const BrowserWindowProxy = function(...args) {
+  log('BrowserWindow constructor called with:', JSON.stringify(args[0], null, 2));
+  try {
+    const win = new _OrigBrowserWindow(...args);
+    log('BrowserWindow created successfully, id=' + win.id);
+    return win;
+  } catch (e) {
+    log('BrowserWindow CONSTRUCTOR THREW:', e.message, e.stack);
+    throw e;
+  }
+};
+BrowserWindowProxy.prototype = _OrigBrowserWindow.prototype;
+Object.setPrototypeOf(BrowserWindowProxy, _OrigBrowserWindow);
+for (const key of Object.getOwnPropertyNames(_OrigBrowserWindow)) {
+  if (key !== 'prototype' && key !== 'length' && key !== 'name') {
+    try { Object.defineProperty(BrowserWindowProxy, key, Object.getOwnPropertyDescriptor(_OrigBrowserWindow, key)); } catch (_) {}
+  }
+}
+electron.BrowserWindow = BrowserWindowProxy;
+log('BrowserWindow proxy installed');
+
 // ── Block exit/quit while still allowing our own relaunch ────────────────────
 let _allowExit = false;
+let _windowCreated = false;
 process.exit = (c) => { if (_allowExit) return require('process').reallyExit ? require('process').reallyExit(c) : 0; log(`[blocked] process.exit(${c})`); };
 app.exit = (c)     => { if (_allowExit) return; log(`[blocked] app.exit(${c})`); };
 app.quit = ()      => { if (_allowExit) return; log(`[blocked] app.quit() | ${(new Error().stack.split('\n').slice(1,3).join(' | '))}`); };
-dialog.showErrorBox = (t, c) => { log('SUPPRESSED dialog:', t, '|', c); };
+dialog.showErrorBox = (t, c) => { log('SUPPRESSED showErrorBox:', t, '|', c); };
+
+// Intercept showMessageBox/Sync — Bluebook may use these for error dialogs too
+const _origShowMessageBox = dialog.showMessageBox.bind(dialog);
+const _origShowMessageBoxSync = dialog.showMessageBoxSync.bind(dialog);
+dialog.showMessageBox = function(winOrOpts, opts) {
+  const o = opts || winOrOpts;
+  log('INTERCEPTED dialog.showMessageBox:', o && o.title, '|', o && o.message);
+  return _origShowMessageBox.apply(dialog, arguments);
+};
+dialog.showMessageBoxSync = function(winOrOpts, opts) {
+  const o = opts || winOrOpts;
+  log('INTERCEPTED dialog.showMessageBoxSync:', o && o.title, '|', o && o.message);
+  // During startup, suppress Bluebook's error dialogs — let our watchdog handle it
+  if (!_windowCreated && o && /unexpected|error|failed/i.test(String(o.message || o.title || ''))) {
+    log('SUPPRESSED (startup error dialog)');
+    return 0;
+  }
+  return _origShowMessageBoxSync.apply(dialog, arguments);
+};
+
 process.on('uncaughtException', (e) => log('UNCAUGHT', e && e.stack || e));
+process.on('unhandledRejection', (r) => log('UNHANDLED REJECTION', r && r.stack || r));
+
+// Prevent silent exit when no windows are open
+app.on('window-all-closed', (e) => {
+  log('window-all-closed -- preventing exit');
+  e.preventDefault();
+});
+
+// Log quit attempts
+app.on('will-quit', (e) => {
+  if (!_allowExit) {
+    log('[blocked] will-quit');
+    e.preventDefault();
+  } else {
+    log('will-quit (allowed)');
+  }
+});
 
 // ── IPC tracing DISABLED — was monkey-patching ipcMain.handle/.on which appears to
 // break Bluebook's login flow (renderer's ipcRenderer.invoke calls timed out or
@@ -71,7 +166,7 @@ process.on('uncaughtException', (e) => log('UNCAUGHT', e && e.stack || e));
 // const realOn     = ipcMain.on.bind(ipcMain);
 // (the rest of the wrapper is commented out — restore from git history if needed)
 
-// ── Stub win-verify-signature ─────────────────────────────────────────────────
+// ── Stub win-verify-signature + log native module loads ──────────────────────
 const origLoad = Module._load;
 Module._load = function(req, parent, isMain) {
   if (req === 'win-verify-signature') {
@@ -82,7 +177,18 @@ Module._load = function(req, parent, isMain) {
       return { signed: true, subject: s };
     }};
   }
-  return origLoad.apply(this, arguments);
+  // Log native addon loads
+  if (typeof req === 'string' && (req.endsWith('.node') || /native|binding/i.test(req))) {
+    log('NATIVE MODULE LOAD:', req);
+  }
+  try {
+    return origLoad.apply(this, arguments);
+  } catch (e) {
+    if (typeof req === 'string' && (req.endsWith('.node') || /native|binding/i.test(req))) {
+      log('MODULE LOAD FAILED:', req, e.message);
+    }
+    throw e;
+  }
 };
 
 // ── Mod bundle loader ─────────────────────────────────────────────────────────
@@ -1338,6 +1444,21 @@ function doPanicToggle() {
 app.on('ready', () => {
   log('app event: ready');
 
+  // Log display/screen info for VM debugging
+  try {
+    const { screen } = electron;
+    const primary = screen.getPrimaryDisplay();
+    const allDisplays = screen.getAllDisplays();
+    log('DISPLAY INFO:');
+    log('  primary:', JSON.stringify({ bounds: primary.bounds, workArea: primary.workArea, scaleFactor: primary.scaleFactor, rotation: primary.rotation, id: primary.id }));
+    log('  total displays:', allDisplays.length);
+    allDisplays.forEach((d, i) => {
+      log(`  display[${i}]:`, JSON.stringify({ bounds: d.bounds, workArea: d.workArea, scaleFactor: d.scaleFactor }));
+    });
+  } catch (e) {
+    log('DISPLAY INFO ERROR:', e.message);
+  }
+
   // Focus-scoped hotkeys — active only while one of our windows is focused
   const AI_HOTKEY = 'CommandOrControl+Shift+G';
   const PANEL_HOTKEY = 'Insert';
@@ -1399,6 +1520,9 @@ if (!fs.existsSync(asarPath)) {
   app.setAppPath(asarPath);
   log('setAppPath:', asarPath);
 
+  // Track whether a window ever appears (variable declared at module scope)
+  app.on('browser-window-created', () => { _windowCreated = true; });
+
   log('require start');
   try {
     require(path.join(asarPath, 'main', 'index.js'));
@@ -1407,4 +1531,39 @@ if (!fs.existsSync(asarPath)) {
     log('require threw', e && e.stack);
   }
   log('waiting');
+
+  // Startup watchdog: if no window appears within 15 seconds, alert the user
+  setTimeout(() => {
+    if (!_windowCreated) {
+      log('WATCHDOG: no window created within 15 seconds');
+      // Dump all captured errors for diagnostics
+      if (_ErrorLog.length > 0) {
+        log('=== ERRORS CAPTURED DURING STARTUP (' + _ErrorLog.length + ') ===');
+        _ErrorLog.forEach((e, i) => log(`  [${i}] ${e.msg}`));
+        log('=== END ERRORS ===');
+      } else {
+        log('(no errors captured by Error proxy)');
+      }
+      app.whenReady().then(() => {
+        // Build detail string with captured errors
+        let detail = 'The app loaded but never created a window.\n\n';
+        if (_ErrorLog.length > 0) {
+          detail += 'Errors captured during startup:\n';
+          _ErrorLog.slice(-5).forEach((e) => { detail += '  - ' + e.msg.slice(0, 120) + '\n'; });
+          detail += '\n';
+        }
+        detail += 'Log file:\n' + logPath + '\n\n' +
+          'Try re-installing Redbook or check the log for errors.';
+        _origShowMessageBoxSync({
+          type: 'error',
+          title: 'Redbook -- Startup Failed',
+          message: 'No window appeared within 15 seconds.',
+          detail: detail,
+          buttons: ['OK']
+        });
+        _allowExit = true;
+        app.quit();
+      });
+    }
+  }, 15000);
 }
