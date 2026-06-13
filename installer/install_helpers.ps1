@@ -125,7 +125,7 @@ function Download-WithProgress($url, $destPath, $label) {
     $totalBytes = $response.ContentLength
     Log "$label response: $totalBytes bytes, status=$($response.StatusCode)"
     $stream = $response.GetResponseStream()
-    $stream.ReadTimeout = 30000   # 30s — if no data arrives for this long, throw instead of hanging
+    $stream.ReadTimeout = 30000   # 30s -- if no data arrives for this long, throw instead of hanging
     $fileStream = [System.IO.File]::Create($destPath)
     $buffer = New-Object byte[] 65536
     $downloaded = 0
@@ -457,7 +457,7 @@ if (Test-Path $redbookExe) {
         }
     }
 } else {
-    Write-Warn "Redbook.exe not found at $redbookExe — skipping shortcut retarget"
+    Write-Warn "Redbook.exe not found at $redbookExe -- skipping shortcut retarget"
 }
 
 # 5c: Extract fresh bluebook.ico from Bluebook.exe (for Electron window icon in _run.js)
@@ -518,13 +518,13 @@ public class RbSetupIconUtil {
 
             Write-Ok "Extracted bluebook.ico (256x256) from Bluebook.exe"
         } else {
-            Write-Warn "PrivateExtractIcons returned null — keeping bundled bluebook.ico"
+            Write-Warn "PrivateExtractIcons returned null -- keeping bundled bluebook.ico"
         }
     } catch {
-        Write-Warn "Icon extraction failed: $_ — keeping bundled bluebook.ico"
+        Write-Warn "Icon extraction failed: $_ -- keeping bundled bluebook.ico"
     }
 } else {
-    Write-Host "     Bluebook.exe not found — using bundled bluebook.ico" -ForegroundColor DarkGray
+    Write-Host "     Bluebook.exe not found -- using bundled bluebook.ico" -ForegroundColor DarkGray
     Log "Bluebook.exe not found for icon extraction"
 }
 
