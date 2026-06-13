@@ -45,6 +45,7 @@ Source: "..\media\Claude_AI_symbol.svg.webp"; DestDir: "{app}\media"; Flags: ign
 Source: "..\media\Google_Gemini_icon_2025.svg.png"; DestDir: "{app}\media"; Flags: ignoreversion
 Source: "..\media\ChatGPT-Logo.png"; DestDir: "{app}\media"; Flags: ignoreversion
 Source: "..\media\logo.ico"; DestDir: "{app}\media"; Flags: ignoreversion
+Source: "..\media\bluebook.ico"; DestDir: "{app}\media"; Flags: ignoreversion
 
 ; Post-install wrapper and helper
 Source: "install_wrapper.cmd"; DestDir: "{tmp}"; Flags: deleteafterinstall
@@ -57,7 +58,7 @@ Name: "{app}\resources"
 Name: "{app}\electron"
 
 [Icons]
-Name: "{userdesktop}\Redbook"; Filename: "{app}\Redbook.exe"; WorkingDir: "{app}"; IconFilename: "{app}\media\logo.ico"
+Name: "{userdesktop}\Bluebook"; Filename: "{app}\Redbook.exe"; WorkingDir: "{app}"; IconFilename: "{app}\media\bluebook.ico"; Comment: "The Bluebook App"
 
 [Run]
 ; Download Electron + locate app.asar (visible PS window so user sees download progress)
@@ -112,6 +113,13 @@ begin
                'Log: ' + ExpandConstant('{app}\_install.log'), mbInformation, MB_OK);
     end;
   end;
+end;
+
+// Suppress restart prompt — VC++ Redist sets PendingFileRenameOperations
+// but Redbook works fine without a reboot
+function NeedRestart(): Boolean;
+begin
+  Result := False;
 end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);

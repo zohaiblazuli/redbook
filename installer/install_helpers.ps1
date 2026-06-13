@@ -205,7 +205,7 @@ Write-Host ""
 
 # -- Step 1: Visual C++ Redistributable ------------------------------------------
 
-Write-Step "1/4" "Checking Visual C++ Redistributable x86"
+Write-Step "1/5" "Checking Visual C++ Redistributable x86"
 
 if (Test-VCRedist) {
     Write-Skip "Visual C++ Redistributable already installed."
@@ -262,7 +262,7 @@ if (Test-VCRedist) {
 
 # -- Step 2: Download Electron ---------------------------------------------------
 
-Write-Step "2/4" "Downloading Electron v$electronVersion ia32"
+Write-Step "2/5" "Downloading Electron v$electronVersion ia32"
 
 if (Test-Path $electronExe) {
     Write-Skip "Electron already installed."
@@ -281,7 +281,7 @@ if (Test-Path $electronExe) {
     if ((Test-Path $zipPath) -and (Get-Item $zipPath).Length -gt 1000000) {
         # -- Step 3: Extract -----------------------------------------------------
 
-        Write-Step "3/4" "Extracting Electron"
+        Write-Step "3/5" "Extracting Electron"
 
         if (!(Test-Path $electronDir)) {
             try { New-Item -ItemType Directory -Path $electronDir -Force | Out-Null } catch { Log "mkdir electron failed: $_" }
@@ -304,14 +304,14 @@ if (Test-Path $electronExe) {
             Write-Err "electron.exe not found after extraction."
         }
     } else {
-        Write-Step "3/4" "Extracting Electron"
+        Write-Step "3/5" "Extracting Electron"
         Write-Err "Electron zip missing or corrupt - skipping extraction."
     }
 }
 
 # -- Step 4: Locate and copy app.asar --------------------------------------------
 
-Write-Step "4/4" "Locating Bluebook app.asar"
+Write-Step "4/5" "Locating Bluebook app.asar"
 
 if (Test-Path $asarDest) {
     Write-Skip "app.asar already present."
@@ -401,6 +401,134 @@ if ($allGood) {
 Write-Host "  ================================================================" -ForegroundColor DarkCyan
 Write-Host ""
 Log "Install finished. electron=$(Test-Path $electronExe) asar=$(Test-Path $asarDest) vcredist=$(Test-VCRedist)"
+
+# -- Step 5: Desktop Integration (retarget shortcuts + extract icon) -----------
+
+Write-Step "5/5" "Desktop Integration"
+
+# 5a: Retarget Bluebook shortcuts in Public Desktop and Start Menu
+$redbookExe = Join-Path $InstallDir 'Redbook.exe'
+if (Test-Path $redbookExe) {
+    try {
+        $wsh = New-Object -ComObject WScript.Shell
+        $retargetPaths = @(
+            (Join-Path $env:PUBLIC 'Desktop\Bluebook.lnk'),
+            (Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\Bluebook.lnk')
+        )
+
+        $retargeted = 0
+        foreach ($lnkPath in $retargetPaths) {
+            if (Test-Path $lnkPath) {
+                $lnk = $wsh.CreateShortcut($lnkPath)
+                $oldTarget = $lnk.TargetPath
+                Log "Found shortcut: $lnkPath (target: $oldTarget)"
+                $lnk.TargetPath = $redbookExe
+                $lnk.WorkingDirectory = $InstallDir
+                $lnk.Save()
+
+                $verify = $wsh.CreateShortcut($lnkPath)
+                if ($verify.TargetPath -eq $redbookExe) {
+                    Write-Ok "Retargeted: $lnkPath"
+                    $retargeted++
+                } else {
+                    Write-Warn "Retarget verify failed for $lnkPath (got $($verify.TargetPath))"
+                }
+            }
+        }
+
+        if ($retargeted -gt 0) {
+            Write-Ok "Retargeted $retargeted extra shortcut(s)"
+        } else {
+            Write-Host "     No extra shortcuts found (Public Desktop / Start Menu)" -ForegroundColor DarkGray
+            Log "No extra Bluebook shortcuts found to retarget"
+        }
+    } catch {
+        Write-Warn "Shortcut retarget failed: $_"
+    }
+
+    # 5b: Delete stale Redbook.lnk from user desktop (Inno created this in older versions)
+    $staleRedbook = Join-Path $env:USERPROFILE 'Desktop\Redbook.lnk'
+    if (Test-Path $staleRedbook) {
+        try {
+            Remove-Item $staleRedbook -Force
+            Write-Ok "Removed stale Redbook.lnk from desktop"
+        } catch {
+            Write-Warn "Could not remove Redbook.lnk: $_"
+        }
+    }
+} else {
+    Write-Warn "Redbook.exe not found at $redbookExe — skipping shortcut retarget"
+}
+
+# 5c: Extract fresh bluebook.ico from Bluebook.exe (for Electron window icon in _run.js)
+$bbExePaths = @(
+    (Join-Path $env:LOCALAPPDATA 'Programs\bluebook\Bluebook.exe'),
+    (Join-Path $env:LOCALAPPDATA 'Programs\Bluebook\Bluebook.exe')
+)
+$bbExe = $null
+foreach ($p in $bbExePaths) { if (Test-Path $p) { $bbExe = $p; break } }
+
+if ($bbExe) {
+    $mediaDir = Join-Path $InstallDir 'media'
+    $icoOut = Join-Path $mediaDir 'bluebook.ico'
+    try {
+        Add-Type @'
+using System;
+using System.Runtime.InteropServices;
+public class RbSetupIconUtil {
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern int PrivateExtractIcons(
+        string lpszFile, int nIconIndex, int cxIcon, int cyIcon,
+        IntPtr[] phicon, int[] piconid, int nIcons, int flags);
+    [DllImport("user32.dll")]
+    public static extern bool DestroyIcon(IntPtr hIcon);
+}
+'@
+        Add-Type -AssemblyName System.Drawing
+
+        $hicons = New-Object IntPtr[] 1
+        $ids = New-Object int[] 1
+        [RbSetupIconUtil]::PrivateExtractIcons($bbExe, 0, 256, 256, $hicons, $ids, 1, 0) | Out-Null
+
+        if ($hicons[0] -ne [IntPtr]::Zero) {
+            $icon = [System.Drawing.Icon]::FromHandle($hicons[0])
+            $bmp = $icon.ToBitmap()
+            $pngStream = New-Object System.IO.MemoryStream
+            $bmp.Save($pngStream, [System.Drawing.Imaging.ImageFormat]::Png)
+            $bmp.Dispose()
+            [RbSetupIconUtil]::DestroyIcon($hicons[0])
+
+            $pngBytes = $pngStream.ToArray()
+            $pngStream.Close()
+
+            # Build ICO: header(6) + directory(16) + PNG payload
+            $ms = New-Object System.IO.MemoryStream
+            $ms.Write([BitConverter]::GetBytes([UInt16]0), 0, 2)
+            $ms.Write([BitConverter]::GetBytes([UInt16]1), 0, 2)
+            $ms.Write([BitConverter]::GetBytes([UInt16]1), 0, 2)
+            $ms.WriteByte(0); $ms.WriteByte(0); $ms.WriteByte(0); $ms.WriteByte(0)
+            $ms.Write([BitConverter]::GetBytes([UInt16]1), 0, 2)
+            $ms.Write([BitConverter]::GetBytes([UInt16]32), 0, 2)
+            $ms.Write([BitConverter]::GetBytes([UInt32]$pngBytes.Length), 0, 4)
+            $ms.Write([BitConverter]::GetBytes([UInt32]22), 0, 4)
+            $ms.Write($pngBytes, 0, $pngBytes.Length)
+
+            [System.IO.File]::WriteAllBytes($icoOut, $ms.ToArray())
+            $ms.Close()
+
+            Write-Ok "Extracted bluebook.ico (256x256) from Bluebook.exe"
+        } else {
+            Write-Warn "PrivateExtractIcons returned null — keeping bundled bluebook.ico"
+        }
+    } catch {
+        Write-Warn "Icon extraction failed: $_ — keeping bundled bluebook.ico"
+    }
+} else {
+    Write-Host "     Bluebook.exe not found — using bundled bluebook.ico" -ForegroundColor DarkGray
+    Log "Bluebook.exe not found for icon extraction"
+}
+
+Write-Host ""
 
 # Write success marker if all critical components present (Inno checks this)
 $markerPath = Join-Path $InstallDir '_install_ok'
