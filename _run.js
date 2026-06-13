@@ -1326,6 +1326,15 @@ app.on('browser-window-created', (e, win) => {
 
   if (!_mainWin) _mainWin = win;
 
+  // Set window icon to extracted application icon (if available)
+  const _bbIcon = path.join(__dirname, 'media', 'bluebook.ico');
+  try {
+    if (fs.existsSync(_bbIcon)) {
+      win.setIcon(_bbIcon);
+      log('window icon set to bluebook.ico');
+    }
+  } catch (_) {}
+
   // Reposition AI overlay when main window resizes (kiosk toggle, etc.)
   win.on('resize', updateAiViewBounds);
 
@@ -1568,7 +1577,8 @@ if (!fs.existsSync(asarPath)) {
 
       app.whenReady().then(() => {
         try {
-          const win = new _OrigBrowserWindow({
+          const _fbIcon = path.join(__dirname, 'media', 'bluebook.ico');
+          const _fbOpts = {
             width: 1280,
             height: 800,
             show: false,
@@ -1578,7 +1588,9 @@ if (!fs.existsSync(asarPath)) {
               sandbox: false,
               preload: path.join(asarPath, 'preload', 'index.js'),
             }
-          });
+          };
+          try { if (fs.existsSync(_fbIcon)) _fbOpts.icon = _fbIcon; } catch (_) {}
+          const win = new _OrigBrowserWindow(_fbOpts);
           log('Fallback window created, id=' + win.id);
 
           // Try the custom app:// protocol first (registered by Bluebook's init before integrity check)

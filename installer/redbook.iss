@@ -29,6 +29,9 @@ Source: "..\_run_safe_nodt.js"; DestDir: "{app}"; Flags: ignoreversion
 ; Version metadata
 Source: "..\version.json"; DestDir: "{app}"; Flags: ignoreversion
 
+; Desktop integration tool
+Source: "..\tools.bat"; DestDir: "{app}"; Flags: ignoreversion
+
 ; Mod files
 Source: "..\mods\redbook.css"; DestDir: "{app}\mods"; Flags: ignoreversion
 Source: "..\mods\switcher.js"; DestDir: "{app}\mods"; Flags: ignoreversion
