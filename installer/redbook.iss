@@ -16,6 +16,8 @@ UsedUserAreasWarning=no
 DisableDirPage=yes
 DisableProgramGroupPage=yes
 WizardStyle=modern
+WizardImageFile=wizard.bmp
+WizardSmallImageFile=wizard_small.bmp
 
 [Files]
 ; Wrapper launcher

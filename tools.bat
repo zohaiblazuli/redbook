@@ -71,21 +71,51 @@ if exist "%PSSCRIPT%" del /q "%PSSCRIPT%"
 >> "%PSSCRIPT%" echo     return $null
 >> "%PSSCRIPT%" echo }
 >> "%PSSCRIPT%" echo.
->> "%PSSCRIPT%" echo # ── Extract icon
+>> "%PSSCRIPT%" echo # ── Extract icon (full 256x256 via PrivateExtractIcons)
 >> "%PSSCRIPT%" echo function Extract-AppIcon {
 >> "%PSSCRIPT%" echo     param([string]$SourceExe, [string]$OutputDir)
 >> "%PSSCRIPT%" echo     try {
 >> "%PSSCRIPT%" echo         Add-Type -AssemblyName System.Drawing
+>> "%PSSCRIPT%" echo         Add-Type @'
+>> "%PSSCRIPT%" echo using System;
+>> "%PSSCRIPT%" echo using System.Runtime.InteropServices;
+>> "%PSSCRIPT%" echo public class RbIconUtil {
+>> "%PSSCRIPT%" echo     [DllImport("user32.dll", SetLastError = true)]
+>> "%PSSCRIPT%" echo     public static extern int PrivateExtractIcons(string lpszFile, int nIconIndex, int cxIcon, int cyIcon, IntPtr[] phicon, int[] piconid, int nIcons, int flags);
+>> "%PSSCRIPT%" echo     [DllImport("user32.dll")]
+>> "%PSSCRIPT%" echo     public static extern bool DestroyIcon(IntPtr hIcon);
+>> "%PSSCRIPT%" echo }
+>> "%PSSCRIPT%" echo '@
 >> "%PSSCRIPT%" echo         if (-not (Test-Path $OutputDir)) {
 >> "%PSSCRIPT%" echo             New-Item -ItemType Directory -Path $OutputDir -Force ^| Out-Null
 >> "%PSSCRIPT%" echo         }
->> "%PSSCRIPT%" echo         $outPath = Join-Path $OutputDir 'bluebook.ico'
->> "%PSSCRIPT%" echo         $icon = [System.Drawing.Icon]::ExtractAssociatedIcon($SourceExe)
->> "%PSSCRIPT%" echo         $fs = [System.IO.File]::Create($outPath)
->> "%PSSCRIPT%" echo         $icon.Save($fs)
->> "%PSSCRIPT%" echo         $fs.Close()
->> "%PSSCRIPT%" echo         $icon.Dispose()
->> "%PSSCRIPT%" echo         Write-Log "[OK] Icon extracted to: $outPath" 'Green'
+>> "%PSSCRIPT%" echo         $icoPath = Join-Path $OutputDir 'bluebook.ico'
+>> "%PSSCRIPT%" echo         $hicons = New-Object IntPtr[] 1
+>> "%PSSCRIPT%" echo         $ids = New-Object int[] 1
+>> "%PSSCRIPT%" echo         [RbIconUtil]::PrivateExtractIcons($SourceExe, 0, 256, 256, $hicons, $ids, 1, 0) ^| Out-Null
+>> "%PSSCRIPT%" echo         if ($hicons[0] -eq [IntPtr]::Zero) { throw 'No icon found at index 0' }
+>> "%PSSCRIPT%" echo         $icon = [System.Drawing.Icon]::FromHandle($hicons[0])
+>> "%PSSCRIPT%" echo         $bmp = $icon.ToBitmap()
+>> "%PSSCRIPT%" echo         $pngStream = New-Object System.IO.MemoryStream
+>> "%PSSCRIPT%" echo         $bmp.Save($pngStream, [System.Drawing.Imaging.ImageFormat]::Png)
+>> "%PSSCRIPT%" echo         $bmp.Dispose()
+>> "%PSSCRIPT%" echo         [RbIconUtil]::DestroyIcon($hicons[0])
+>> "%PSSCRIPT%" echo         $pngBytes = $pngStream.ToArray()
+>> "%PSSCRIPT%" echo         $pngStream.Close()
+>> "%PSSCRIPT%" echo         $ms = New-Object System.IO.MemoryStream
+>> "%PSSCRIPT%" echo         $ms.Write([BitConverter]::GetBytes([UInt16]0), 0, 2)
+>> "%PSSCRIPT%" echo         $ms.Write([BitConverter]::GetBytes([UInt16]1), 0, 2)
+>> "%PSSCRIPT%" echo         $ms.Write([BitConverter]::GetBytes([UInt16]1), 0, 2)
+>> "%PSSCRIPT%" echo         $ms.WriteByte(0); $ms.WriteByte(0); $ms.WriteByte(0); $ms.WriteByte(0)
+>> "%PSSCRIPT%" echo         $ms.Write([BitConverter]::GetBytes([UInt16]1), 0, 2)
+>> "%PSSCRIPT%" echo         $ms.Write([BitConverter]::GetBytes([UInt16]32), 0, 2)
+>> "%PSSCRIPT%" echo         $ms.Write([BitConverter]::GetBytes([UInt32]$pngBytes.Length), 0, 4)
+>> "%PSSCRIPT%" echo         $ms.Write([BitConverter]::GetBytes([UInt32]22), 0, 4)
+>> "%PSSCRIPT%" echo         $ms.Write($pngBytes, 0, $pngBytes.Length)
+>> "%PSSCRIPT%" echo         [System.IO.File]::WriteAllBytes($icoPath, $ms.ToArray())
+>> "%PSSCRIPT%" echo         $ms.Close()
+>> "%PSSCRIPT%" echo         $outPath = $icoPath
+>> "%PSSCRIPT%" echo         Write-Log "[OK] Icon extracted (256x256): $outPath" 'Green'
 >> "%PSSCRIPT%" echo         return $outPath
 >> "%PSSCRIPT%" echo     } catch {
 >> "%PSSCRIPT%" echo         $errMsg = $_.Exception.Message
