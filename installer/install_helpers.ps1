@@ -125,6 +125,7 @@ function Download-WithProgress($url, $destPath, $label) {
     $totalBytes = $response.ContentLength
     Log "$label response: $totalBytes bytes, status=$($response.StatusCode)"
     $stream = $response.GetResponseStream()
+    $stream.ReadTimeout = 30000   # 30s — if no data arrives for this long, throw instead of hanging
     $fileStream = [System.IO.File]::Create($destPath)
     $buffer = New-Object byte[] 65536
     $downloaded = 0
@@ -401,6 +402,15 @@ Write-Host "  ================================================================" 
 Write-Host ""
 Log "Install finished. electron=$(Test-Path $electronExe) asar=$(Test-Path $asarDest) vcredist=$(Test-VCRedist)"
 
+# Write success marker if all critical components present (Inno checks this)
+$markerPath = Join-Path $InstallDir '_install_ok'
+if ($allGood) {
+    try { Set-Content -Path $markerPath -Value 'ok' -Encoding utf8 } catch {}
+} else {
+    # Remove stale marker from previous installs
+    try { if (Test-Path $markerPath) { Remove-Item $markerPath -Force } } catch {}
+}
+
 } catch {
     # Global catch - if ANYTHING uncaught crashes the script, log it
     Log "FATAL UNHANDLED EXCEPTION: $_"
@@ -413,6 +423,12 @@ Log "Install finished. electron=$(Test-Path $electronExe) asar=$(Test-Path $asar
 }
 
 Log "Script ending normally."
+
+# Exit non-zero if critical components are missing
+if (-not (Test-Path $electronExe)) {
+    Log "Exiting with code 1: Electron missing"
+    exit 1
+}
 
 # Window lifetime: if called from CMD wrapper, it handles pausing on error.
 # If running standalone (manual testing), pause so user can see output.

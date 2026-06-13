@@ -82,6 +82,7 @@ Type: filesandordirs; Name: "{app}\media"
 Type: files; Name: "{app}\_run.log"
 Type: files; Name: "{app}\_inspect.txt"
 Type: files; Name: "{app}\_bg_dump.txt"
+Type: files; Name: "{app}\_install_ok"
 ; Nuke the install dir itself if empty
 Type: dirifempty; Name: "{app}"
 
@@ -91,6 +92,28 @@ Filename: "taskkill.exe"; Parameters: "/F /IM electron.exe"; Flags: runhidden; R
 Filename: "taskkill.exe"; Parameters: "/F /IM Redbook.exe"; Flags: runhidden; RunOnceId: "KillRedbook"
 
 [Code]
+// Check if post-install download succeeded — warn on finish page if not
+procedure CurStepChanged(CurStep: TSetupStep);
+var
+  MarkerPath, ElectronPath: String;
+begin
+  if CurStep = ssPostInstall then
+  begin
+    MarkerPath := ExpandConstant('{app}\_install_ok');
+    ElectronPath := ExpandConstant('{app}\electron\electron.exe');
+    if not FileExists(MarkerPath) then
+    begin
+      if not FileExists(ElectronPath) then
+        MsgBox('Electron download failed or was interrupted.' + #13#10 + #13#10 +
+               'Redbook will not work until Electron is installed.' + #13#10 +
+               'Re-run the installer to retry the download.', mbError, MB_OK)
+      else
+        MsgBox('Setup completed with warnings. Check the install log for details.' + #13#10 +
+               'Log: ' + ExpandConstant('{app}\_install.log'), mbInformation, MB_OK);
+    end;
+  end;
+end;
+
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 var
   InstallDir: String;
