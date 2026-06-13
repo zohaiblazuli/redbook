@@ -39,7 +39,8 @@ Source: "..\media\Google_Gemini_icon_2025.svg.png"; DestDir: "{app}\media"; Flag
 Source: "..\media\ChatGPT-Logo.png"; DestDir: "{app}\media"; Flags: ignoreversion
 Source: "..\media\logo.ico"; DestDir: "{app}\media"; Flags: ignoreversion
 
-; Post-install helper
+; Post-install wrapper and helper
+Source: "install_wrapper.cmd"; DestDir: "{tmp}"; Flags: deleteafterinstall
 Source: "install_helpers.ps1"; DestDir: "{tmp}"; Flags: deleteafterinstall
 
 [Dirs]
@@ -53,7 +54,7 @@ Name: "{userdesktop}\Redbook"; Filename: "{app}\Redbook.exe"; WorkingDir: "{app}
 
 [Run]
 ; Download Electron + locate app.asar (visible PS window so user sees download progress)
-Filename: "{sys}\WindowsPowerShell\v1.0\powershell.exe"; Parameters: "-NoProfile -NonInteractive -ExecutionPolicy Bypass -File ""{tmp}\install_helpers.ps1"" ""{app}"""; StatusMsg: "Downloading Electron runtime and configuring Redbook..."; Flags: waituntilterminated
+Filename: "{tmp}\install_wrapper.cmd"; Parameters: """{app}"" ""{tmp}\install_helpers.ps1"""; StatusMsg: "Downloading Electron runtime and configuring Redbook..."; Flags: waituntilterminated shellexec
 
 ; Option to launch after install
 Filename: "{app}\Redbook.exe"; Description: "Launch Redbook"; Flags: postinstall skipifsilent nowait

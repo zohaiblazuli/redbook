@@ -1,9 +1,30 @@
 param(
-    [Parameter(Mandatory=$true)]
     [string]$InstallDir
 )
 
-# ── Logging FIRST — before anything else can crash ──────────────────────────────
+# -- Validate InstallDir (replaces [Mandatory] which crashes under -NonInteractive) --
+if (-not $InstallDir -or $InstallDir -eq '') {
+    $candidate = Join-Path $env:LOCALAPPDATA 'Redbook'
+    if (Test-Path $candidate) {
+        $InstallDir = $candidate
+    } else {
+        Write-Host ""
+        Write-Host "  [FATAL] InstallDir parameter is empty and could not be derived." -ForegroundColor Red
+        Write-Host "  Usage: install_helpers.ps1 <InstallDir>" -ForegroundColor Yellow
+        exit 1
+    }
+}
+$InstallDir = $InstallDir.TrimEnd('\', '/')
+if (-not (Test-Path $InstallDir)) {
+    Write-Host "  [WARN] InstallDir does not exist yet: $InstallDir -- creating it." -ForegroundColor Yellow
+    try { New-Item -ItemType Directory -Path $InstallDir -Force | Out-Null }
+    catch {
+        Write-Host "  [FATAL] Cannot create InstallDir: $_" -ForegroundColor Red
+        exit 1
+    }
+}
+
+# -- Logging FIRST - before anything else can crash ------------------------------
 $logFile = Join-Path $InstallDir '_install.log'
 try { Set-Content -Path $logFile -Value "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] install_helpers.ps1 started" -Encoding utf8 } catch {}
 function Log($msg) {
@@ -16,31 +37,31 @@ Log "OS=$([Environment]::OSVersion.VersionString) 64bit=$([Environment]::Is64Bit
 Log "PS=$($PSVersionTable.PSVersion) Host=$($host.Name)"
 Log "User=$env:USERNAME Elevated=$([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match 'S-1-5-32-544')"
 
-# ── Safe init — protect every startup op ────────────────────────────────────────
+# -- Safe init - protect every startup op ----------------------------------------
 try { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Log "TLS 1.2 set" }
-catch { Log "TLS 1.2 failed: $_ (continuing)" }
+catch { Log "TLS 1.2 failed: $_ - continuing" }
 
 $hasWinForms = $false
 try { Add-Type -AssemblyName System.Windows.Forms; $hasWinForms = $true; Log "WinForms loaded" }
-catch { Log "WinForms failed: $_ (no message boxes available)" }
+catch { Log "WinForms failed: $_ - no message boxes available" }
 
-try { $host.UI.RawUI.WindowTitle = 'Redbook Setup' } catch { Log "WindowTitle set failed (cosmetic)" }
+try { $host.UI.RawUI.WindowTitle = 'Redbook Setup' } catch { Log "WindowTitle set failed, cosmetic" }
 
 function Show-Error($title, $msg) {
     if ($hasWinForms) {
         try { [System.Windows.Forms.MessageBox]::Show($msg, $title, 'OK', 'Error') } catch {}
     }
-    Log "ERROR DIALOG: $title — $msg"
+    Log "ERROR DIALOG: $title - $msg"
 }
 
 function Show-Warning($title, $msg) {
     if ($hasWinForms) {
         try { [System.Windows.Forms.MessageBox]::Show($msg, $title, 'OK', 'Warning') } catch {}
     }
-    Log "WARNING DIALOG: $title — $msg"
+    Log "WARNING DIALOG: $title - $msg"
 }
 
-# ── Config ──────────────────────────────────────────────────────────────────────
+# -- Config ----------------------------------------------------------------------
 $electronVersion = '39.8.10'
 $electronUrl = "https://github.com/electron/electron/releases/download/v$electronVersion/electron-v$electronVersion-win32-ia32.zip"
 $electronDir = Join-Path $InstallDir 'electron'
@@ -49,7 +70,7 @@ $resourcesDir = Join-Path $InstallDir 'resources'
 $asarDest = Join-Path $resourcesDir 'app.asar'
 $vcRedistUrl = 'https://aka.ms/vs/17/release/vc_redist.x86.exe'
 
-# ── Helper functions ────────────────────────────────────────────────────────────
+# -- Helper functions ------------------------------------------------------------
 
 function Write-Step($icon, $msg) {
     Write-Host ""
@@ -79,17 +100,17 @@ function Write-Err($msg) {
 }
 
 function Format-Bytes($bytes) {
-    if ($bytes -ge 1073741824) { return "{0:F1} GB" -f ($bytes / 1073741824) }
-    if ($bytes -ge 1048576)    { return "{0:F1} MB" -f ($bytes / 1048576) }
-    if ($bytes -ge 1024)       { return "{0:F1} KB" -f ($bytes / 1024) }
+    if ($bytes -ge 1073741824) { return "$([math]::Round($bytes / 1073741824, 1)) GB" }
+    if ($bytes -ge 1048576)    { return "$([math]::Round($bytes / 1048576, 1)) MB" }
+    if ($bytes -ge 1024)       { return "$([math]::Round($bytes / 1024, 1)) KB" }
     return "$bytes B"
 }
 
 function Format-Time($seconds) {
-    if ($seconds -lt 0 -or $seconds -gt 3600) { return "--:--" }
-    $m = [math]::Floor($seconds / 60)
-    $s = [math]::Floor($seconds % 60)
-    return "{0}:{1:D2}" -f $m, $s
+    if ($seconds -lt 0 -or $seconds -gt 3600) { return '--:--' }
+    $m = [int][math]::Floor($seconds / 60)
+    $s = [int][math]::Floor($seconds % 60)
+    return "$m`:$($s.ToString().PadLeft(2,'0'))"
 }
 
 function Download-WithProgress($url, $destPath, $label) {
@@ -145,7 +166,7 @@ function Download-WithProgress($url, $destPath, $label) {
     $avgSpeed = if ($elapsed -gt 0) { $downloaded / $elapsed } else { 0 }
     Write-Host ""
     Write-Host "     Downloaded $(Format-Bytes $downloaded) in $([math]::Round($elapsed, 1))s (avg $(Format-Bytes $avgSpeed)/s)" -ForegroundColor Gray
-    Log "Downloaded $label: $(Format-Bytes $downloaded) in $([math]::Round($elapsed, 1))s"
+    Log "Downloaded ${label}: $(Format-Bytes $downloaded) in $([math]::Round($elapsed, 1))s"
 }
 
 function Test-VCRedist {
@@ -169,26 +190,26 @@ function Test-VCRedist {
     return $false
 }
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# MAIN — wrapped in global try/catch so ANY crash gets logged
-# ═══════════════════════════════════════════════════════════════════════════════
+# ===============================================================================
+# MAIN - wrapped in global try/catch so ANY crash gets logged
+# ===============================================================================
 
 try {
 
 Write-Host ""
 Write-Host "  ================================================================" -ForegroundColor DarkCyan
-Write-Host "       Redbook Setup — Post-Install Configuration" -ForegroundColor White
+Write-Host "       Redbook Setup - Post-Install Configuration" -ForegroundColor White
 Write-Host "  ================================================================" -ForegroundColor DarkCyan
 Write-Host ""
 
-# ── Step 1: Visual C++ Redistributable ──────────────────────────────────────────
+# -- Step 1: Visual C++ Redistributable ------------------------------------------
 
-Write-Step "1/4" "Checking Visual C++ Redistributable (x86)"
+Write-Step "1/4" "Checking Visual C++ Redistributable x86"
 
 if (Test-VCRedist) {
     Write-Skip "Visual C++ Redistributable already installed."
 } else {
-    Write-Host "     VC++ 2015-2022 (x86) is required by Electron." -ForegroundColor Gray
+    Write-Host "     VC++ 2015-2022 x86 is required by Electron." -ForegroundColor Gray
     Write-Host "     Downloading from Microsoft..." -ForegroundColor Gray
 
     $vcRedistPath = Join-Path $env:TEMP 'vc_redist.x86.exe'
@@ -212,7 +233,7 @@ if (Test-VCRedist) {
                     Write-Ok "Visual C++ Redistributable already up to date."
                     $vcInstalled = $true
                 } elseif ($exitCode -eq 3010) {
-                    Write-Ok "Visual C++ Redistributable installed (reboot recommended)."
+                    Write-Ok "Visual C++ Redistributable installed - reboot recommended."
                     $vcInstalled = $true
                 } else {
                     Write-Warn "VC++ installer returned exit code $exitCode"
@@ -238,9 +259,9 @@ if (Test-VCRedist) {
     }
 }
 
-# ── Step 2: Download Electron ───────────────────────────────────────────────────
+# -- Step 2: Download Electron ---------------------------------------------------
 
-Write-Step "2/4" "Downloading Electron v$electronVersion (ia32)"
+Write-Step "2/4" "Downloading Electron v$electronVersion ia32"
 
 if (Test-Path $electronExe) {
     Write-Skip "Electron already installed."
@@ -253,11 +274,11 @@ if (Test-Path $electronExe) {
         Write-Host ""
         Write-Err "Download failed: $_"
         Show-Error 'Redbook Setup' "Failed to download Electron.`n`nURL: $electronUrl`nError: $_`n`nCheck your internet connection and try again."
-        # Don't exit — continue to app.asar step so log captures everything
+        # Don't exit - continue to app.asar step so log captures everything
     }
 
     if ((Test-Path $zipPath) -and (Get-Item $zipPath).Length -gt 1000000) {
-        # ── Step 3: Extract ─────────────────────────────────────────────────────
+        # -- Step 3: Extract -----------------------------------------------------
 
         Write-Step "3/4" "Extracting Electron"
 
@@ -283,13 +304,13 @@ if (Test-Path $electronExe) {
         }
     } else {
         Write-Step "3/4" "Extracting Electron"
-        Write-Err "Electron zip missing or corrupt — skipping extraction."
+        Write-Err "Electron zip missing or corrupt - skipping extraction."
     }
 }
 
-# ── Step 4: Locate and copy app.asar ────────────────────────────────────────────
+# -- Step 4: Locate and copy app.asar --------------------------------------------
 
-Write-Step "4/4" "Locating Bluebook (app.asar)"
+Write-Step "4/4" "Locating Bluebook app.asar"
 
 if (Test-Path $asarDest) {
     Write-Skip "app.asar already present."
@@ -302,8 +323,9 @@ if (Test-Path $asarDest) {
     if ($env:ProgramFiles) {
         $searchPaths += Join-Path $env:ProgramFiles 'College Board\Bluebook\resources\app.asar'
     }
-    if (${env:ProgramFiles(x86)}) {
-        $searchPaths += Join-Path ${env:ProgramFiles(x86)} 'College Board\Bluebook\resources\app.asar'
+    $pf86 = [Environment]::GetFolderPath('ProgramFilesX86')
+    if ($pf86) {
+        $searchPaths += Join-Path $pf86 'College Board\Bluebook\resources\app.asar'
     }
 
     Write-Host "     Searching $($searchPaths.Count) known locations..." -ForegroundColor Gray
@@ -329,20 +351,20 @@ if (Test-Path $asarDest) {
 
     if ($found) {
         $sizeMB = [math]::Round((Get-Item $found).Length / 1MB, 1)
-        Write-Host "     Copying app.asar ($sizeMB MB)..." -ForegroundColor Gray
+        Write-Host "     Copying app.asar - ${sizeMB} MB..." -ForegroundColor Gray
         try {
             Copy-Item $found $asarDest -Force
-            Write-Ok "app.asar copied ($sizeMB MB)."
+            Write-Ok "app.asar copied, ${sizeMB} MB."
         } catch {
             Write-Err "Copy failed: $_"
         }
     } else {
         Write-Warn "Bluebook not found on this machine."
-        Show-Warning 'Redbook Setup — Bluebook Not Found' "Bluebook was not found on this computer.`n`nRedbook needs Bluebook's app.asar file to work.`n`nPlease either:`n  1. Install Bluebook from collegeboard.org, then re-run this installer`n  2. Manually copy app.asar to:`n     $resourcesDir"
+        Show-Warning 'Redbook Setup - Bluebook Not Found' "Bluebook was not found on this computer.`n`nRedbook needs Bluebook's app.asar file to work.`n`nPlease either:`n  1. Install Bluebook from collegeboard.org, then re-run this installer`n  2. Manually copy app.asar to:`n     $resourcesDir"
     }
 }
 
-# ── Summary ─────────────────────────────────────────────────────────────────────
+# -- Summary ---------------------------------------------------------------------
 
 Write-Host ""
 Write-Host "  ================================================================" -ForegroundColor DarkCyan
@@ -363,7 +385,7 @@ if (Test-Path $asarDest) {
 if (Test-VCRedist) {
     Write-Host "     VC++ x86:  OK" -ForegroundColor Green
 } else {
-    Write-Host "     VC++ x86:  MISSING (install from aka.ms/vs/17/release/vc_redist.x86.exe)" -ForegroundColor Red
+    Write-Host "     VC++ x86:  MISSING - install from aka.ms/vs/17/release/vc_redist.x86.exe" -ForegroundColor Red
     $allGood = $false
 }
 
@@ -380,7 +402,7 @@ Write-Host ""
 Log "Install finished. electron=$(Test-Path $electronExe) asar=$(Test-Path $asarDest) vcredist=$(Test-VCRedist)"
 
 } catch {
-    # Global catch — if ANYTHING uncaught crashes the script, log it
+    # Global catch - if ANYTHING uncaught crashes the script, log it
     Log "FATAL UNHANDLED EXCEPTION: $_"
     Log "Exception type: $($_.Exception.GetType().FullName)"
     Log "Stack: $($_.ScriptStackTrace)"
@@ -390,8 +412,11 @@ Log "Install finished. electron=$(Test-Path $electronExe) asar=$(Test-Path $asar
     Write-Host ""
 }
 
-Write-Host "  Press any key to close..." -ForegroundColor DarkGray
-Log "Script ending. Waiting for keypress."
+Log "Script ending normally."
 
-# Keep window open so user can see output (or errors)
-try { $null = $host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown') } catch { Start-Sleep -Seconds 8 }
+# Window lifetime: if called from CMD wrapper, it handles pausing on error.
+# If running standalone (manual testing), pause so user can see output.
+if (-not $env:REDBOOK_WRAPPER) {
+    Write-Host "  Press any key to close..." -ForegroundColor DarkGray
+    try { $null = $host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown') } catch { Start-Sleep -Seconds 8 }
+}
