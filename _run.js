@@ -60,33 +60,6 @@ Object.defineProperty(global, 'selfHealingCallbackFunction', {
 });
 log('selfHealingCallbackFunction locked');
 
-// ── Error constructor proxy (captures ALL errors, even caught ones) ──────────
-const _OrigError = global.Error;
-const _ErrorLog = [];
-const _PatchedError = function(...args) {
-  const e = new.target ? Reflect.construct(_OrigError, args, new.target) : _OrigError(...args);
-  try {
-    if (e.message && !/blocked|SUPPRESSED|favicon/.test(e.message)) {
-      log('ERROR CREATED:', e.message);
-      _ErrorLog.push({ msg: e.message, stack: e.stack, time: Date.now() });
-    }
-  } catch (_) {}
-  return e;
-};
-_PatchedError.prototype = _OrigError.prototype;
-Object.setPrototypeOf(_PatchedError, _OrigError);
-_PatchedError.captureStackTrace = _OrigError.captureStackTrace;
-_PatchedError.stackTraceLimit = _OrigError.stackTraceLimit;
-try {
-  for (const k of Object.getOwnPropertyNames(_OrigError)) {
-    if (k !== 'prototype' && k !== 'length' && k !== 'name' && k !== 'captureStackTrace' && k !== 'stackTraceLimit') {
-      try { Object.defineProperty(_PatchedError, k, Object.getOwnPropertyDescriptor(_OrigError, k)); } catch (_) {}
-    }
-  }
-} catch (_) {}
-global.Error = _PatchedError;
-log('Error constructor proxy installed');
-
 // ── BrowserWindow constructor proxy ─────────────────────────────────────────
 const _OrigBrowserWindow = electron.BrowserWindow;
 const BrowserWindowProxy = function(...args) {
@@ -1523,6 +1496,58 @@ if (!fs.existsSync(asarPath)) {
   // Track whether a window ever appears (variable declared at module scope)
   app.on('browser-window-created', () => { _windowCreated = true; });
 
+  // ── Integrity check bypass: soften fs/crypto errors during startup ─────────
+  // Bluebook's v4KM integrity check reads files, hashes them, and verifies a
+  // digital signature. The ENTIRE function is wrapped in try/catch — if anything
+  // throws, the catch calls app.quit(). By softening ENOENT/EPERM errors and
+  // publicDecrypt failures, we prevent the catch from firing. The hash comparison
+  // will still fail (wrong hashes), but it only reports to Sentry, not throw.
+  const _origReadFileSync = fs.readFileSync;
+  fs.readFileSync = function(p, opts) {
+    try {
+      return _origReadFileSync.call(fs, p, opts);
+    } catch (e) {
+      if (!_windowCreated && (e.code === 'ENOENT' || e.code === 'EPERM' || e.code === 'EACCES')) {
+        log('SOFTENED readFileSync:', String(p), e.code);
+        return Buffer.alloc(0);
+      }
+      throw e;
+    }
+  };
+
+  const _origStatSync = fs.statSync;
+  fs.statSync = function(p, opts) {
+    try {
+      return _origStatSync.call(fs, p, opts);
+    } catch (e) {
+      if (!_windowCreated && (e.code === 'ENOENT' || e.code === 'EPERM')) {
+        log('SOFTENED statSync:', String(p));
+        return {
+          isFile: () => false, isDirectory: () => false, isSymbolicLink: () => false,
+          isBlockDevice: () => false, isCharacterDevice: () => false, isFIFO: () => false,
+          isSocket: () => false, size: 0, mtime: new Date(), atime: new Date(), ctime: new Date(),
+          mode: 0, uid: 0, gid: 0, nlink: 1, dev: 0, ino: 0, rdev: 0, blksize: 4096, blocks: 0,
+        };
+      }
+      throw e;
+    }
+  };
+
+  const _crypto = require('crypto');
+  const _origPublicDecrypt = _crypto.publicDecrypt;
+  _crypto.publicDecrypt = function(...args) {
+    try {
+      return _origPublicDecrypt.apply(_crypto, args);
+    } catch (e) {
+      if (!_windowCreated) {
+        log('SOFTENED publicDecrypt:', e.message);
+        return Buffer.alloc(0);
+      }
+      throw e;
+    }
+  };
+  log('Integrity check bypass wrappers installed');
+
   log('require start');
   try {
     require(path.join(asarPath, 'main', 'index.js'));
@@ -1532,37 +1557,73 @@ if (!fs.existsSync(asarPath)) {
   }
   log('waiting');
 
-  // Startup watchdog: if no window appears within 15 seconds, alert the user
+  // ── Startup watchdog: fallback window creation ─────────────────────────────
+  // If Bluebook's saga fails (integrity check) and no window appears within
+  // 15 seconds, create our own BrowserWindow and load the renderer.
+  // The app:// protocol handler is registered BEFORE the integrity check,
+  // so it should still be ready to serve files.
   setTimeout(() => {
     if (!_windowCreated) {
-      log('WATCHDOG: no window created within 15 seconds');
-      // Dump all captured errors for diagnostics
-      if (_ErrorLog.length > 0) {
-        log('=== ERRORS CAPTURED DURING STARTUP (' + _ErrorLog.length + ') ===');
-        _ErrorLog.forEach((e, i) => log(`  [${i}] ${e.msg}`));
-        log('=== END ERRORS ===');
-      } else {
-        log('(no errors captured by Error proxy)');
-      }
+      log('WATCHDOG: no window created within 15 seconds — creating fallback window');
+
       app.whenReady().then(() => {
-        // Build detail string with captured errors
-        let detail = 'The app loaded but never created a window.\n\n';
-        if (_ErrorLog.length > 0) {
-          detail += 'Errors captured during startup:\n';
-          _ErrorLog.slice(-5).forEach((e) => { detail += '  - ' + e.msg.slice(0, 120) + '\n'; });
-          detail += '\n';
+        try {
+          const win = new _OrigBrowserWindow({
+            width: 1280,
+            height: 800,
+            show: false,
+            webPreferences: {
+              nodeIntegration: false,
+              contextIsolation: true,
+              sandbox: false,
+              preload: path.join(asarPath, 'preload', 'index.js'),
+            }
+          });
+          log('Fallback window created, id=' + win.id);
+
+          // Try the custom app:// protocol first (registered by Bluebook's init before integrity check)
+          win.loadURL('app://dap-electron.collegeboard.org').then(() => {
+            log('Fallback window loaded app:// URL');
+          }).catch((urlErr) => {
+            log('app:// protocol failed:', urlErr.message, '— trying file:// fallback');
+            // Fallback: load renderer HTML directly from app.asar
+            const htmlPath = path.join(asarPath, 'renderer', 'index.html');
+            win.loadFile(htmlPath).then(() => {
+              log('Fallback window loaded file:// URL');
+            }).catch((fileErr) => {
+              log('FATAL: file:// fallback also failed:', fileErr.message);
+              _origShowMessageBoxSync({
+                type: 'error',
+                title: 'Redbook -- Startup Failed',
+                message: 'Could not load Bluebook renderer.',
+                detail: 'Both app:// and file:// loading failed.\n\n' +
+                  'app:// error: ' + urlErr.message + '\n' +
+                  'file:// error: ' + fileErr.message + '\n\n' +
+                  'Log file:\n' + logPath,
+                buttons: ['OK']
+              });
+              _allowExit = true;
+              app.quit();
+            });
+          });
+
+          win.once('ready-to-show', () => {
+            log('Fallback window ready-to-show');
+            win.show();
+            win.focus();
+          });
+        } catch (e) {
+          log('Fallback window creation failed:', e.message, e.stack);
+          _origShowMessageBoxSync({
+            type: 'error',
+            title: 'Redbook -- Startup Failed',
+            message: 'Failed to create fallback window.',
+            detail: e.message + '\n\nLog file:\n' + logPath,
+            buttons: ['OK']
+          });
+          _allowExit = true;
+          app.quit();
         }
-        detail += 'Log file:\n' + logPath + '\n\n' +
-          'Try re-installing Redbook or check the log for errors.';
-        _origShowMessageBoxSync({
-          type: 'error',
-          title: 'Redbook -- Startup Failed',
-          message: 'No window appeared within 15 seconds.',
-          detail: detail,
-          buttons: ['OK']
-        });
-        _allowExit = true;
-        app.quit();
       });
     }
   }, 15000);
