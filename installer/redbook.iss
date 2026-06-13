@@ -33,6 +33,7 @@ Source: "..\version.json"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Desktop integration tool
 Source: "..\tools.bat"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\tools.ps1"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Mod files
 Source: "..\mods\redbook.css"; DestDir: "{app}\mods"; Flags: ignoreversion

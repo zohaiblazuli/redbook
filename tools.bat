@@ -3,10 +3,8 @@ setlocal EnableDelayedExpansion
 
 title Redbook Tools
 
-REM === Redbook Desktop Integration Tool ===
-
 set "LOGFILE=%LOCALAPPDATA%\Redbook\_tools.log"
-set "PSSCRIPT=%TEMP%\redbook_tools_%RANDOM%.ps1"
+set "PSSCRIPT=%~dp0tools.ps1"
 
 :MENU
 cls
@@ -22,7 +20,7 @@ echo   [4] Exit
 echo.
 set /p "CHOICE=  Select option (1-4): "
 
-if "%CHOICE%"=="4" goto :CLEANUP
+if "%CHOICE%"=="4" goto :END
 if "%CHOICE%"=="1" goto :RUN
 if "%CHOICE%"=="2" goto :RUN
 if "%CHOICE%"=="3" goto :RUN
@@ -37,167 +35,12 @@ echo.
 echo  Running...
 echo.
 
-REM ── Write the PowerShell script to a temp file (line by line, no block escaping) ──
-if exist "%PSSCRIPT%" del /q "%PSSCRIPT%"
+if not exist "%PSSCRIPT%" (
+    echo  [ERROR] tools.ps1 not found at: %PSSCRIPT%
+    echo  Make sure tools.ps1 is in the same folder as tools.bat.
+    goto :END
+)
 
->> "%PSSCRIPT%" echo param([int]$Action, [string]$LogFile)
->> "%PSSCRIPT%" echo.
->> "%PSSCRIPT%" echo # ── Logging
->> "%PSSCRIPT%" echo function Write-Log {
->> "%PSSCRIPT%" echo     param([string]$Msg, [string]$Color = 'White')
->> "%PSSCRIPT%" echo     $ts = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
->> "%PSSCRIPT%" echo     $line = "[$ts] $Msg"
->> "%PSSCRIPT%" echo     Write-Host $line -ForegroundColor $Color
->> "%PSSCRIPT%" echo     try { Add-Content -Path $LogFile -Value $line -ErrorAction SilentlyContinue } catch {}
->> "%PSSCRIPT%" echo }
->> "%PSSCRIPT%" echo.
->> "%PSSCRIPT%" echo # ── Find source application
->> "%PSSCRIPT%" echo function Find-SourceApp {
->> "%PSSCRIPT%" echo     $paths = @(
->> "%PSSCRIPT%" echo         (Join-Path $env:LOCALAPPDATA 'Programs\bluebook\Bluebook.exe'),
->> "%PSSCRIPT%" echo         (Join-Path $env:LOCALAPPDATA 'Programs\Bluebook\Bluebook.exe'),
->> "%PSSCRIPT%" echo         (Join-Path $env:ProgramFiles 'College Board\Bluebook\Bluebook.exe')
->> "%PSSCRIPT%" echo     )
->> "%PSSCRIPT%" echo     foreach ($p in $paths) {
->> "%PSSCRIPT%" echo         if (Test-Path $p) { return $p }
->> "%PSSCRIPT%" echo     }
->> "%PSSCRIPT%" echo     return $null
->> "%PSSCRIPT%" echo }
->> "%PSSCRIPT%" echo.
->> "%PSSCRIPT%" echo # ── Find Redbook
->> "%PSSCRIPT%" echo function Find-Redbook {
->> "%PSSCRIPT%" echo     $rbExe = Join-Path $env:LOCALAPPDATA 'Redbook\Redbook.exe'
->> "%PSSCRIPT%" echo     if (Test-Path $rbExe) { return $rbExe }
->> "%PSSCRIPT%" echo     return $null
->> "%PSSCRIPT%" echo }
->> "%PSSCRIPT%" echo.
->> "%PSSCRIPT%" echo # ── Extract icon (full 256x256 via PrivateExtractIcons)
->> "%PSSCRIPT%" echo function Extract-AppIcon {
->> "%PSSCRIPT%" echo     param([string]$SourceExe, [string]$OutputDir)
->> "%PSSCRIPT%" echo     try {
->> "%PSSCRIPT%" echo         Add-Type -AssemblyName System.Drawing
->> "%PSSCRIPT%" echo         Add-Type @'
->> "%PSSCRIPT%" echo using System;
->> "%PSSCRIPT%" echo using System.Runtime.InteropServices;
->> "%PSSCRIPT%" echo public class RbIconUtil {
->> "%PSSCRIPT%" echo     [DllImport("user32.dll", SetLastError = true)]
->> "%PSSCRIPT%" echo     public static extern int PrivateExtractIcons(string lpszFile, int nIconIndex, int cxIcon, int cyIcon, IntPtr[] phicon, int[] piconid, int nIcons, int flags);
->> "%PSSCRIPT%" echo     [DllImport("user32.dll")]
->> "%PSSCRIPT%" echo     public static extern bool DestroyIcon(IntPtr hIcon);
->> "%PSSCRIPT%" echo }
->> "%PSSCRIPT%" echo '@
->> "%PSSCRIPT%" echo         if (-not (Test-Path $OutputDir)) {
->> "%PSSCRIPT%" echo             New-Item -ItemType Directory -Path $OutputDir -Force ^| Out-Null
->> "%PSSCRIPT%" echo         }
->> "%PSSCRIPT%" echo         $icoPath = Join-Path $OutputDir 'bluebook.ico'
->> "%PSSCRIPT%" echo         $hicons = New-Object IntPtr[] 1
->> "%PSSCRIPT%" echo         $ids = New-Object int[] 1
->> "%PSSCRIPT%" echo         [RbIconUtil]::PrivateExtractIcons($SourceExe, 0, 256, 256, $hicons, $ids, 1, 0) ^| Out-Null
->> "%PSSCRIPT%" echo         if ($hicons[0] -eq [IntPtr]::Zero) { throw 'No icon found at index 0' }
->> "%PSSCRIPT%" echo         $icon = [System.Drawing.Icon]::FromHandle($hicons[0])
->> "%PSSCRIPT%" echo         $bmp = $icon.ToBitmap()
->> "%PSSCRIPT%" echo         $pngStream = New-Object System.IO.MemoryStream
->> "%PSSCRIPT%" echo         $bmp.Save($pngStream, [System.Drawing.Imaging.ImageFormat]::Png)
->> "%PSSCRIPT%" echo         $bmp.Dispose()
->> "%PSSCRIPT%" echo         [RbIconUtil]::DestroyIcon($hicons[0])
->> "%PSSCRIPT%" echo         $pngBytes = $pngStream.ToArray()
->> "%PSSCRIPT%" echo         $pngStream.Close()
->> "%PSSCRIPT%" echo         $ms = New-Object System.IO.MemoryStream
->> "%PSSCRIPT%" echo         $ms.Write([BitConverter]::GetBytes([UInt16]0), 0, 2)
->> "%PSSCRIPT%" echo         $ms.Write([BitConverter]::GetBytes([UInt16]1), 0, 2)
->> "%PSSCRIPT%" echo         $ms.Write([BitConverter]::GetBytes([UInt16]1), 0, 2)
->> "%PSSCRIPT%" echo         $ms.WriteByte(0); $ms.WriteByte(0); $ms.WriteByte(0); $ms.WriteByte(0)
->> "%PSSCRIPT%" echo         $ms.Write([BitConverter]::GetBytes([UInt16]1), 0, 2)
->> "%PSSCRIPT%" echo         $ms.Write([BitConverter]::GetBytes([UInt16]32), 0, 2)
->> "%PSSCRIPT%" echo         $ms.Write([BitConverter]::GetBytes([UInt32]$pngBytes.Length), 0, 4)
->> "%PSSCRIPT%" echo         $ms.Write([BitConverter]::GetBytes([UInt32]22), 0, 4)
->> "%PSSCRIPT%" echo         $ms.Write($pngBytes, 0, $pngBytes.Length)
->> "%PSSCRIPT%" echo         [System.IO.File]::WriteAllBytes($icoPath, $ms.ToArray())
->> "%PSSCRIPT%" echo         $ms.Close()
->> "%PSSCRIPT%" echo         $outPath = $icoPath
->> "%PSSCRIPT%" echo         Write-Log "[OK] Icon extracted (256x256): $outPath" 'Green'
->> "%PSSCRIPT%" echo         return $outPath
->> "%PSSCRIPT%" echo     } catch {
->> "%PSSCRIPT%" echo         $errMsg = $_.Exception.Message
->> "%PSSCRIPT%" echo         Write-Log "[FAIL] Icon extraction failed: $errMsg" 'Red'
->> "%PSSCRIPT%" echo         return $null
->> "%PSSCRIPT%" echo     }
->> "%PSSCRIPT%" echo }
->> "%PSSCRIPT%" echo.
->> "%PSSCRIPT%" echo # ── Update shortcuts
->> "%PSSCRIPT%" echo function Update-Shortcuts {
->> "%PSSCRIPT%" echo     param([string]$RbExe, [string]$RbDir, [string]$IconPath)
->> "%PSSCRIPT%" echo     try {
->> "%PSSCRIPT%" echo         $desktop = [Environment]::GetFolderPath('Desktop')
->> "%PSSCRIPT%" echo         $removed = @()
->> "%PSSCRIPT%" echo         foreach ($name in @('Bluebook.lnk', 'Redbook.lnk')) {
->> "%PSSCRIPT%" echo             $lnkPath = Join-Path $desktop $name
->> "%PSSCRIPT%" echo             if (Test-Path $lnkPath) {
->> "%PSSCRIPT%" echo                 Remove-Item $lnkPath -Force
->> "%PSSCRIPT%" echo                 $removed += $name
->> "%PSSCRIPT%" echo                 Write-Log "[OK] Removed: $name" 'Green'
->> "%PSSCRIPT%" echo             }
->> "%PSSCRIPT%" echo         }
->> "%PSSCRIPT%" echo         if ($removed.Count -eq 0) {
->> "%PSSCRIPT%" echo             Write-Log "[--] No existing shortcuts to remove" 'DarkGray'
->> "%PSSCRIPT%" echo         }
->> "%PSSCRIPT%" echo.
->> "%PSSCRIPT%" echo         $sh = New-Object -ComObject WScript.Shell
->> "%PSSCRIPT%" echo         $lnk = $sh.CreateShortcut((Join-Path $desktop 'Bluebook.lnk'))
->> "%PSSCRIPT%" echo         $lnk.TargetPath = $RbExe
->> "%PSSCRIPT%" echo         $lnk.WorkingDirectory = $RbDir
->> "%PSSCRIPT%" echo         if ($IconPath) { $lnk.IconLocation = $IconPath }
->> "%PSSCRIPT%" echo         $lnk.Description = 'The Bluebook App'
->> "%PSSCRIPT%" echo         $lnk.Save()
->> "%PSSCRIPT%" echo         Write-Log "[OK] Created shortcut: Bluebook.lnk -> $RbExe" 'Green'
->> "%PSSCRIPT%" echo         if ($IconPath) { Write-Log "     Icon: $IconPath" 'DarkGray' }
->> "%PSSCRIPT%" echo         return $true
->> "%PSSCRIPT%" echo     } catch {
->> "%PSSCRIPT%" echo         $errMsg = $_.Exception.Message
->> "%PSSCRIPT%" echo         Write-Log "[FAIL] Shortcut update failed: $errMsg" 'Red'
->> "%PSSCRIPT%" echo         return $false
->> "%PSSCRIPT%" echo     }
->> "%PSSCRIPT%" echo }
->> "%PSSCRIPT%" echo.
->> "%PSSCRIPT%" echo # ── Main
->> "%PSSCRIPT%" echo Write-Log '=== Redbook Tools started ==='
->> "%PSSCRIPT%" echo Write-Log "Action: $Action"
->> "%PSSCRIPT%" echo.
->> "%PSSCRIPT%" echo $srcExe = Find-SourceApp
->> "%PSSCRIPT%" echo if (-not $srcExe) {
->> "%PSSCRIPT%" echo     Write-Log '[FAIL] Source application not found. Is it installed?' 'Red'
->> "%PSSCRIPT%" echo     Write-Log '       Checked known install locations.' 'DarkGray'
->> "%PSSCRIPT%" echo     exit 1
->> "%PSSCRIPT%" echo }
->> "%PSSCRIPT%" echo Write-Log "[OK] Source app: $srcExe" 'Green'
->> "%PSSCRIPT%" echo.
->> "%PSSCRIPT%" echo $rbExe = Find-Redbook
->> "%PSSCRIPT%" echo if (-not $rbExe) {
->> "%PSSCRIPT%" echo     Write-Log '[FAIL] Redbook not installed.' 'Red'
->> "%PSSCRIPT%" echo     exit 1
->> "%PSSCRIPT%" echo }
->> "%PSSCRIPT%" echo $rbDir = Split-Path $rbExe -Parent
->> "%PSSCRIPT%" echo Write-Log "[OK] Redbook: $rbExe" 'Green'
->> "%PSSCRIPT%" echo.
->> "%PSSCRIPT%" echo $mediaDir = Join-Path $rbDir 'media'
->> "%PSSCRIPT%" echo $icoPath = $null
->> "%PSSCRIPT%" echo.
->> "%PSSCRIPT%" echo if ($Action -eq 1 -or $Action -eq 2) {
->> "%PSSCRIPT%" echo     $icoPath = Extract-AppIcon -SourceExe $srcExe -OutputDir $mediaDir
->> "%PSSCRIPT%" echo }
->> "%PSSCRIPT%" echo.
->> "%PSSCRIPT%" echo if ($Action -eq 1 -or $Action -eq 3) {
->> "%PSSCRIPT%" echo     if (-not $icoPath) {
->> "%PSSCRIPT%" echo         $existingIco = Join-Path $mediaDir 'bluebook.ico'
->> "%PSSCRIPT%" echo         if (Test-Path $existingIco) { $icoPath = $existingIco }
->> "%PSSCRIPT%" echo     }
->> "%PSSCRIPT%" echo     Update-Shortcuts -RbExe $rbExe -RbDir $rbDir -IconPath $icoPath
->> "%PSSCRIPT%" echo }
->> "%PSSCRIPT%" echo.
->> "%PSSCRIPT%" echo Write-Log ''
->> "%PSSCRIPT%" echo Write-Log '=== Done ===' 'Cyan'
-
-REM ── Execute the PowerShell script ───────────────────────────────────────────
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%PSSCRIPT%" -Action %CHOICE% -LogFile "%LOGFILE%"
 set "PSERR=%ERRORLEVEL%"
 
@@ -209,9 +52,7 @@ if "%PSERR%"=="0" (
 )
 echo  Log: %LOGFILE%
 
-:CLEANUP
-if exist "%PSSCRIPT%" del /q "%PSSCRIPT%" >nul 2>&1
-
+:END
 echo.
 echo  Press any key to close...
 pause >nul
