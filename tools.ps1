@@ -112,7 +112,7 @@ public class RbIconUtil {
     }
 }
 
-# ── Update shortcuts ──────────────────────────────────────────────────────────
+# ── Retarget shortcuts ────────────────────────────────────────────────────────
 function Update-Shortcuts {
     param(
         [string]$RbExe,
@@ -121,63 +121,74 @@ function Update-Shortcuts {
         [string]$SourceExe
     )
     try {
-        $desktop = [Environment]::GetFolderPath('Desktop')
-
-        # Remove old shortcuts
-        $removed = @()
-        foreach ($name in @('Bluebook.lnk', 'Redbook.lnk')) {
-            $lnkPath = Join-Path $desktop $name
-            if (Test-Path $lnkPath) {
-                Remove-Item $lnkPath -Force
-                $removed += $name
-                Write-Log "[OK] Removed: $name" 'Green'
-            }
-        }
-        if ($removed.Count -eq 0) {
-            Write-Log "[--] No existing shortcuts to remove" 'DarkGray'
-        }
-
-        # Resolve icon — fallback chain
-        if (-not $IconPath -or -not (Test-Path $IconPath)) {
-            $fallback1 = Join-Path $RbDir 'media\bluebook.ico'
-            $fallback2 = Join-Path $RbDir 'media\logo.ico'
-            if (Test-Path $fallback1) {
-                $IconPath = $fallback1
-                Write-Log "[--] Using existing bluebook.ico" 'DarkGray'
-            } elseif (Test-Path $fallback2) {
-                $IconPath = $fallback2
-                Write-Log "[--] Using logo.ico as fallback" 'DarkGray'
-            } elseif ($SourceExe) {
-                $IconPath = "$SourceExe,0"
-                Write-Log "[--] Using source exe icon as fallback" 'DarkGray'
-            }
-        }
-
-        # Create new shortcut
-        $newLnkPath = Join-Path $desktop 'Bluebook.lnk'
         $sh = New-Object -ComObject WScript.Shell
-        $lnk = $sh.CreateShortcut($newLnkPath)
-        $lnk.TargetPath = $RbExe
-        $lnk.WorkingDirectory = $RbDir
-        if ($IconPath) {
-            $lnk.IconLocation = $IconPath
+        $userDesktop = [Environment]::GetFolderPath('Desktop')
+        $publicDesktop = "$env:PUBLIC\Desktop"
+        $startMenu = Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs'
+
+        # Search ALL locations for Bluebook shortcuts
+        $searchPaths = @(
+            (Join-Path $userDesktop 'Bluebook.lnk'),
+            (Join-Path $publicDesktop 'Bluebook.lnk'),
+            (Join-Path $startMenu 'Bluebook.lnk')
+        )
+
+        $retargeted = 0
+        foreach ($lnkPath in $searchPaths) {
+            if (Test-Path $lnkPath) {
+                Write-Log "[FOUND] $lnkPath" 'DarkGray'
+
+                # Read current target
+                $lnk = $sh.CreateShortcut($lnkPath)
+                $oldTarget = $lnk.TargetPath
+                Write-Log "     Old target: $oldTarget" 'DarkGray'
+
+                # Retarget to Redbook
+                $lnk.TargetPath = $RbExe
+                $lnk.WorkingDirectory = $RbDir
+                $lnk.Save()
+
+                # Readback verification
+                $verify = $sh.CreateShortcut($lnkPath)
+                Write-Log "[OK] Retargeted: $lnkPath" 'Green'
+                Write-Log "[VERIFY] Target now: $($verify.TargetPath)" 'Cyan'
+
+                if ($verify.TargetPath -ne $RbExe) {
+                    Write-Log "[WARN] Target mismatch! Expected $RbExe but got $($verify.TargetPath)" 'Red'
+                }
+
+                $retargeted++
+            }
         }
-        $lnk.Description = 'The Bluebook App'
-        $lnk.Save()
 
-        Write-Log "[OK] Created shortcut: Bluebook.lnk" 'Green'
-        Write-Log "     Target: $RbExe" 'Green'
-        if ($IconPath) {
-            Write-Log "     Icon: $IconPath" 'DarkGray'
+        if ($retargeted -eq 0) {
+            Write-Log "[WARN] No Bluebook shortcuts found to retarget. Creating one." 'Yellow'
+
+            # Fallback: create a new shortcut on user desktop
+            $newLnkPath = Join-Path $userDesktop 'Bluebook.lnk'
+            $lnk = $sh.CreateShortcut($newLnkPath)
+            $lnk.TargetPath = $RbExe
+            $lnk.WorkingDirectory = $RbDir
+            if ($IconPath -and (Test-Path $IconPath)) {
+                $lnk.IconLocation = $IconPath
+            } elseif ($SourceExe) {
+                $lnk.IconLocation = "$SourceExe,0"
+            }
+            $lnk.Description = 'The Bluebook App'
+            $lnk.Save()
+
+            $verify = $sh.CreateShortcut($newLnkPath)
+            Write-Log "[OK] Created new shortcut: $newLnkPath" 'Green'
+            Write-Log "[VERIFY] Target: $($verify.TargetPath)" 'Cyan'
+        } else {
+            Write-Log "[OK] Retargeted $retargeted shortcut(s)" 'Green'
         }
 
-        # Readback verification
-        $verify = $sh.CreateShortcut($newLnkPath)
-        Write-Log "[VERIFY] Shortcut target: $($verify.TargetPath)" 'Cyan'
-        Write-Log "[VERIFY] Shortcut icon: $($verify.IconLocation)" 'Cyan'
-
-        if ($verify.TargetPath -ne $RbExe) {
-            Write-Log "[WARN] Target mismatch! Expected: $RbExe, Got: $($verify.TargetPath)" 'Red'
+        # Clean up Redbook shortcut if it exists (don't need two)
+        $rbLnk = Join-Path $userDesktop 'Redbook.lnk'
+        if (Test-Path $rbLnk) {
+            Remove-Item $rbLnk -Force
+            Write-Log "[OK] Removed Redbook.lnk (no longer needed)" 'Green'
         }
 
         return $true
