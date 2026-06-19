@@ -240,14 +240,13 @@ function initDevPanel() {
     // so the welcome banner / identity prompt / START button sit RIGHT above the input.
     try { scrollback.innerHTML = ''; } catch (_) {}
 
-    con.raw('<span class="dim">════════════════════════════════════════════</span>');
-    con.println('Redbook startup check', 'txt');
-    con.raw('<span class="dim">────────────────────────────────────────────</span>');
+    con.printDim('startup check');
+    con.blank();
 
     const globalDeadline = Date.now() + 30000;
 
     // ── Check 1: IPC channel ──
-    con.raw('<span class="tag-info">[..]</span> IPC channel        <span class="dim">pinging _run.js...</span>');
+    con.raw('<div class="log-entry log-dim"><span class="log-dot"></span><span class="log-text">IPC channel — pinging _run.js…</span></div>');
     const t0 = Date.now();
     let healthResult = null;
     try {
@@ -288,7 +287,7 @@ function initDevPanel() {
     }
 
     // ── Check 4: Bridge detection with retry ──
-    con.raw('<span class="tag-info">[..]</span> Bridge             <span class="dim">detecting... (up to 5s)</span>');
+    con.raw('<div class="log-entry log-dim"><span class="log-dot"></span><span class="log-text">Bridge — detecting (up to 5s)…</span></div>');
     const remaining = Math.max(1000, Math.min(5000, globalDeadline - Date.now()));
     const br = await tryDetectBridgeWithRetry(remaining);
     if (br) {
@@ -321,7 +320,7 @@ function initDevPanel() {
     } catch (_) { _setSb('kiosk', '?', 'sb-err'); }
 
     // ── Check 5: Update check ──
-    con.raw('<span class="tag-info">[..]</span> Update             <span class="dim">checking GitHub...</span>');
+    con.raw('<div class="log-entry log-dim"><span class="log-dot"></span><span class="log-text">Update — checking GitHub…</span></div>');
     try {
       const upd = await rbIpc('update.check', {}, { timeout: 10000 });
       if (upd && upd.error) {
@@ -343,7 +342,6 @@ function initDevPanel() {
       _setSb('update', 'error', 'sb-warn');
     }
 
-    con.raw('<span class="dim">════════════════════════════════════════════</span>');
     con.blank();
 
     _startupCheckDone = true;
@@ -2349,13 +2347,13 @@ function initDevPanel() {
     const R = window.__rbRec || {};
     const flags = R.flags || {};
     statusStore.classList.remove('on', 'err');
-    if (flags.storeStatus === 'attached')      { statusStore.classList.add('on');  statusStore.textContent = 'STORE OK'; }
-    else if (flags.storeStatus === 'not-found'){ statusStore.classList.add('err'); statusStore.textContent = 'STORE !'; }
+    if (flags.storeStatus === 'attached')      { statusStore.classList.add('on');  statusStore.textContent = 'STORE'; }
+    else if (flags.storeStatus === 'not-found'){ statusStore.classList.add('err'); statusStore.textContent = 'STORE'; }
     else                                       {                                   statusStore.textContent = 'STORE'; }
     statusStore.title = 'store: ' + (flags.storeStatus || 'idle');
 
     statusBridge.classList.remove('on');
-    if ((flags.bridgeStatus || '').includes('tapped')) { statusBridge.classList.add('on'); statusBridge.textContent = 'BRIDGE OK'; }
+    if ((flags.bridgeStatus || '').includes('tapped')) { statusBridge.classList.add('on'); statusBridge.textContent = 'BRIDGE'; }
     else                                               {                                  statusBridge.textContent = 'BRIDGE'; }
     statusBridge.title = 'bridge: ' + (flags.bridgeStatus || 'idle');
 
@@ -2363,6 +2361,8 @@ function initDevPanel() {
     if (R.running) { statusRec.classList.add('on'); statusRec.textContent = 'REC ' + ((R.events||[]).length); }
     else           {                                statusRec.textContent = 'REC'; }
     statusRec.title = 'recorder: ' + (R.running ? 'running (' + (R.events||[]).length + ' events)' : 'idle');
+
+    // status-patch is driven by patchShowBadge/patchHideBadge — don't override here.
   }
   setInterval(updateStatus, 1000);
 
@@ -2823,28 +2823,44 @@ function initDevPanel() {
 
   // ─── /patch command ────────────────────────────────────────────────────────
   function patchShowBadge() {
-    if (PATCH.badgeEl) return;
-    const statusBar = shadow.querySelector('.tb-status');
-    if (!statusBar) return;
-    const badge = document.createElement('span');
-    badge.className = 'tb-patch-badge';
-    badge.textContent = 'PATCH ✓';
-    badge.title = 'Click to disable security patch';
-    badge.style.cssText = 'background:rgba(50,77,199,0.15);border:1px solid #1e3a8a;color:#324dc7;'
-      + 'font-size:9px;padding:1px 6px;cursor:pointer;margin-left:4px;font-weight:700;letter-spacing:0.3px;';
-    badge.addEventListener('click', (e) => {
-      e.stopPropagation();
-      doPatchOff();
-    });
-    statusBar.appendChild(badge);
-    PATCH.badgeEl = badge;
+    // v1.0.0: the patch indicator is now the static .status-patch pill in
+    // the titlebar + the pinned .security-module in the status console.
+    // No more dynamic badge creation.
+    try {
+      win.classList.add('show-patch-module');
+      const pill = shadow.querySelector('.status-patch');
+      if (pill) {
+        pill.classList.remove('err');
+        pill.classList.add('on');
+        pill.textContent = 'PATCH';
+      }
+      const smState = shadow.querySelector('.security-module .sm-state');
+      if (smState) smState.textContent = 'Active';
+      const smFill = shadow.querySelector('.security-module .sm-bar-fill');
+      if (smFill) smFill.style.width = '100%';
+      const smPct = shadow.querySelector('.security-module .sm-pct');
+      if (smPct) smPct.textContent = '100%';
+      // Wire one-shot click-to-disable on the titlebar pill.
+      if (pill && !pill.__rbBound) {
+        pill.style.cursor = 'pointer';
+        pill.title = 'Click to disable security patch';
+        pill.addEventListener('click', (e) => { e.stopPropagation(); doPatchOff(); });
+        pill.__rbBound = true;
+      }
+    } catch (_) {}
+    PATCH.badgeEl = true; // sentinel for compatibility
   }
 
   function patchHideBadge() {
-    if (PATCH.badgeEl) {
-      PATCH.badgeEl.remove();
-      PATCH.badgeEl = null;
-    }
+    try {
+      win.classList.remove('show-patch-module');
+      const pill = shadow.querySelector('.status-patch');
+      if (pill) {
+        pill.classList.remove('on', 'err');
+        pill.textContent = 'PATCH';
+      }
+    } catch (_) {}
+    PATCH.badgeEl = null;
   }
 
   // ── Clipboard bypass: IPC to main process (before-input-event + webContents.copy) ──
@@ -2895,14 +2911,14 @@ function initDevPanel() {
   function patchBox(title) {
     // Single box: title line + status message + progress bar — all in one div
     const box = con.raw('');
-    box.style.cssText = 'border:1px solid #1a1d23;background:#0e1014;padding:8px 12px;margin:2px 0;';
+    box.style.cssText = 'border:1px solid var(--border);background:var(--bg-glass);padding:12px 16px;margin:4px 0;border-radius:12px;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 1px 0 rgba(255,255,255,0.04) inset;';
     const titleEl = document.createElement('div');
-    titleEl.style.cssText = 'color:#324dc7;font-weight:700;font-size:11px;margin-bottom:6px;';
-    titleEl.innerHTML = '<span style="margin-right:8px">卐</span>' + title.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    titleEl.style.cssText = 'color:var(--text);font-weight:600;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;';
+    titleEl.innerHTML = '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" style="vertical-align:-2px;margin-right:8px"><path d="M8 1.5 L13.5 3.5 L13.5 8 C13.5 11 11 13.5 8 14.5 C5 13.5 2.5 11 2.5 8 L2.5 3.5 Z"/><path d="M5.5 8 L7.2 9.6 L10.5 6.3"/></svg>' + title.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const msgEl = document.createElement('div');
-    msgEl.style.cssText = 'color:#e4e6ea;font-size:10px;margin-bottom:6px;min-height:13px;';
+    msgEl.style.cssText = 'color:var(--text-dim);font-size:12px;margin-bottom:8px;min-height:16px;';
     const barWrap = document.createElement('div');
-    barWrap.style.cssText = 'font-size:10px;line-height:1;';
+    barWrap.style.cssText = 'font-size:11px;line-height:1;color:var(--text-muted);font-variant-numeric:tabular-nums;';
     box.appendChild(titleEl);
     box.appendChild(msgEl);
     box.appendChild(barWrap);
@@ -2910,18 +2926,18 @@ function initDevPanel() {
     let spinIdx = 0;
     return {
       el: box,
-      setMsg(text) { msgEl.innerHTML = '<span style="color:#324dc7">' + SPIN_FRAMES[0] + '</span> ' + _esc(text); spinIdx = 0; if (!spinIv) { spinIv = setInterval(() => { spinIdx = (spinIdx+1)%SPIN_FRAMES.length; const s = msgEl.querySelector('span'); if (s) s.textContent = SPIN_FRAMES[spinIdx]; }, 80); } scrollToBottom(); },
+      setMsg(text) { msgEl.innerHTML = '<span style="color:var(--accent)">' + SPIN_FRAMES[0] + '</span> ' + _esc(text); spinIdx = 0; if (!spinIv) { spinIv = setInterval(() => { spinIdx = (spinIdx+1)%SPIN_FRAMES.length; const s = msgEl.querySelector('span'); if (s) s.textContent = SPIN_FRAMES[spinIdx]; }, 80); } scrollToBottom(); },
       setBar(pct) {
-        const w = 30;
+        const w = 36;
         const filled = Math.round((pct / 100) * w);
         const empty = w - filled;
-        barWrap.innerHTML = '<span style="color:#71757d">' + String(Math.round(pct)).padStart(3) + '%</span> '
-          + '<span style="color:#324dc7">' + '━'.repeat(filled) + '</span>'
-          + '<span style="color:#3f434b">' + '━'.repeat(empty) + '</span>';
+        barWrap.innerHTML = '<span style="color:var(--text-muted);margin-right:8px">' + String(Math.round(pct)).padStart(3) + '%</span>'
+          + '<span style="color:var(--accent)">' + '━'.repeat(filled) + '</span>'
+          + '<span style="color:var(--border-strong)">' + '━'.repeat(empty) + '</span>';
         scrollToBottom();
       },
-      done(text) { if (spinIv) { clearInterval(spinIv); spinIv = null; } msgEl.innerHTML = '<span style="color:#86efac">✓</span> ' + _esc(text); this.setBar(100); scrollToBottom(); },
-      err(text) { if (spinIv) { clearInterval(spinIv); spinIv = null; } msgEl.innerHTML = '<span style="color:#fb7185">✗</span> ' + _esc(text); scrollToBottom(); },
+      done(text) { if (spinIv) { clearInterval(spinIv); spinIv = null; } msgEl.innerHTML = '<span style="color:var(--success);margin-right:6px">✓</span>' + _esc(text); this.setBar(100); scrollToBottom(); },
+      err(text) { if (spinIv) { clearInterval(spinIv); spinIv = null; } msgEl.innerHTML = '<span style="color:var(--danger);margin-right:6px">✗</span>' + _esc(text); scrollToBottom(); },
     };
   }
 
