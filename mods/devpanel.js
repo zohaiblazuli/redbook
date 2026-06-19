@@ -708,7 +708,7 @@ function initDevPanel() {
     <div class="win" role="dialog" aria-label="Redbook Console">
       <div class="titlebar">
         <span class="tb-brand">redbook</span>
-        <span class="tb-meta">v0.9.6 · console</span>
+        <span class="tb-meta">v0.9.8 · console</span>
         <span class="tb-status">
           <span class="tb-dot status-store" title="store"></span>
           <span class="tb-dot status-bridge" title="bridge"></span>
