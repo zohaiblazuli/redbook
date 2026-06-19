@@ -231,6 +231,10 @@ function initDevPanel() {
     _startupCheckRunning = true;
     _lockInput('startup check running...');
 
+    // Wipe whatever boot showBanner() printed -- we'll re-print at the end
+    // so the welcome banner / identity prompt / START button sit RIGHT above the input.
+    try { scrollback.innerHTML = ''; } catch (_) {}
+
     con.raw('<span class="dim">════════════════════════════════════════════</span>');
     con.println('Redbook startup check', 'txt');
     con.raw('<span class="dim">────────────────────────────────────────────</span>');
@@ -717,7 +721,7 @@ function initDevPanel() {
     <div class="win" role="dialog" aria-label="Redbook Console">
       <div class="titlebar">
         <span class="tb-brand">redbook</span>
-        <span class="tb-meta">v0.10.2 · console</span>
+        <span class="tb-meta">v0.10.3 · console</span>
         <span class="tb-status">
           <span class="tb-stat status-store" title="store">STORE</span>
           <span class="tb-stat status-bridge" title="bridge">BRIDGE</span>
@@ -2240,10 +2244,10 @@ function initDevPanel() {
   registerCommand('hide', () => hideWin(), 'Hide the console window');
 
   // ─── Boot ──────────────────────────────────────────────────────────────────
-  // NOTE: showBanner() is NOT called here -- it would be buried above the
-  // startup procedure check output when the user first opens the panel.
-  // Instead, runStartupCheck() calls showBanner() at the end so the identity
-  // prompt / START button always appears directly above the input.
+  // Show the banner at boot (preserves inputMode invariants and gives a fallback
+  // if startup check never runs). runStartupCheck() will clear-and-redraw the
+  // scrollback on first panel open so the banner ends up below the health checks.
+  showBanner();
   syncInput();
 
   // ─── Recorder data store + helpers (preserved) ─────────────────────────────
