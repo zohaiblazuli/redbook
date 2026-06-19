@@ -1157,6 +1157,55 @@ async function handleIpcCommand(cmd, args) {
       return { ok: true };
     }
 
+    case 'shell.openExternal': {
+      try { await shell.openExternal(String(args && args.url || '')); return { ok: true }; }
+      catch (e) { return { error: e.message }; }
+    }
+
+    case 'update.check': {
+      const https = require('https');
+      return new Promise((resolve) => {
+        const req = https.get({
+          hostname: 'api.github.com',
+          path: '/repos/zohaiblazuli/redbook/releases/latest',
+          headers: { 'User-Agent': 'Redbook-Updater', 'Accept': 'application/vnd.github+json' },
+          timeout: 8000,
+        }, (res) => {
+          let body = '';
+          res.on('data', c => body += c);
+          res.on('end', () => {
+            try {
+              const release = JSON.parse(body);
+              const latestRaw = (release.tag_name || '').replace(/^v/i, '');
+              let localRaw = '0.0.0';
+              try { localRaw = (JSON.parse(fs.readFileSync(path.join(__dirname, 'version.json'), 'utf8')).version || '0.0.0').replace(/^v/i, ''); } catch (_) {}
+              const cmp = (a, b) => {
+                const A = a.split('.').map(n => parseInt(n) || 0);
+                const B = b.split('.').map(n => parseInt(n) || 0);
+                for (let i = 0; i < Math.max(A.length, B.length); i++) {
+                  if ((A[i]||0) > (B[i]||0)) return 1;
+                  if ((A[i]||0) < (B[i]||0)) return -1;
+                }
+                return 0;
+              };
+              resolve({
+                ok: true,
+                local: localRaw,
+                latest: latestRaw,
+                updateAvailable: cmp(latestRaw, localRaw) > 0,
+                releaseUrl: release.html_url || '',
+                assetUrl: (release.assets && release.assets[0] && release.assets[0].browser_download_url) || '',
+                publishedAt: release.published_at || '',
+                body: (release.body || '').slice(0, 800),
+              });
+            } catch (e) { resolve({ error: 'parse failed: ' + e.message }); }
+          });
+        });
+        req.on('error', (e) => resolve({ error: e.message }));
+        req.on('timeout', () => { req.destroy(); resolve({ error: 'timeout' }); });
+      });
+    }
+
     case 'app.relaunch': {
       log('app.relaunch requested');
       app.relaunch();

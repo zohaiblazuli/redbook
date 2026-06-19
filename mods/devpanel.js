@@ -164,6 +164,39 @@ function initDevPanel() {
     return null;
   }
 
+  // ─── Persistent status bar ───────────────────────────────────────────────
+  const _sbState = {
+    ipc:      { text: '...', cls: 'sb-pending' },
+    bridge:   { text: '...', cls: 'sb-pending' },
+    kiosk:    { text: '...', cls: 'sb-pending' },
+    bluebook: { text: '...', cls: 'sb-pending' },
+    update:   { text: '...', cls: 'sb-pending' },
+  };
+
+  function _renderStatusBar() {
+    try {
+      const bar = shadow.querySelector('.status-bar');
+      if (!bar) return;
+      const pills = bar.querySelectorAll('.sb-pill');
+      pills.forEach(pill => {
+        const key = pill.getAttribute('data-key');
+        if (!key || !_sbState[key]) return;
+        const val = pill.querySelector('.sb-val');
+        if (!val) return;
+        val.textContent = _sbState[key].text;
+        val.className = 'sb-val ' + (_sbState[key].cls || 'sb-pending');
+      });
+    } catch (_) {}
+  }
+
+  function _setSb(key, text, cls) {
+    if (_sbState[key]) {
+      _sbState[key].text = text;
+      _sbState[key].cls = cls || 'sb-pending';
+      _renderStatusBar();
+    }
+  }
+
   // ─── Startup procedure check ─────────────────────────────────────────────
   // Runs once on first devpanel open. Locks input, prints sequential checklist,
   // unlocks when all pass (or 30s total timeout).
@@ -217,8 +250,10 @@ function initDevPanel() {
     const ipcMs = Date.now() - t0;
     if (healthResult && !healthResult.error && healthResult.ok) {
       con.printOk(`IPC channel        responsive (${ipcMs}ms)`);
+      _setSb('ipc', `OK ${ipcMs}ms`, 'sb-ok');
     } else {
       con.printErr(`IPC channel        ${healthResult && healthResult.error || 'no response'} (waited ${ipcMs}ms)`);
+      _setSb('ipc', 'FAIL', 'sb-err');
     }
 
     // ── Check 2: Electron runtime ──
@@ -251,6 +286,8 @@ function initDevPanel() {
       let bbVersion = '(no version)';
       try { bbVersion = br.obj.version || bbVersion; } catch (_) {}
       con.printOk(`Bridge             window.${br.key} -- Bluebook ${bbVersion}`);
+      _setSb('bridge', 'OK', 'sb-ok');
+      _setSb('bluebook', String(bbVersion), 'sb-ok');
     } else {
       con.printErr('Bridge             not detected (5s timeout)');
       const cands = listWindowCandidates(10);
@@ -260,6 +297,41 @@ function initDevPanel() {
       }
       con.printDim('     /kiosk uses native Electron and works without bridge.');
       con.printDim('     /security.* commands require bridge and will show errors.');
+      _setSb('bridge', 'FAIL', 'sb-err');
+      _setSb('bluebook', '?', 'sb-err');
+    }
+
+    // ── Kiosk state probe (quick, no retry) ──
+    try {
+      const ks = await rbIpc('kiosk.state', {}, { timeout: 2000 });
+      if (ks && !ks.error) {
+        _setSb('kiosk', ks.kiosk ? 'on' : 'off', ks.kiosk ? 'sb-warn' : 'sb-ok');
+      } else {
+        _setSb('kiosk', '?', 'sb-err');
+      }
+    } catch (_) { _setSb('kiosk', '?', 'sb-err'); }
+
+    // ── Check 5: Update check ──
+    con.raw('<span class="tag-info">[..]</span> Update             <span class="dim">checking GitHub...</span>');
+    try {
+      const upd = await rbIpc('update.check', {}, { timeout: 10000 });
+      if (upd && upd.error) {
+        con.printWarn(`Update             check failed: ${upd.error}`);
+        _setSb('update', 'unknown', 'sb-warn');
+      } else if (upd && upd.updateAvailable) {
+        con.printInfo(`Update             v${upd.latest} available (you have v${upd.local})`);
+        con.printDim('     run /update for release info, /update open to open the page');
+        _setSb('update', `v${upd.latest} avail`, 'sb-info');
+      } else if (upd && upd.ok) {
+        con.printOk(`Update             latest (v${upd.local})`);
+        _setSb('update', `v${upd.local}`, 'sb-ok');
+      } else {
+        con.printWarn('Update             no response');
+        _setSb('update', '?', 'sb-warn');
+      }
+    } catch (e) {
+      con.printWarn(`Update             error: ${e.message}`);
+      _setSb('update', 'error', 'sb-warn');
     }
 
     con.raw('<span class="dim">────────────────────────────────────────────</span>');
@@ -515,6 +587,27 @@ function initDevPanel() {
       }
       .ac-group-header:first-child { border-top: none; }
 
+      .status-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        padding: 4px 12px;
+        border-top: 1px solid var(--cn-border);
+        background: var(--cn-surface);
+        font-family: inherit;
+        font-size: 11px;
+        color: var(--cn-dim);
+        flex-shrink: 0;
+        user-select: none;
+      }
+      .sb-pill { white-space: nowrap; }
+      .sb-val { font-weight: 600; padding-left: 4px; }
+      .sb-ok      { color: var(--cn-success); }
+      .sb-err     { color: var(--cn-error); }
+      .sb-warn    { color: var(--cn-warn); }
+      .sb-pending { color: var(--cn-dim); }
+      .sb-info    { color: var(--cn-info); }
+
       .shortcuts {
         display: flex; gap: 14px;
         padding: 5px 12px;
@@ -624,6 +717,13 @@ function initDevPanel() {
         <button class="tb-btn tb-close" title="Hide (Esc)">×</button>
       </div>
       <div class="scrollback"></div>
+      <div class="status-bar">
+        <span class="sb-pill" data-key="ipc">IPC:<b class="sb-val sb-pending">...</b></span>
+        <span class="sb-pill" data-key="bridge">Bridge:<b class="sb-val sb-pending">...</b></span>
+        <span class="sb-pill" data-key="kiosk">Kiosk:<b class="sb-val sb-pending">...</b></span>
+        <span class="sb-pill" data-key="bluebook">Bluebook:<b class="sb-val sb-pending">...</b></span>
+        <span class="sb-pill" data-key="update">Update:<b class="sb-val sb-pending">...</b></span>
+      </div>
       <div class="ac-region">
         <div class="ac-dropdown" style="display:none"></div>
         <div class="input-row">
@@ -1557,16 +1657,16 @@ function initDevPanel() {
     const mode = (args[0] || '').toLowerCase();
     if (mode === 'on') {
       const r = await rbIpc('kiosk.on');
-      if (!r.error) { con.printOk('kiosk on (native Electron)'); return; }
+      if (!r.error) { con.printOk('kiosk on (native Electron)'); _setSb('kiosk', 'on', 'sb-warn'); return; }
       const br = bridge();
       if (!br) { con.printErr('native IPC failed (' + r.error + ') and bridge not detected'); return; }
-      try { br.obj.enterKioskMode?.(); con.printOk('kiosk on (via bridge fallback)'); } catch (e) { con.printErr(e.message); }
+      try { br.obj.enterKioskMode?.(); con.printOk('kiosk on (via bridge fallback)'); _setSb('kiosk', 'on', 'sb-warn'); } catch (e) { con.printErr(e.message); }
     } else if (mode === 'off') {
       const r = await rbIpc('kiosk.off');
-      if (!r.error) { con.printOk('kiosk off (native Electron)'); return; }
+      if (!r.error) { con.printOk('kiosk off (native Electron)'); _setSb('kiosk', 'off', 'sb-ok'); return; }
       const br = bridge();
       if (!br) { con.printErr('native IPC failed (' + r.error + ') and bridge not detected'); return; }
-      try { br.obj.exitKioskMode?.(); con.printOk('kiosk off (via bridge fallback)'); } catch (e) { con.printErr(e.message); }
+      try { br.obj.exitKioskMode?.(); con.printOk('kiosk off (via bridge fallback)'); _setSb('kiosk', 'off', 'sb-ok'); } catch (e) { con.printErr(e.message); }
     } else {
       const r = await rbIpc('kiosk.state');
       const nativeState = r.error ? '(unknown: ' + r.error + ')' : (r.kiosk ? 'on' : 'off');
@@ -1578,8 +1678,46 @@ function initDevPanel() {
         ['kiosk (heuristic)', heuristic],
       ]);
       con.printDim('usage: /kiosk on|off');
+      if (!r.error) _setSb('kiosk', r.kiosk ? 'on' : 'off', r.kiosk ? 'sb-warn' : 'sb-ok');
     }
-  }, 'Toggle kiosk mode (on/off) — uses native Electron, no bridge required');
+  }, 'Toggle kiosk mode (on/off) -- uses native Electron, no bridge required');
+
+  registerCommand('update', async (args) => {
+    const sub = (args[0] || 'check').toLowerCase();
+    if (sub === 'open') {
+      const r = await rbIpc('update.check', {}, { timeout: 10000 });
+      if (r.error) { con.printErr('cannot fetch release: ' + r.error); return; }
+      const url = r.releaseUrl || 'https://github.com/zohaiblazuli/redbook/releases';
+      const o = await rbIpc('shell.openExternal', { url });
+      if (o.error) { con.printErr('open failed: ' + o.error); con.printDim('URL: ' + url); }
+      else con.printOk('opened release page in default browser');
+      return;
+    }
+    con.printDim('checking GitHub releases...');
+    const r = await rbIpc('update.check', {}, { timeout: 10000 });
+    if (r.error) {
+      con.printErr('update check failed: ' + r.error);
+      _setSb('update', 'error', 'sb-warn');
+      return;
+    }
+    con.printKV([
+      ['installed', 'v' + r.local],
+      ['latest',    'v' + r.latest],
+      ['status',    r.updateAvailable ? 'UPDATE AVAILABLE' : 'up to date'],
+      ['published', r.publishedAt ? r.publishedAt.slice(0,10) : '?'],
+    ]);
+    if (r.updateAvailable) {
+      _setSb('update', `v${r.latest} avail`, 'sb-info');
+      con.blank();
+      con.printDim('release notes:');
+      con.raw('<pre class="box dim">' + _esc(r.body || '(empty)') + '</pre>');
+      con.blank();
+      con.printDim('Download: ' + (r.assetUrl || r.releaseUrl));
+      con.printDim('Run /update open to open the release page in your browser.');
+    } else {
+      _setSb('update', `v${r.local}`, 'sb-ok');
+    }
+  }, 'Check for Redbook updates. /update | /update open');
 
   registerCommand('exam.start', () => {
     if (window.__rbRec && window.__rbRec.running) { con.printWarn('recorder already running'); return; }
