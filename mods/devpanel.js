@@ -714,7 +714,7 @@ function initDevPanel() {
     <div class="win" role="dialog" aria-label="Redbook Console">
       <div class="titlebar">
         <span class="tb-brand">redbook</span>
-        <span class="tb-meta">v0.9.9 · console</span>
+        <span class="tb-meta">v0.10.0 · console</span>
         <span class="tb-status">
           <span class="tb-stat status-store" title="store">STORE</span>
           <span class="tb-stat status-bridge" title="bridge">BRIDGE</span>
@@ -1704,6 +1704,47 @@ function initDevPanel() {
       else con.printOk('opened release page in default browser');
       return;
     }
+    if (sub === 'install' || sub === 'apply') {
+      con.printDim('checking GitHub for latest release...');
+      const check = await rbIpc('update.check', {}, { timeout: 10000 });
+      if (check.error) { con.printErr('cannot fetch release: ' + check.error); return; }
+      if (!check.updateAvailable) { con.printOk('already on latest (v' + check.local + ')'); return; }
+      if (!check.assetUrl) { con.printErr('release has no downloadable asset'); return; }
+
+      con.printInfo(`installing v${check.latest} (you have v${check.local})`);
+      con.printDim('asset: ' + check.assetUrl);
+      con.printDim('Redbook will quit and relaunch automatically when install completes.');
+      con.blank();
+
+      // One progress line that we mutate in place
+      const lastLine = con.raw('<span class="tag-info">[..]</span> downloading...');
+      window.__rbUpdateProgress = function(p) {
+        try {
+          const mb = (p.bytes ? p.bytes/1048576 : 0).toFixed(1);
+          const totalMb = p.total ? (p.total/1048576).toFixed(1) : '?';
+          let text = '';
+          if (p.phase === 'downloading') {
+            text = `<span class="tag-info">[..]</span> downloading... ${p.pct}% (${mb}/${totalMb} MB)`;
+          } else if (p.phase === 'downloaded') {
+            text = `<span class="tag-ok">[OK]</span>   downloaded ${mb} MB`;
+          } else if (p.phase === 'spawning') {
+            text = `<span class="tag-info">[..]</span> launching installer (silent)...`;
+          }
+          if (text && lastLine) lastLine.innerHTML = text;
+        } catch (_) {}
+      };
+
+      try {
+        const r = await rbIpc('update.install', { assetUrl: check.assetUrl }, { timeout: 600000 });
+        if (r.error) { con.printErr('install failed: ' + r.error); return; }
+        con.printOk('installer running. Redbook will close shortly and relaunch when done.');
+      } catch (e) {
+        con.printErr('install crashed: ' + e.message);
+      } finally {
+        delete window.__rbUpdateProgress;
+      }
+      return;
+    }
     con.printDim('checking GitHub releases...');
     const r = await rbIpc('update.check', {}, { timeout: 10000 });
     if (r.error) {
@@ -1728,7 +1769,7 @@ function initDevPanel() {
     } else {
       _setSb('update', `v${r.local}`, 'sb-ok');
     }
-  }, 'Check for Redbook updates. /update | /update open');
+  }, 'Check for Redbook updates. /update | /update install | /update open');
 
   registerCommand('exam.start', () => {
     if (window.__rbRec && window.__rbRec.running) { con.printWarn('recorder already running'); return; }

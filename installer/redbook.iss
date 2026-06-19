@@ -1,13 +1,13 @@
 [Setup]
 AppName=Redbook
-AppVersion=0.9.9
+AppVersion=0.10.0
 AppPublisher=Redbook
 DefaultDirName={localappdata}\Redbook
 DefaultGroupName=Redbook
-UninstallDisplayName=Redbook v0.9.9
+UninstallDisplayName=Redbook v0.10.0
 UninstallDisplayIcon={app}\media\logo.ico
 OutputDir=Output
-OutputBaseFilename=Redbook-v0.9.9-win32-setup
+OutputBaseFilename=Redbook-v0.10.0-win32-setup
 SetupIconFile=..\media\logo.ico
 Compression=lzma2/max
 SolidCompression=yes
@@ -64,8 +64,11 @@ Name: "{userdesktop}\Bluebook"; Filename: "{app}\Redbook.exe"; WorkingDir: "{app
 ; Download Electron + locate app.asar (visible PS window so user sees download progress)
 Filename: "{tmp}\install_wrapper.cmd"; Parameters: """{app}"" ""{tmp}\install_helpers.ps1"""; StatusMsg: "Downloading Electron runtime and configuring Redbook..."; Flags: waituntilterminated shellexec
 
-; Option to launch after install
+; Option to launch after install (wizard mode -- shown as checkbox on Finish page)
 Filename: "{app}\Redbook.exe"; Description: "Launch Redbook"; Flags: postinstall skipifsilent nowait
+
+; Auto-relaunch after a silent install initiated from the CLI's /update install command
+Filename: "{app}\Redbook.exe"; Flags: nowait runasoriginaluser; Check: ShouldAutoLaunch
 
 [UninstallDelete]
 ; Electron runtime (downloaded at install, not tracked by Inno)
@@ -93,6 +96,20 @@ Filename: "taskkill.exe"; Parameters: "/F /IM electron.exe"; Flags: runhidden; R
 Filename: "taskkill.exe"; Parameters: "/F /IM Redbook.exe"; Flags: runhidden; RunOnceId: "KillRedbook"
 
 [Code]
+// True when the installer was invoked with /AUTOLAUNCH
+// (used by the CLI's /update install flow to relaunch Redbook silently)
+function ShouldAutoLaunch(): Boolean;
+var
+  I: Integer;
+begin
+  Result := False;
+  for I := 1 to ParamCount do
+    if CompareText(ParamStr(I), '/AUTOLAUNCH') = 0 then begin
+      Result := True;
+      Exit;
+    end;
+end;
+
 // Check if post-install download succeeded — warn on finish page if not
 procedure CurStepChanged(CurStep: TSetupStep);
 var

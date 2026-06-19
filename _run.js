@@ -1162,6 +1162,91 @@ async function handleIpcCommand(cmd, args) {
       catch (e) { return { error: e.message }; }
     }
 
+    case 'update.install': {
+      const os = require('os');
+      const https = require('https');
+      const { spawn } = require('child_process');
+
+      const assetUrl = String(args && args.assetUrl || '');
+      if (!assetUrl) return { error: 'no assetUrl provided' };
+      const dest = path.join(os.tmpdir(), 'Redbook-update-setup.exe');
+
+      // Push progress to renderer via executeJavaScript
+      const pushProgress = (obj) => {
+        try {
+          if (_mainWin && !_mainWin.isDestroyed()) {
+            _mainWin.webContents.executeJavaScript(
+              `window.__rbUpdateProgress && window.__rbUpdateProgress(${JSON.stringify(obj)})`
+            ).catch(() => {});
+          }
+        } catch (_) {}
+      };
+
+      // Download with follow-redirects (GitHub asset URLs redirect to S3)
+      const download = (url, depth) => new Promise((resolve) => {
+        if (depth > 5) return resolve({ error: 'too many redirects' });
+        https.get(url, {
+          headers: { 'User-Agent': 'Redbook-Updater', 'Accept': 'application/octet-stream' },
+          timeout: 30000,
+        }, (res) => {
+          if ([301, 302, 303, 307, 308].includes(res.statusCode) && res.headers.location) {
+            return resolve(download(res.headers.location, (depth || 0) + 1));
+          }
+          if (res.statusCode !== 200) return resolve({ error: 'HTTP ' + res.statusCode });
+          const total = parseInt(res.headers['content-length'] || '0', 10);
+          const fileStream = fs.createWriteStream(dest);
+          let downloaded = 0;
+          let lastReport = 0;
+          res.on('data', (chunk) => {
+            fileStream.write(chunk);
+            downloaded += chunk.length;
+            const now = Date.now();
+            if (now - lastReport > 250) {
+              lastReport = now;
+              const pct = total ? Math.round((downloaded / total) * 100) : 0;
+              pushProgress({ phase: 'downloading', pct, bytes: downloaded, total });
+            }
+          });
+          res.on('end', () => {
+            fileStream.end(() => {
+              pushProgress({ phase: 'downloaded', pct: 100, bytes: downloaded, total });
+              resolve({ ok: true, path: dest, size: downloaded });
+            });
+          });
+          res.on('error', (e) => resolve({ error: e.message }));
+        }).on('error', (e) => resolve({ error: e.message }));
+      });
+
+      log('update.install: downloading from ' + assetUrl);
+      const dl = await download(assetUrl, 0);
+      if (dl.error) { log('update.install download err:', dl.error); return { error: dl.error }; }
+      log('update.install: downloaded ' + dl.size + ' bytes to ' + dest);
+
+      pushProgress({ phase: 'spawning' });
+
+      // Spawn installer detached so it survives our quit
+      try {
+        const child = spawn(dest, ['/SILENT', '/SUPPRESSMSGBOXES', '/AUTOLAUNCH'], {
+          detached: true,
+          stdio: 'ignore',
+        });
+        child.unref();
+        log('update.install: installer spawned (pid=' + child.pid + ')');
+      } catch (e) {
+        log('update.install: spawn failed:', e.message);
+        return { error: 'spawn failed: ' + e.message };
+      }
+
+      // Give the installer ~1.5s to take a file lock, then quit so files unlock
+      setTimeout(() => {
+        log('update.install: quitting Redbook so installer can replace files');
+        _allowExit = true;
+        app.quit();
+      }, 1500);
+
+      return { ok: true, path: dest, size: dl.size };
+    }
+
     case 'update.check': {
       const https = require('https');
       return new Promise((resolve) => {
