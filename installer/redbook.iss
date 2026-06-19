@@ -1,13 +1,13 @@
 [Setup]
 AppName=Redbook
-AppVersion=0.10.1
+AppVersion=0.10.2
 AppPublisher=Redbook
 DefaultDirName={localappdata}\Redbook
 DefaultGroupName=Redbook
-UninstallDisplayName=Redbook v0.10.1
+UninstallDisplayName=Redbook v0.10.2
 UninstallDisplayIcon={app}\media\logo.ico
 OutputDir=Output
-OutputBaseFilename=Redbook-v0.10.1-win32-setup
+OutputBaseFilename=Redbook-v0.10.2-win32-setup
 SetupIconFile=..\media\logo.ico
 Compression=lzma2/max
 SolidCompression=yes

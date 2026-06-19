@@ -334,14 +334,17 @@ function initDevPanel() {
       _setSb('update', 'error', 'sb-warn');
     }
 
-    con.raw('<span class="dim">────────────────────────────────────────────</span>');
-    con.println('Ready. Type /help to get started.', 'tag-ok');
     con.raw('<span class="dim">════════════════════════════════════════════</span>');
     con.blank();
 
     _startupCheckDone = true;
     _startupCheckRunning = false;
     _unlockInput();
+
+    // Show the welcome banner + identity prompt / provider select / START button
+    // RIGHT HERE so they're always directly above the input row, never buried.
+    try { showBanner(); } catch (e) { try { con.printErr('banner failed: ' + e.message); } catch (_) {} }
+    scrollToBottom();
   }
 
   // ─── Remove legacy drawer host if present ───────────────────────────────────
@@ -714,7 +717,7 @@ function initDevPanel() {
     <div class="win" role="dialog" aria-label="Redbook Console">
       <div class="titlebar">
         <span class="tb-brand">redbook</span>
-        <span class="tb-meta">v0.10.1 · console</span>
+        <span class="tb-meta">v0.10.2 · console</span>
         <span class="tb-status">
           <span class="tb-stat status-store" title="store">STORE</span>
           <span class="tb-stat status-bridge" title="bridge">BRIDGE</span>
@@ -2237,7 +2240,10 @@ function initDevPanel() {
   registerCommand('hide', () => hideWin(), 'Hide the console window');
 
   // ─── Boot ──────────────────────────────────────────────────────────────────
-  showBanner();
+  // NOTE: showBanner() is NOT called here -- it would be buried above the
+  // startup procedure check output when the user first opens the panel.
+  // Instead, runStartupCheck() calls showBanner() at the end so the identity
+  // prompt / START button always appears directly above the input.
   syncInput();
 
   // ─── Recorder data store + helpers (preserved) ─────────────────────────────
