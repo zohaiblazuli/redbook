@@ -113,6 +113,14 @@ function initDevPanel() {
 
   function detectBridge() {
     const fingerprint = ['enterKioskMode', 'exitKioskMode', 'version', 'systemCheck'];
+    // Fast path: known candidate names from common Electron preload patterns
+    for (const key of ['electronAPI', 'api', 'bridge', 'nativeBridge', 'electron', 'app', 'dap', 'bluebook', 'bb']) {
+      try {
+        const v = window[key];
+        if (v && typeof v === 'object' && fingerprint.every(fp => fp in v)) return { key, obj: v };
+      } catch (_) {}
+    }
+    // Full scan
     for (const key of Object.getOwnPropertyNames(window)) {
       try {
         const v = window[key];
@@ -121,6 +129,147 @@ function initDevPanel() {
       } catch (_) {}
     }
     return null;
+  }
+
+  // Returns up to N candidate window properties that look like API objects
+  // (used by the startup check to give debug context when bridge isn't found)
+  function listWindowCandidates(max) {
+    const out = [];
+    for (const key of Object.getOwnPropertyNames(window)) {
+      if (out.length >= (max || 12)) break;
+      try {
+        const v = window[key];
+        if (!v || typeof v !== 'object') continue;
+        // Skip DOM globals and obvious junk
+        if (v === document || v === window || v === window.location) continue;
+        if (v instanceof Element || v instanceof Node) continue;
+        const proto = Object.getPrototypeOf(v);
+        if (proto && proto.constructor && /^HTML/.test(proto.constructor.name)) continue;
+        // Count function-valued properties
+        let fnCount = 0;
+        for (const k of Object.keys(v)) { try { if (typeof v[k] === 'function') fnCount++; } catch (_) {} }
+        if (fnCount >= 1) out.push({ key, fnCount });
+      } catch (_) {}
+    }
+    return out;
+  }
+
+  async function tryDetectBridgeWithRetry(maxMs) {
+    const start = Date.now();
+    while (Date.now() - start < (maxMs || 5000)) {
+      const b = detectBridge();
+      if (b) return b;
+      await new Promise(r => setTimeout(r, 400));
+    }
+    return null;
+  }
+
+  // ─── Startup procedure check ─────────────────────────────────────────────
+  // Runs once on first devpanel open. Locks input, prints sequential checklist,
+  // unlocks when all pass (or 30s total timeout).
+  let _startupCheckDone = false;
+  let _startupCheckRunning = false;
+
+  function _lockInput(reason) {
+    try {
+      input.disabled = true;
+      input.placeholder = reason || 'startup check running...';
+      input.classList.add('locked');
+    } catch (_) {}
+  }
+
+  function _unlockInput() {
+    try {
+      input.disabled = false;
+      input.placeholder = '';
+      input.classList.remove('locked');
+      setTimeout(() => input.focus(), 50);
+    } catch (_) {}
+  }
+
+  function _fmtBytes(n) {
+    if (n >= 1048576) return (n / 1048576).toFixed(1) + ' MB';
+    if (n >= 1024)    return (n / 1024).toFixed(1) + ' KB';
+    return n + ' B';
+  }
+
+  async function runStartupCheck() {
+    if (_startupCheckDone || _startupCheckRunning) return;
+    _startupCheckRunning = true;
+    _lockInput('startup check running...');
+
+    con.raw('<span class="dim">════════════════════════════════════════════</span>');
+    con.println('Redbook startup check', 'txt');
+    con.raw('<span class="dim">────────────────────────────────────────────</span>');
+
+    const globalDeadline = Date.now() + 30000;
+
+    // ── Check 1: IPC channel ──
+    con.raw('<span class="tag-info">[..]</span> IPC channel        <span class="dim">pinging _run.js...</span>');
+    const t0 = Date.now();
+    let healthResult = null;
+    try {
+      const pingPromise = rbIpc('health', {}, { timeout: 5000 });
+      healthResult = await pingPromise;
+    } catch (e) {
+      healthResult = { error: e.message };
+    }
+    const ipcMs = Date.now() - t0;
+    if (healthResult && !healthResult.error && healthResult.ok) {
+      con.printOk(`IPC channel        responsive (${ipcMs}ms)`);
+    } else {
+      con.printErr(`IPC channel        ${healthResult && healthResult.error || 'no response'} (waited ${ipcMs}ms)`);
+    }
+
+    // ── Check 2: Electron runtime ──
+    if (healthResult && healthResult.electron) {
+      con.printOk(`Electron           v${healthResult.electron} (node ${healthResult.node || '?'}, chrome ${healthResult.chrome || '?'})`);
+    } else {
+      con.printWarn('Electron           version unknown (no health data)');
+    }
+
+    // ── Check 3: app.asar ──
+    if (healthResult && healthResult.asarExists) {
+      const preload = healthResult.preloadExists ? 'preload found' : 'preload MISSING';
+      const preloadCls = healthResult.preloadExists ? 'OK' : 'WARN';
+      if (preloadCls === 'OK') {
+        con.printOk(`app.asar           ${_fmtBytes(healthResult.asarSize)}, ${preload}`);
+      } else {
+        con.printWarn(`app.asar           ${_fmtBytes(healthResult.asarSize)}, ${preload}`);
+      }
+    } else if (healthResult && healthResult.error) {
+      con.printErr('app.asar           cannot verify (IPC unavailable)');
+    } else {
+      con.printErr('app.asar           NOT FOUND');
+    }
+
+    // ── Check 4: Bridge detection with retry ──
+    con.raw('<span class="tag-info">[..]</span> Bridge             <span class="dim">detecting... (up to 5s)</span>');
+    const remaining = Math.max(1000, Math.min(5000, globalDeadline - Date.now()));
+    const br = await tryDetectBridgeWithRetry(remaining);
+    if (br) {
+      let bbVersion = '(no version)';
+      try { bbVersion = br.obj.version || bbVersion; } catch (_) {}
+      con.printOk(`Bridge             window.${br.key} -- Bluebook ${bbVersion}`);
+    } else {
+      con.printErr('Bridge             not detected (5s timeout)');
+      const cands = listWindowCandidates(10);
+      if (cands.length) {
+        const list = cands.map(c => `${c.key}(${c.fnCount})`).join(', ');
+        con.printDim(`     window objects w/ methods: ${list}`);
+      }
+      con.printDim('     /kiosk uses native Electron and works without bridge.');
+      con.printDim('     /security.* commands require bridge and will show errors.');
+    }
+
+    con.raw('<span class="dim">────────────────────────────────────────────</span>');
+    con.println('Ready. Type /help to get started.', 'tag-ok');
+    con.raw('<span class="dim">════════════════════════════════════════════</span>');
+    con.blank();
+
+    _startupCheckDone = true;
+    _startupCheckRunning = false;
+    _unlockInput();
   }
 
   // ─── Remove legacy drawer host if present ───────────────────────────────────
@@ -741,6 +890,10 @@ function initDevPanel() {
     win.classList.add('open');
     host.style.pointerEvents = 'auto';
     setTimeout(() => input.focus(), 50);
+    // Run startup procedure check on first open
+    if (!_startupCheckDone && !_startupCheckRunning) {
+      runStartupCheck().catch(e => { try { con.printErr('startup check crashed: ' + e.message); } catch (_) {} });
+    }
   }
   function hideWin() {
     win.classList.remove('open');
@@ -1400,17 +1553,33 @@ function initDevPanel() {
 
   // (security.kiosk/unlock/clearclip/killgrammarly removed — use /kiosk and /patch)
 
-  registerCommand('kiosk', (args) => {
-    const br = bridge(); if (!br) { con.printErr('bridge not detected'); return; }
+  registerCommand('kiosk', async (args) => {
     const mode = (args[0] || '').toLowerCase();
-    if (mode === 'on') { try { br.obj.enterKioskMode?.(); con.printOk('entered kiosk mode'); } catch (e) { con.printErr(e.message); } }
-    else if (mode === 'off') { try { br.obj.exitKioskMode?.(); con.printOk('exited kiosk mode'); } catch (e) { con.printErr(e.message); } }
-    else {
-      const isKiosk = document.fullscreenElement ? 'likely on' : 'likely off';
-      con.printKV([['kiosk state', isKiosk]]);
+    if (mode === 'on') {
+      const r = await rbIpc('kiosk.on');
+      if (!r.error) { con.printOk('kiosk on (native Electron)'); return; }
+      const br = bridge();
+      if (!br) { con.printErr('native IPC failed (' + r.error + ') and bridge not detected'); return; }
+      try { br.obj.enterKioskMode?.(); con.printOk('kiosk on (via bridge fallback)'); } catch (e) { con.printErr(e.message); }
+    } else if (mode === 'off') {
+      const r = await rbIpc('kiosk.off');
+      if (!r.error) { con.printOk('kiosk off (native Electron)'); return; }
+      const br = bridge();
+      if (!br) { con.printErr('native IPC failed (' + r.error + ') and bridge not detected'); return; }
+      try { br.obj.exitKioskMode?.(); con.printOk('kiosk off (via bridge fallback)'); } catch (e) { con.printErr(e.message); }
+    } else {
+      const r = await rbIpc('kiosk.state');
+      const nativeState = r.error ? '(unknown: ' + r.error + ')' : (r.kiosk ? 'on' : 'off');
+      const fsState = r.error ? '?' : (r.fullscreen ? 'yes' : 'no');
+      const heuristic = document.fullscreenElement ? 'likely on' : 'likely off';
+      con.printKV([
+        ['kiosk (native)',    nativeState],
+        ['fullscreen (native)', fsState],
+        ['kiosk (heuristic)', heuristic],
+      ]);
       con.printDim('usage: /kiosk on|off');
     }
-  }, 'Toggle kiosk mode (on/off)');
+  }, 'Toggle kiosk mode (on/off) — uses native Electron, no bridge required');
 
   registerCommand('exam.start', () => {
     if (window.__rbRec && window.__rbRec.running) { con.printWarn('recorder already running'); return; }

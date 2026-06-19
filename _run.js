@@ -1034,6 +1034,43 @@ async function handleIpcCommand(cmd, args) {
   switch (cmd) {
     case 'ping': return 'pong';
 
+    case 'health': {
+      const asarPath_ = path.join(__dirname, 'resources', 'app.asar');
+      const preloadPath_ = path.join(__dirname, 'resources', 'app.asar', 'preload', 'index.js');
+      let asarSize = 0;
+      try { asarSize = fs.statSync(asarPath_).size; } catch (_) {}
+      return {
+        ok: true,
+        electron: process.versions.electron,
+        node: process.versions.node,
+        chrome: process.versions.chrome,
+        asarExists: fs.existsSync(asarPath_),
+        asarSize,
+        preloadExists: fs.existsSync(preloadPath_),
+        uptime: Math.round(process.uptime()),
+        platform: process.platform,
+        hasMainWin: !!_mainWin && !_mainWin.isDestroyed(),
+      };
+    }
+
+    case 'kiosk.on': {
+      if (!_mainWin || _mainWin.isDestroyed()) return { error: 'no window' };
+      try { _mainWin.setKiosk(true); log('kiosk on (native)'); return { ok: true, kiosk: _mainWin.isKiosk() }; }
+      catch (e) { log('kiosk on err', e.message); return { error: e.message }; }
+    }
+
+    case 'kiosk.off': {
+      if (!_mainWin || _mainWin.isDestroyed()) return { error: 'no window' };
+      try { _mainWin.setKiosk(false); log('kiosk off (native)'); return { ok: true, kiosk: _mainWin.isKiosk() }; }
+      catch (e) { log('kiosk off err', e.message); return { error: e.message }; }
+    }
+
+    case 'kiosk.state': {
+      if (!_mainWin || _mainWin.isDestroyed()) return { error: 'no window', kiosk: false };
+      try { return { ok: true, kiosk: _mainWin.isKiosk(), fullscreen: _mainWin.isFullScreen() }; }
+      catch (e) { return { error: e.message, kiosk: false }; }
+    }
+
     case 'session.save': {
       ensureSessionsDir();
       const ts = new Date().toISOString().replace(/[:.]/g, '-');
