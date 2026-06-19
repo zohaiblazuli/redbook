@@ -463,7 +463,6 @@ function initDevPanel() {
         user-select: none;
       }
       .tb-brand { color: var(--cn-accent); font-weight: 700; letter-spacing: 0.5px; }
-      .tb-brand::before { content: '卐'; margin-right: 8px; }
       .tb-meta { color: var(--cn-dim); flex: 1; font-size: 10px; }
       .tb-status { display: flex; gap: 6px; align-items: center; }
       .tb-stat {
@@ -761,37 +760,747 @@ function initDevPanel() {
       .progress-empty { color: var(--cn-faint); }
       .progress-label { color: var(--cn-info); font-weight: 600; }
       .progress-pct { color: var(--cn-text); }
+
+      /* ═══════════════════════════════════════════════════════════════════════
+         v1.0.0 — minimal-glass layout. New components for the redesigned shell.
+         These rules are additive; legacy classes (.scrollback, .input-row, etc.)
+         continue to work and inherit the new typography + token palette.
+         ═══════════════════════════════════════════════════════════════════════ */
+
+      /* Window shell — overrides on legacy .win to match the new aesthetic. */
+      .win {
+        background: var(--bg-canvas);
+        background-image: radial-gradient(ellipse 80% 60% at top, rgba(110,139,255,0.04), transparent 70%);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        box-shadow:
+          0 32px 64px rgba(0,0,0,0.55),
+          0 0 0 1px rgba(255,255,255,0.03);
+        color: var(--text);
+      }
+
+      /* Titlebar restyle. Keeps .titlebar/.tb-brand/.tb-meta/.tb-status/.tb-close
+         class names so JS selectors keep working. */
+      .titlebar {
+        padding: 12px 18px;
+        background: transparent;
+        border-bottom: 1px solid var(--border);
+        border-left: none;
+        font-size: 13px;
+        gap: 12px;
+      }
+      .tb-brand {
+        color: var(--text);
+        font-weight: 600;
+        letter-spacing: 0;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .tb-brand::before {
+        content: '';
+        display: inline-block;
+        width: 14px; height: 14px;
+        background: var(--accent);
+        transform: rotate(45deg);
+        border-radius: 2px;
+        opacity: 0.9;
+      }
+      .tb-meta {
+        color: var(--text-dim);
+        font-size: 11px;
+        font-weight: 500;
+        padding: 3px 8px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: var(--bg-glass);
+        flex: 0 0 auto;
+      }
+      .tb-spacer { flex: 1; }
+      .tb-status { gap: 6px; align-items: center; }
+      .tb-stat {
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 3px 10px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        background: var(--bg-glass);
+        color: var(--text-muted);
+        transition: color 200ms, border-color 200ms, background 200ms;
+      }
+      .tb-stat.on,  .tb-stat.is-ok   { color: var(--success); border-color: rgba(34,197,94,0.25);  background: rgba(34,197,94,0.06); }
+      .tb-stat.err, .tb-stat.is-err  { color: var(--danger);  border-color: rgba(239,68,68,0.25);  background: rgba(239,68,68,0.06); }
+      .tb-stat.is-warn               { color: var(--warn);    border-color: rgba(251,191,36,0.25); background: rgba(251,191,36,0.06); }
+
+      .switcher-pill {
+        display: none;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 10px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--bg-glass);
+        color: var(--text);
+        font-size: 11px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: border-color 200ms, background 200ms;
+      }
+      .switcher-pill:hover {
+        border-color: var(--border-strong);
+        background: var(--bg-glass-hover);
+      }
+      .switcher-pill .switcher-dot {
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: var(--accent);
+        display: inline-block;
+      }
+      .switcher-pill .switcher-chev {
+        color: var(--text-muted);
+        font-size: 9px;
+      }
+      .win.post-startup .switcher-pill { display: inline-flex; }
+
+      .tb-btn {
+        background: var(--bg-glass);
+        border: 1px solid var(--border);
+        color: var(--text-dim);
+        width: 28px; height: 28px;
+        border-radius: 8px;
+        font-size: 14px;
+        line-height: 1;
+        transition: border-color 200ms, background 200ms, color 200ms;
+      }
+      .tb-btn:hover {
+        border-color: var(--border-strong);
+        background: var(--bg-glass-hover);
+        color: var(--text);
+      }
+
+      /* Main area — provider grid + START.
+         Pre-startup: fills available space, centered.
+         Post-startup: collapses to 0 height with smooth transition.
+         Overlay mode (when switcher pill clicked): absolute-positioned over console. */
+      .main-area {
+        flex: 1 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 48px 32px;
+        opacity: 1;
+        transition: max-height 320ms ease, opacity 200ms ease, padding 320ms ease;
+        overflow: hidden;
+      }
+      .win.post-startup .main-area {
+        max-height: 0;
+        opacity: 0;
+        padding: 0 32px;
+        pointer-events: none;
+      }
+      .win.provider-overlay-open .main-area {
+        position: absolute;
+        inset: 64px 0 0 0;
+        max-height: none;
+        opacity: 1;
+        padding: 48px 32px;
+        background: rgba(5,7,12,0.94);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        z-index: 50;
+        pointer-events: auto;
+      }
+
+      /* Decorative divider — two lines with a small diamond between. */
+      .deco-divider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        width: 240px;
+        margin-bottom: 32px;
+      }
+      .deco-divider::before,
+      .deco-divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+      .deco-divider .deco-mark {
+        font-size: 8px;
+        color: var(--text-muted);
+        line-height: 1;
+      }
+
+      .heading {
+        font-size: 44px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        color: var(--text);
+        margin: 0 0 40px 0;
+        text-align: center;
+      }
+
+      /* Provider grid — restyle of the existing .provider-row / .provider-card */
+      .provider-row {
+        display: flex;
+        gap: 16px;
+        padding: 0;
+        margin: 0;
+        justify-content: center;
+      }
+      .provider-card {
+        width: 180px;
+        height: 220px;
+        padding: 32px 16px;
+        background: var(--bg-glass);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        box-shadow:
+          0 1px 0 rgba(255,255,255,0.04) inset,
+          0 8px 32px rgba(0,0,0,0.35);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        cursor: pointer;
+        color: var(--text-dim);
+        position: relative;
+        transition: border-color 200ms, background 200ms, transform 200ms;
+        user-select: none;
+      }
+      .provider-card:hover {
+        border-color: var(--border-strong);
+        background: var(--bg-glass-hover);
+        transform: translateY(-2px);
+        color: var(--text-dim);
+      }
+      .provider-card.selected {
+        border-color: var(--border-accent);
+        background:
+          linear-gradient(180deg, var(--accent-tint), var(--bg-glass));
+        color: var(--text);
+      }
+      .provider-card.selected:hover {
+        border-color: var(--border-accent-hi);
+      }
+      .provider-card .provider-icon {
+        width: 56px;
+        height: 56px;
+        filter: grayscale(1) brightness(1.4) opacity(0.85);
+        transition: filter 200ms;
+      }
+      .provider-card.selected .provider-icon {
+        filter: grayscale(1) brightness(1.4) opacity(1);
+      }
+      .provider-card .provider-name {
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .provider-card .check-badge {
+        display: none;
+        position: absolute;
+        top: 12px; right: 12px;
+        width: 18px; height: 18px;
+        border-radius: 50%;
+        background: var(--accent);
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1;
+      }
+      .provider-card.selected .check-badge { display: flex; }
+
+      /* START button restyle — no more rainbow effortGlow. */
+      .start-row { padding: 48px 0 0 0; }
+      .start-btn {
+        width: 280px;
+        height: 64px;
+        padding: 0;
+        border-radius: 16px;
+        background: linear-gradient(180deg, rgba(110,139,255,0.12), rgba(110,139,255,0.04));
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-accent);
+        color: var(--accent-soft);
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: border-color 200ms, transform 200ms, background 200ms;
+      }
+      .start-btn:hover {
+        animation: none;
+        border-color: var(--border-accent-hi);
+        background: linear-gradient(180deg, rgba(110,139,255,0.18), rgba(110,139,255,0.06));
+        transform: translateY(-1px);
+      }
+      .start-btn:active { transform: translateY(0); }
+      .start-btn::before { content: '▶'; font-size: 12px; opacity: 0.85; }
+
+      .help-hint {
+        margin-top: 24px;
+        font-size: 13px;
+        color: var(--text-muted);
+        text-align: center;
+      }
+      .help-hint .hint-cmd {
+        color: var(--accent);
+        font-weight: 500;
+      }
+
+      /* Identity modal — first-run only. */
+      .identity-modal {
+        display: none;
+        position: absolute;
+        inset: 0;
+        background: rgba(5,7,12,0.92);
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+        z-index: 100;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 32px;
+      }
+      .win.needs-identity .identity-modal { display: flex; }
+      .identity-modal .heading { margin-bottom: 12px; }
+      .identity-modal .subhead {
+        font-size: 16px;
+        color: var(--text-dim);
+        margin: 0 0 40px 0;
+        text-align: center;
+      }
+      .identity-input {
+        width: 320px;
+        height: 56px;
+        padding: 0 20px;
+        background: var(--bg-glass);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        color: var(--text);
+        font-family: inherit;
+        font-size: 16px;
+        font-weight: 500;
+        outline: none;
+        text-align: center;
+        transition: border-color 200ms;
+      }
+      .identity-input::placeholder { color: var(--text-muted); }
+      .identity-input:focus { border-color: var(--border-accent-hi); }
+      .identity-continue {
+        width: 200px;
+        height: 48px;
+        margin-top: 24px;
+        border-radius: 14px;
+        background: linear-gradient(180deg, rgba(110,139,255,0.12), rgba(110,139,255,0.04));
+        border: 1px solid var(--border-accent);
+        color: var(--accent-soft);
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        transition: border-color 200ms, background 200ms, transform 200ms, opacity 200ms;
+      }
+      .identity-continue:hover:not(:disabled) {
+        border-color: var(--border-accent-hi);
+        background: linear-gradient(180deg, rgba(110,139,255,0.18), rgba(110,139,255,0.06));
+        transform: translateY(-1px);
+      }
+      .identity-continue:disabled { opacity: 0.4; cursor: default; }
+
+      /* Status console — wraps the scrollback + new modules + input.
+         Existing JS still queries .scrollback directly; we wrap it. */
+      .status-console {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        padding: 16px 18px 0 18px;
+        background: transparent;
+        border-top: 1px solid var(--border);
+        gap: 10px;
+      }
+      .win:not(.post-startup) .status-console {
+        flex: 0 0 auto;
+        padding-top: 12px;
+        border-top: 1px solid var(--border);
+      }
+
+      /* Scrollback overrides — softer look, glass scrollbar. */
+      .scrollback {
+        padding: 0;
+        font-size: 13px;
+        line-height: 1.55;
+        scrollbar-color: rgba(255,255,255,0.08) transparent;
+      }
+      .scrollback::-webkit-scrollbar { width: 4px; }
+      .scrollback::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.08);
+        border-radius: 2px;
+      }
+      .scrollback::-webkit-scrollbar-thumb:hover {
+        background: rgba(255,255,255,0.18);
+      }
+      .win:not(.post-startup) .scrollback {
+        max-height: 0;
+        overflow: hidden;
+        flex: 0 0 auto;
+      }
+
+      /* Security patch module — pinned at top of console when /patch is on. */
+      .security-module {
+        display: none;
+        padding: 14px 18px;
+        border-radius: 12px;
+        background: var(--bg-glass);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-accent);
+        box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset;
+        align-items: center;
+        gap: 14px;
+      }
+      .win.show-patch-module .security-module { display: flex; }
+      .security-module .sm-shield {
+        width: 16px; height: 16px;
+        color: var(--accent);
+        flex-shrink: 0;
+      }
+      .security-module .sm-label {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+      }
+      .security-module .sm-state {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--accent-soft);
+      }
+      .security-module .sm-spacer { flex: 1; }
+      .security-module .sm-bar {
+        width: 200px;
+        height: 4px;
+        background: var(--border);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .security-module .sm-bar-fill {
+        height: 100%;
+        background: var(--accent);
+        width: 100%;
+        transition: width 240ms ease;
+      }
+      .security-module .sm-pct {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text-dim);
+        font-variant-numeric: tabular-nums;
+        min-width: 36px;
+        text-align: right;
+      }
+
+      /* Log entries — dot + text (replaces [OK]/[ERR]/[INFO] brackets). */
+      .log-entry {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        padding: 2px 0;
+        font-size: 13px;
+        line-height: 1.55;
+      }
+      .log-entry .log-dot {
+        flex-shrink: 0;
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        margin-top: 0.6em;
+        align-self: flex-start;
+      }
+      .log-entry .log-text {
+        color: var(--text);
+        flex: 1;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .log-entry.log-ok   .log-dot { background: var(--success); }
+      .log-entry.log-info .log-dot { background: var(--accent); }
+      .log-entry.log-warn .log-dot { background: var(--warn); }
+      .log-entry.log-err  .log-dot { background: var(--danger); }
+      .log-entry.log-dim  .log-dot { background: var(--text-muted); }
+      .log-entry.log-dim  .log-text { color: var(--text-dim); }
+
+      /* Welcome block — shown after START (post-startup). */
+      .welcome-block {
+        display: none;
+        margin: 8px 0 4px 0;
+      }
+      .win.post-startup .welcome-block { display: block; }
+      .welcome-block .welcome-line {
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        color: var(--text);
+        margin: 0;
+      }
+      .welcome-block .welcome-sub {
+        font-size: 13px;
+        color: var(--text-dim);
+        margin: 4px 0 0 0;
+      }
+
+      /* Input row restyle (legacy classes preserved). */
+      .input-row {
+        border-top: 1px solid var(--border);
+        background: transparent;
+        padding: 14px 0 14px 0;
+        margin-top: auto;
+        font-size: 14px;
+      }
+      .input-prompt {
+        color: var(--accent);
+        font-size: 16px;
+        font-weight: 500;
+        margin-right: 10px;
+      }
+      .input-text { font-size: 14px; }
+      .input-display { font-size: 14px; line-height: 22px; }
+      .input-wrap { height: 22px; }
+      .input-ghost { color: var(--text-muted); }
+
+      /* Footer status — renamed visually from .status-bar but legacy
+         .sb-pill / .sb-val selectors are aliased onto the same elements. */
+      .footer-status, .status-bar {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        gap: 0;
+        padding: 10px 18px;
+        border-top: 1px solid var(--border);
+        background: transparent;
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+      .fs-item, .sb-pill {
+        padding: 0 18px;
+        display: inline-flex;
+        align-items: baseline;
+        gap: 6px;
+        position: relative;
+      }
+      .fs-item + .fs-item::before,
+      .sb-pill + .sb-pill::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1px;
+        height: 12px;
+        background: var(--border);
+      }
+      .fs-item .fs-label,
+      .sb-pill::first-letter { color: var(--text-muted); }
+      .fs-label {
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        color: var(--text-muted);
+        text-transform: uppercase;
+      }
+      .fs-value, .sb-val {
+        font-size: 12px;
+        font-weight: 600;
+        padding-left: 0;
+      }
+      .fs-value.is-ok,      .sb-val.sb-ok      { color: var(--success); }
+      .fs-value.is-err,     .sb-val.sb-err     { color: var(--danger); }
+      .fs-value.is-warn,    .sb-val.sb-warn    { color: var(--warn); }
+      .fs-value.is-info,    .sb-val.sb-info    { color: var(--accent); }
+      .fs-value.is-pending, .sb-val.sb-pending { color: var(--text-dim); }
+
+      /* Shortcuts row — glass keycaps. */
+      .shortcuts {
+        padding: 10px 18px;
+        background: transparent;
+        border-top: 1px solid var(--border);
+        gap: 18px;
+        justify-content: center;
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+      .shortcuts > span {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .shortcuts code {
+        color: var(--text);
+        font-family: inherit;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 2px 8px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: var(--bg-glass);
+        box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset;
+        margin-right: 0;
+      }
+
+      /* Autocomplete dropdown restyle. */
+      .ac-dropdown {
+        background: rgba(10,14,22,0.95);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-strong);
+        border-bottom: none;
+        border-radius: 12px 12px 0 0;
+        font-size: 13px;
+        scrollbar-color: rgba(255,255,255,0.08) transparent;
+      }
+      .ac-item { padding: 6px 14px; }
+      .ac-item.active { background: rgba(110,139,255,0.10); }
+
+      /* Focus ring (keyboard nav). */
+      .start-btn:focus-visible,
+      .identity-input:focus-visible,
+      .identity-continue:focus-visible,
+      .switcher-pill:focus-visible,
+      .tb-btn:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      /* Resize grip — softer chevron. */
+      .resize-grip {
+        opacity: 0.5;
+        background:
+          linear-gradient(135deg,
+            transparent 0%, transparent 45%,
+            var(--border-strong) 45%, var(--border-strong) 55%,
+            transparent 55%, transparent 70%,
+            var(--border-strong) 70%, var(--border-strong) 80%,
+            transparent 80%);
+      }
+
+      /* Reduced motion — respect OS preference. */
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+        }
+      }
     </style>
 
     <div class="win" role="dialog" aria-label="Redbook Console">
       <div class="titlebar">
         <span class="tb-brand">redbook</span>
-        <span class="tb-meta">v0.10.3 · console</span>
+        <span class="tb-meta tb-version">v0.0.0</span>
+        <span class="tb-spacer"></span>
         <span class="tb-status">
           <span class="tb-stat status-store" title="store">STORE</span>
           <span class="tb-stat status-bridge" title="bridge">BRIDGE</span>
           <span class="tb-stat status-rec" title="recorder">REC</span>
+          <span class="tb-stat status-patch" title="security patch">PATCH</span>
+        </span>
+        <span class="switcher-pill" title="Switch AI provider">
+          <span class="switcher-dot"></span>
+          <span class="switcher-name">Claude</span>
+          <span class="switcher-chev">▾</span>
         </span>
         <button class="tb-btn tb-close" title="Hide (Esc)">×</button>
       </div>
-      <div class="scrollback"></div>
-      <div class="status-bar">
-        <span class="sb-pill" data-key="ipc">IPC:<b class="sb-val sb-pending">...</b></span>
-        <span class="sb-pill" data-key="bridge">Bridge:<b class="sb-val sb-pending">...</b></span>
-        <span class="sb-pill" data-key="kiosk">Kiosk:<b class="sb-val sb-pending">...</b></span>
-        <span class="sb-pill" data-key="bluebook">Bluebook:<b class="sb-val sb-pending">...</b></span>
-        <span class="sb-pill" data-key="update">Update:<b class="sb-val sb-pending">...</b></span>
+
+      <div class="identity-modal">
+        <div class="deco-divider"><span class="deco-mark">◆</span></div>
+        <h1 class="heading">Welcome to redbook</h1>
+        <p class="subhead">What should we call you?</p>
+        <input class="identity-input" type="text" autocomplete="off" spellcheck="false" placeholder="your name" maxlength="32" />
+        <button class="identity-continue" disabled>Continue →</button>
       </div>
-      <div class="ac-region">
-        <div class="ac-dropdown" style="display:none"></div>
-        <div class="input-row">
-          <span class="input-prompt">›</span>
-          <div class="input-wrap">
-            <pre class="input-display"><span class="input-typed"></span><span class="input-ghost"></span></pre>
-            <input class="input-text" type="text" autocomplete="off" spellcheck="false" />
+
+      <div class="main-area">
+        <div class="deco-divider"><span class="deco-mark">◆</span></div>
+        <h1 class="heading">Select AI provider</h1>
+        <div class="provider-row">
+          <div class="provider-card" data-provider="claude">
+            <img class="provider-icon" alt="Claude" />
+            <span class="provider-name">Claude</span>
+            <span class="check-badge">✓</span>
+          </div>
+          <div class="provider-card" data-provider="gemini">
+            <img class="provider-icon" alt="Gemini" />
+            <span class="provider-name">Gemini</span>
+            <span class="check-badge">✓</span>
+          </div>
+          <div class="provider-card" data-provider="chatgpt">
+            <img class="provider-icon" alt="ChatGPT" />
+            <span class="provider-name">ChatGPT</span>
+            <span class="check-badge">✓</span>
+          </div>
+        </div>
+        <div class="start-row">
+          <button class="start-btn">START</button>
+        </div>
+        <p class="help-hint">or type <span class="hint-cmd">/help</span> for commands</p>
+      </div>
+
+      <div class="status-console">
+        <div class="security-module">
+          <svg class="sm-shield" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
+            <path d="M8 1.5 L13.5 3.5 L13.5 8 C13.5 11 11 13.5 8 14.5 C5 13.5 2.5 11 2.5 8 L2.5 3.5 Z"/>
+            <path d="M5.5 8 L7.2 9.6 L10.5 6.3"/>
+          </svg>
+          <span class="sm-label">Security Patch</span>
+          <span class="sm-state">Active</span>
+          <span class="sm-spacer"></span>
+          <span class="sm-bar"><span class="sm-bar-fill"></span></span>
+          <span class="sm-pct">100%</span>
+        </div>
+        <div class="scrollback"></div>
+        <div class="welcome-block">
+          <p class="welcome-line">Welcome back<span class="welcome-name"></span>.</p>
+          <p class="welcome-sub">Type <span class="hint-cmd">/help</span> to see what I can do.</p>
+        </div>
+        <div class="ac-region">
+          <div class="ac-dropdown" style="display:none"></div>
+          <div class="input-row">
+            <span class="input-prompt">›</span>
+            <div class="input-wrap">
+              <pre class="input-display"><span class="input-typed"></span><span class="input-ghost"></span></pre>
+              <input class="input-text" type="text" autocomplete="off" spellcheck="false" />
+            </div>
           </div>
         </div>
       </div>
+
+      <div class="footer-status status-bar">
+        <span class="fs-item sb-pill" data-key="ipc"><span class="fs-label">IPC</span><b class="fs-value sb-val is-pending sb-pending">...</b></span>
+        <span class="fs-item sb-pill" data-key="bridge"><span class="fs-label">Bridge</span><b class="fs-value sb-val is-pending sb-pending">...</b></span>
+        <span class="fs-item sb-pill" data-key="kiosk"><span class="fs-label">Kiosk</span><b class="fs-value sb-val is-pending sb-pending">...</b></span>
+        <span class="fs-item sb-pill" data-key="bluebook"><span class="fs-label">Bluebook</span><b class="fs-value sb-val is-pending sb-pending">...</b></span>
+        <span class="fs-item sb-pill" data-key="update"><span class="fs-label">Update</span><b class="fs-value sb-val is-pending sb-pending">...</b></span>
+      </div>
+
       <div class="shortcuts">
         <span><code>Tab</code>complete</span>
         <span><code>↑↓</code>history</span>
