@@ -1,15 +1,32 @@
-[2026-06-12T10:17:41.656Z] run v2
+[2026-06-19T17:05:12.693Z] run v2
+GPU flags appended: disable-gpu, disable-gpu-compositing, disable-software-rasterizer, in-process-gpu
 selfHealingCallbackFunction locked
+BrowserWindow proxy installed
 setAppPath: G:\redbook\resources\app.asar
+Integrity check bypass wrappers installed
 require start
+NATIVE MODULE LOAD: ../build/Release/keytar.node
 [blocked] app.exit(0)
 require returned
 waiting
 app event: ready
+DISPLAY INFO:
+  primary: {"bounds":{"x":0,"y":0,"width":2560,"height":1440},"workArea":{"x":0,"y":0,"width":2560,"height":1392},"scaleFactor":1,"rotation":0,"id":353909150}
+  total displays: 2
+  display[0]: {"bounds":{"x":0,"y":0,"width":2560,"height":1440},"workArea":{"x":0,"y":0,"width":2560,"height":1392},"scaleFactor":1}
+  display[1]: {"bounds":{"x":-1080,"y":0,"width":1080,"height":1920},"workArea":{"x":-1080,"y":0,"width":1080,"height":1872},"scaleFactor":1}
+[blocked] app.quit() |     at app.quit (G:\redbook\_run.js:91:80) |     at v4KM (G:\redbook\resources\app.asar\main\index.js:7:3433000)
+SUPPRESSED showErrorBox: An Unexpected Error Occured | An unexpected error occured, closing the app.
+[blocked] app.exit(1)
+WATCHDOG: no window created within 15 seconds — creating fallback window
 browser-window-created id= 1
+window icon set to bluebook.ico
+Fallback window created, id=1
 forced show
 ready-to-show
+Fallback window ready-to-show
 did-finish-load app://dap-electron.collegeboard.org/
+Fallback window loaded app:// URL
 mods injected (224471 bytes)
 mods injected (224471 bytes)
 mods injected (224471 bytes)
@@ -17,4 +34,42 @@ Insert hotkey fired
 Insert hotkey fired
 Insert hotkey fired
 Insert hotkey fired
-[blocked] app.quit() |     at app.quit (G:\redbook\_run.js:44:80) |     at EventEmitter.<anonymous> (node:electron/js2c/browser_init:2:141376)
+Insert hotkey fired
+Insert hotkey fired
+AI hotkey fired
+AI hotkey fired
+AI hotkey fired
+Insert hotkey fired
+Insert hotkey fired
+Insert hotkey fired
+clipboard bypass enabled
+AI view created, partition=persist:redbook-ai url=https://gemini.google.com/app
+skin bg: rgb(50, 77, 199)
+AI did-finish-load
+skin bg: rgb(50, 77, 199)
+fade: fade active
+fade: already active
+drag: already active
+Insert hotkey fired
+AI hotkey fired
+AI view shown
+ready-to-show
+Insert hotkey fired
+Insert hotkey fired
+Insert hotkey fired
+Insert hotkey fired
+skin bg: rgb(50, 77, 199)
+ready-to-show
+AI did-finish-load
+skin bg: rgb(50, 77, 199)
+fade: fade active
+fade: already active
+drag: already active
+skin bg: rgb(50, 77, 199)
+fade: already active
+AI hotkey fired
+AI view hidden
+AI hotkey fired
+AI view shown
+window-all-closed -- preventing exit
+skin bg sync: #f8f9fa
