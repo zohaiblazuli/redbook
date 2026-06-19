@@ -413,14 +413,20 @@ function initDevPanel() {
       .tb-brand { color: var(--cn-accent); font-weight: 700; letter-spacing: 0.5px; }
       .tb-brand::before { content: '卐'; margin-right: 8px; }
       .tb-meta { color: var(--cn-dim); flex: 1; font-size: 10px; }
-      .tb-status { display: flex; gap: 4px; align-items: center; }
-      .tb-dot {
-        width: 7px; height: 7px;
-        background: var(--cn-faint);
-        transition: background 0.2s;
+      .tb-status { display: flex; gap: 6px; align-items: center; }
+      .tb-stat {
+        font-family: inherit;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        padding: 1px 5px;
+        border: 1px solid var(--cn-border);
+        color: var(--cn-dim);
+        background: transparent;
+        transition: color 0.2s, border-color 0.2s, background 0.2s;
       }
-      .tb-dot.on { background: var(--cn-accent); }
-      .tb-dot.err { background: var(--cn-error); }
+      .tb-stat.on  { color: var(--cn-success); border-color: var(--cn-success); background: rgba(74, 222, 128, 0.08); }
+      .tb-stat.err { color: var(--cn-error);   border-color: var(--cn-error);   background: rgba(248, 113, 113, 0.08); }
       .tb-btn {
         background: transparent; border: 1px solid var(--cn-border);
         color: var(--cn-dim);
@@ -708,11 +714,11 @@ function initDevPanel() {
     <div class="win" role="dialog" aria-label="Redbook Console">
       <div class="titlebar">
         <span class="tb-brand">redbook</span>
-        <span class="tb-meta">v0.9.8 · console</span>
+        <span class="tb-meta">v0.9.9 · console</span>
         <span class="tb-status">
-          <span class="tb-dot status-store" title="store"></span>
-          <span class="tb-dot status-bridge" title="bridge"></span>
-          <span class="tb-dot status-rec" title="recorder"></span>
+          <span class="tb-stat status-store" title="store">STORE</span>
+          <span class="tb-stat status-bridge" title="bridge">BRIDGE</span>
+          <span class="tb-stat status-rec" title="recorder">REC</span>
         </span>
         <button class="tb-btn tb-close" title="Hide (Esc)">×</button>
       </div>
@@ -1500,14 +1506,19 @@ function initDevPanel() {
     const R = window.__rbRec || {};
     const flags = R.flags || {};
     statusStore.classList.remove('on', 'err');
-    if (flags.storeStatus === 'attached') statusStore.classList.add('on');
-    else if (flags.storeStatus === 'not-found') statusStore.classList.add('err');
+    if (flags.storeStatus === 'attached')      { statusStore.classList.add('on');  statusStore.textContent = 'STORE OK'; }
+    else if (flags.storeStatus === 'not-found'){ statusStore.classList.add('err'); statusStore.textContent = 'STORE !'; }
+    else                                       {                                   statusStore.textContent = 'STORE'; }
     statusStore.title = 'store: ' + (flags.storeStatus || 'idle');
+
     statusBridge.classList.remove('on');
-    if ((flags.bridgeStatus || '').includes('tapped')) statusBridge.classList.add('on');
+    if ((flags.bridgeStatus || '').includes('tapped')) { statusBridge.classList.add('on'); statusBridge.textContent = 'BRIDGE OK'; }
+    else                                               {                                  statusBridge.textContent = 'BRIDGE'; }
     statusBridge.title = 'bridge: ' + (flags.bridgeStatus || 'idle');
+
     statusRec.classList.remove('on');
-    if (R.running) statusRec.classList.add('on');
+    if (R.running) { statusRec.classList.add('on'); statusRec.textContent = 'REC ' + ((R.events||[]).length); }
+    else           {                                statusRec.textContent = 'REC'; }
     statusRec.title = 'recorder: ' + (R.running ? 'running (' + (R.events||[]).length + ' events)' : 'idle');
   }
   setInterval(updateStatus, 1000);
