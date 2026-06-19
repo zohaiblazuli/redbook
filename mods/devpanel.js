@@ -890,15 +890,17 @@ function initDevPanel() {
          Post-startup: collapses to 0 height with smooth transition.
          Overlay mode (when switcher pill clicked): absolute-positioned over console. */
       .main-area {
-        flex: 1 0 auto;
+        flex: 1 1 auto;
+        min-height: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 48px 32px;
+        padding: 24px 32px;
         opacity: 1;
         transition: max-height 320ms ease, opacity 200ms ease, padding 320ms ease;
-        overflow: hidden;
+        overflow-y: auto;
+        overflow-x: hidden;
       }
       .win.post-startup .main-area {
         max-height: 0;
@@ -926,7 +928,7 @@ function initDevPanel() {
         justify-content: center;
         gap: 16px;
         width: 240px;
-        margin-bottom: 32px;
+        margin-bottom: 16px;
       }
       .deco-divider::before,
       .deco-divider::after {
@@ -942,11 +944,11 @@ function initDevPanel() {
       }
 
       .heading {
-        font-size: 44px;
+        font-size: 28px;
         font-weight: 600;
         letter-spacing: -0.02em;
         color: var(--text);
-        margin: 0 0 40px 0;
+        margin: 0 0 20px 0;
         text-align: center;
       }
 
@@ -959,14 +961,14 @@ function initDevPanel() {
         justify-content: center;
       }
       .provider-card {
-        width: 180px;
-        height: 220px;
-        padding: 32px 16px;
+        width: 160px;
+        height: 168px;
+        padding: 20px 12px;
         background: var(--bg-glass);
         -webkit-backdrop-filter: blur(20px);
         backdrop-filter: blur(20px);
         border: 1px solid var(--border);
-        border-radius: 24px;
+        border-radius: 18px;
         box-shadow:
           0 1px 0 rgba(255,255,255,0.04) inset,
           0 8px 32px rgba(0,0,0,0.35);
@@ -974,7 +976,7 @@ function initDevPanel() {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 18px;
+        gap: 14px;
         cursor: pointer;
         color: var(--text-dim);
         position: relative;
@@ -997,8 +999,8 @@ function initDevPanel() {
         border-color: var(--border-accent-hi);
       }
       .provider-card .provider-icon {
-        width: 56px;
-        height: 56px;
+        width: 44px;
+        height: 44px;
         filter: grayscale(1) brightness(1.4) opacity(0.85);
         transition: filter 200ms;
       }
@@ -1026,12 +1028,12 @@ function initDevPanel() {
       .provider-card.selected .check-badge { display: flex; }
 
       /* START button restyle — no more rainbow effortGlow. */
-      .start-row { padding: 48px 0 0 0; }
+      .start-row { padding: 20px 0 0 0; }
       .start-btn {
-        width: 280px;
-        height: 64px;
+        width: 240px;
+        height: 48px;
         padding: 0;
-        border-radius: 16px;
+        border-radius: 14px;
         background: linear-gradient(180deg, rgba(110,139,255,0.12), rgba(110,139,255,0.04));
         -webkit-backdrop-filter: blur(20px);
         backdrop-filter: blur(20px);
@@ -1056,7 +1058,7 @@ function initDevPanel() {
       .start-btn::before { content: '▶'; font-size: 12px; opacity: 0.85; }
 
       .help-hint {
-        margin-top: 24px;
+        margin-top: 12px;
         font-size: 13px;
         color: var(--text-muted);
         text-align: center;
@@ -1143,8 +1145,10 @@ function initDevPanel() {
       }
       .win:not(.post-startup) .status-console {
         flex: 0 0 auto;
+        flex-shrink: 0;
         padding-top: 12px;
         border-top: 1px solid var(--border);
+        min-height: 60px;
       }
 
       /* Scrollback overrides — softer look, glass scrollbar. */
@@ -1301,6 +1305,7 @@ function initDevPanel() {
         background: transparent;
         font-size: 11px;
         color: var(--text-muted);
+        flex-shrink: 0;
       }
       .fs-item, .sb-pill {
         padding: 0 18px;
@@ -1349,6 +1354,7 @@ function initDevPanel() {
         justify-content: center;
         font-size: 11px;
         color: var(--text-muted);
+        flex-shrink: 0;
       }
       .shortcuts > span {
         display: inline-flex;
@@ -1600,6 +1606,7 @@ function initDevPanel() {
       if (tbVersion && rbVersion && rbVersion.version) {
         tbVersion.textContent = 'v' + rbVersion.version;
       }
+      try { console.log('[redbook] devpanel ready, handlers wired (v' + (rbVersion && rbVersion.version || '?') + ')'); } catch (_) {}
     } catch (e) {
       try { console.warn('[redbook] wireStaticHandlers failed:', e); } catch (_) {}
     }
@@ -2395,6 +2402,40 @@ function initDevPanel() {
     con.printDim('type /help to see available commands.');
     con.blank();
   }
+
+  // ─── v1.0.2 keyboard fallbacks: /start, /provider ──────────────────────────
+  // Recovery commands for users who can't click the cards or START button
+  // (layout-overflow safety net).
+  registerCommand('start', () => {
+    if (win.classList.contains('post-startup') && !win.classList.contains('provider-overlay-open')) {
+      con.printDim('already started. use /provider <name> to switch providers.');
+      return;
+    }
+    con.printDim('starting with provider: ' + selectedProvider);
+    doStartup();
+  }, 'Begin startup with the currently selected provider (same as the START button)');
+
+  registerCommand('provider', (args) => {
+    const valid = ['claude', 'gemini', 'chatgpt'];
+    if (!args.length) {
+      con.printDim('current provider: ' + selectedProvider);
+      con.printDim('usage: /provider {claude|gemini|chatgpt}');
+      return;
+    }
+    const p = String(args[0]).toLowerCase();
+    if (!valid.includes(p)) {
+      con.printErr('unknown provider: ' + p + ' (valid: ' + valid.join(', ') + ')');
+      return;
+    }
+    selectedProvider = p;
+    try {
+      shadow.querySelectorAll('.provider-card').forEach(c => {
+        c.classList.toggle('selected', c.dataset.provider === p);
+      });
+      updateSwitcherPill();
+    } catch (_) {}
+    con.printOk('selected provider: ' + p + ' (run /start to begin)');
+  }, 'Select an AI provider without opening it: /provider claude|gemini|chatgpt');
 
   // ─── Bridge holder ─────────────────────────────────────────────────────────
   let _bridge = null;
