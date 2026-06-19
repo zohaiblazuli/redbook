@@ -219,46 +219,36 @@ let _aiSkinCssKey = null;
 let _aiColorSyncTimer = null;
 let _aiLastBg = '#f8f9fa';
 
-// Proximity fade — mouse-distance-based opacity (smooth gradient, no sudden pop)
+// Proximity fade — full visibility whenever cursor is inside bounds, fade to 0 when outside.
+// (Previous version used cursor-distance-from-center; required hovering the dead-center to see fully.)
 const FADE_JS = `(function() {
   if (window._rbFadeActive) return 'already active';
   window._rbFadeActive = true;
-  var REST = 0, MAX = 0.85, DECAY_MS = 600;
+  var REST = 0, MAX = 1.0;
   var cur = REST, target = REST, raf = null;
   var root = document.documentElement;
   root.style.opacity = REST;
   root.style.transition = 'none';
   function lerp(a, b, t) { return a + (b - a) * t; }
   function tick() {
-    cur = lerp(cur, target, 0.18);
+    cur = lerp(cur, target, 0.22);
     if (Math.abs(cur - target) < 0.005) cur = target;
     root.style.opacity = cur.toFixed(3);
     if (cur !== target) raf = requestAnimationFrame(tick);
     else raf = null;
   }
   function kick() { if (!raf) raf = requestAnimationFrame(tick); }
-  document.addEventListener('mousemove', function(e) {
-    var vw = window.innerWidth, vh = window.innerHeight;
-    var cx = vw / 2, cy = vh / 2;
-    var dx = (e.clientX - cx) / cx, dy = (e.clientY - cy) / cy;
-    var dist = Math.sqrt(dx * dx + dy * dy);
-    var t = 1 - Math.min(dist / 1.2, 1);
-    target = REST + (MAX - REST) * t * t;
-    kick();
-  }, { passive: true });
-  document.addEventListener('mouseleave', function() {
-    target = REST; kick();
+  // Any mouse activity inside the document = full opacity
+  document.addEventListener('mousemove',  function() { target = MAX;  kick(); }, { passive: true });
+  document.addEventListener('mouseenter', function() { target = MAX;  kick(); });
+  document.addEventListener('mouseover',  function() { target = MAX;  kick(); }, { passive: true });
+  // Leaving the document = fade out
+  document.addEventListener('mouseleave', function() { target = REST; kick(); });
+  document.addEventListener('mouseout',   function(e) {
+    // Only treat as a true leave when relatedTarget is null (moved outside the document window)
+    if (!e.relatedTarget && !e.toElement) { target = REST; kick(); }
   });
-  document.addEventListener('mouseenter', function(e) {
-    var vw = window.innerWidth, vh = window.innerHeight;
-    var cx = vw / 2, cy = vh / 2;
-    var dx = (e.clientX - cx) / cx, dy = (e.clientY - cy) / cy;
-    var dist = Math.sqrt(dx * dx + dy * dy);
-    var t = 1 - Math.min(dist / 1.2, 1);
-    target = REST + (MAX - REST) * t * t;
-    kick();
-  });
-  return 'fade active';
+  return 'fade active (binary, 1.0/0)';
 })()`;
 
 // Drag/resize handles — injected into AI overlay, relays mouse deltas via console.log
