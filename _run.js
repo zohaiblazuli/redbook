@@ -210,6 +210,7 @@ let _mainWin = null;
 //   • Invisible to Bluebook's security stack (kiosk, lockdown, focus monitor)
 let _aiView = null;
 let _aiViewVisible = false;
+let _kioskKeysLocked = null;
 const AI_PARTITION = 'persist:redbook-ai';
 const AI_VIEW_W = 520;
 const AI_VIEW_H = 800;
@@ -1057,8 +1058,44 @@ async function handleIpcCommand(cmd, args) {
 
     case 'kiosk.state': {
       if (!_mainWin || _mainWin.isDestroyed()) return { error: 'no window', kiosk: false };
-      try { return { ok: true, kiosk: _mainWin.isKiosk(), fullscreen: _mainWin.isFullScreen() }; }
+      try { return { ok: true, kiosk: _mainWin.isKiosk(), fullscreen: _mainWin.isFullScreen(), keysLocked: !!_kioskKeysLocked }; }
       catch (e) { return { error: e.message, kiosk: false }; }
+    }
+
+    case 'kiosk.lockkeys': {
+      if (_kioskKeysLocked) return { ok: true, already: true };
+      const { globalShortcut } = electron;
+      const BLOCK = [
+        'Alt+Tab', 'Alt+Shift+Tab', 'Alt+Escape', 'Alt+Shift+Escape',
+        'Super', 'Ctrl+Escape',
+        'Alt+F4',
+        'Meta+Tab', 'Meta+Shift+Tab',
+        'Meta+D', 'Meta+E', 'Meta+R',
+      ];
+      let locked = 0;
+      for (const accel of BLOCK) {
+        try {
+          if (!globalShortcut.isRegistered(accel)) {
+            globalShortcut.register(accel, () => { /* swallow */ });
+            locked++;
+          }
+        } catch (_) {}
+      }
+      _kioskKeysLocked = BLOCK;
+      log('kiosk lockkeys: blocked ' + locked + '/' + BLOCK.length + ' accelerators');
+      return { ok: true, locked };
+    }
+
+    case 'kiosk.unlockkeys': {
+      if (!_kioskKeysLocked) return { ok: true, already: true };
+      const { globalShortcut } = electron;
+      let unlocked = 0;
+      for (const accel of _kioskKeysLocked) {
+        try { globalShortcut.unregister(accel); unlocked++; } catch (_) {}
+      }
+      _kioskKeysLocked = null;
+      log('kiosk unlockkeys: freed ' + unlocked + ' accelerators');
+      return { ok: true, unlocked };
     }
 
     case 'session.save': {
