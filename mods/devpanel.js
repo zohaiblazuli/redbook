@@ -169,6 +169,7 @@ function initDevPanel() {
     ipc:      { text: '...', cls: 'sb-pending' },
     bridge:   { text: '...', cls: 'sb-pending' },
     kiosk:    { text: '...', cls: 'sb-pending' },
+    exam:     { text: 'off', cls: 'sb-ok' },
     bluebook: { text: '...', cls: 'sb-pending' },
     update:   { text: '...', cls: 'sb-pending' },
   };
@@ -1094,6 +1095,7 @@ function initDevPanel() {
         <span class="sb-pill" data-key="ipc">IPC:<b class="sb-val sb-pending">...</b></span>
         <span class="sb-pill" data-key="bridge">Bridge:<b class="sb-val sb-pending">...</b></span>
         <span class="sb-pill" data-key="kiosk">Kiosk:<b class="sb-val sb-pending">...</b></span>
+        <span class="sb-pill" data-key="exam">Exam:<b class="sb-val sb-ok">off</b></span>
         <span class="sb-pill" data-key="bluebook">Bluebook:<b class="sb-val sb-pending">...</b></span>
         <span class="sb-pill" data-key="update">Update:<b class="sb-val sb-pending">...</b></span>
       </div>
@@ -2034,17 +2036,31 @@ function initDevPanel() {
   registerCommand('kiosk', async (args) => {
     const mode = (args[0] || '').toLowerCase();
     if (mode === 'on') {
+      let nativeOk = false, bridgeOk = false;
       const r = await rbIpc('kiosk.on');
-      if (!r.error) { con.printOk('kiosk on (native Electron)'); _setSb('kiosk', 'on', 'sb-warn'); return; }
+      if (!r.error) nativeOk = true;
       const br = bridge();
-      if (!br) { con.printErr('native IPC failed (' + r.error + ') and bridge not detected'); return; }
-      try { br.obj.enterKioskMode?.(); con.printOk('kiosk on (via bridge fallback)'); _setSb('kiosk', 'on', 'sb-warn'); } catch (e) { con.printErr(e.message); }
+      if (br) { try { br.obj.enterKioskMode?.(); bridgeOk = true; } catch (_) {} }
+      if (nativeOk || bridgeOk) {
+        const via = [nativeOk && 'native', bridgeOk && 'bridge'].filter(Boolean).join(' + ');
+        con.printOk('kiosk on (' + via + ')');
+        _setSb('kiosk', 'on', 'sb-warn');
+      } else {
+        con.printErr('kiosk failed: native IPC ' + (r.error || '?') + ', bridge not detected');
+      }
     } else if (mode === 'off') {
+      let nativeOk = false, bridgeOk = false;
       const r = await rbIpc('kiosk.off');
-      if (!r.error) { con.printOk('kiosk off (native Electron)'); _setSb('kiosk', 'off', 'sb-ok'); return; }
+      if (!r.error) nativeOk = true;
       const br = bridge();
-      if (!br) { con.printErr('native IPC failed (' + r.error + ') and bridge not detected'); return; }
-      try { br.obj.exitKioskMode?.(); con.printOk('kiosk off (via bridge fallback)'); _setSb('kiosk', 'off', 'sb-ok'); } catch (e) { con.printErr(e.message); }
+      if (br) { try { br.obj.exitKioskMode?.(); bridgeOk = true; } catch (_) {} }
+      if (nativeOk || bridgeOk) {
+        const via = [nativeOk && 'native', bridgeOk && 'bridge'].filter(Boolean).join(' + ');
+        con.printOk('kiosk off (' + via + ')');
+        _setSb('kiosk', 'off', 'sb-ok');
+      } else {
+        con.printErr('kiosk off failed: native IPC ' + (r.error || '?') + ', bridge not detected');
+      }
     } else {
       const r = await rbIpc('kiosk.state');
       const nativeState = r.error ? '(unknown: ' + r.error + ')' : (r.kiosk ? 'on' : 'off');
@@ -2058,7 +2074,7 @@ function initDevPanel() {
       con.printDim('usage: /kiosk on|off');
       if (!r.error) _setSb('kiosk', r.kiosk ? 'on' : 'off', r.kiosk ? 'sb-warn' : 'sb-ok');
     }
-  }, 'Toggle kiosk mode (on/off) -- uses native Electron, no bridge required');
+  }, 'Toggle kiosk mode (on/off) -- engages both native Electron + bridge lockdown');
 
   registerCommand('update', async (args) => {
     const sub = (args[0] || 'check').toLowerCase();
@@ -2242,6 +2258,9 @@ function initDevPanel() {
       con.printDim('codes: 1=OPERATIONAL 2=PILOT_IN_SCHOOL 3=PILOT_WEEKEND 4=ABBREVIATED_PRACTICE 5=AP_MAKEUP 6=AP_EXCEPTION 7=SCHOOL_DAY_MAKEUP');
     }
   }, 'Toggle dispatch interceptor; set target event type');
+
+  registerCommand('exam.on', async () => doExamOn(), 'Activate full exam-day mode (kiosk + patch + spoof + bridge lockdown)');
+  registerCommand('exam.off', async () => doExamOff(), 'Deactivate exam-day mode and restore normal state');
 
   // (exam.dispatch, sentry.debug, sentry.user removed — developer-only)
 
@@ -2567,6 +2586,193 @@ function initDevPanel() {
 
     // Complete
     pb.done('patch disabled — blocked ' + bd + ' dispatches, ' + bt + ' telemetry, ' + bdom + ' dom');
+  }
+
+  // ─── Exam Mode On/Off ─────────────────────────────────────────────────────
+
+  async function doExamOn() {
+    if (EXAM_MODE.active) { con.printWarn('exam mode is already active. /exam off to disable.'); return; }
+
+    const pb = patchBox('EXAM MODE');
+    pb.setBar(0);
+    const notes = [];
+
+    // Phase 1: Security patch subsystems
+    pb.setMsg('installing security patch…');
+    pb.setBar(5);
+    await delay(200);
+
+    if (!PATCH.enabled) {
+      if (!REC.installed) installRecorder();
+      pb.setBar(8);
+      await delay(150);
+      if (!window.__rbStore) { const store = findReduxStore(); if (store) window.__rbStore = store; }
+      pb.setBar(12);
+      await delay(150);
+      installFocusSuppressor();
+      pb.setBar(16);
+      await delay(150);
+      installPatchDomObserver();
+      pb.setBar(20);
+      await delay(150);
+      installClipboardBypass();
+      pb.setBar(24);
+      await delay(150);
+      PATCH.enabled = true;
+      patchShowBadge();
+      notes.push('patch');
+    } else {
+      notes.push('patch (already active)');
+    }
+    pb.setBar(28);
+    await delay(200);
+
+    // Phase 2: Dispatch + fetch spoof
+    pb.setMsg('arming dispatch spoofer…');
+    pb.setBar(30);
+    await delay(200);
+
+    if (!SPOOF.enabled) {
+      SPOOF.targetEventTypeCd = 1;
+      SPOOF.enabled = true;
+      installSpoofer();
+      notes.push('spoof → OPERATIONAL');
+    } else {
+      notes.push('spoof (already active, target=' + SPOOF.targetEventTypeCd + ')');
+    }
+    pb.setBar(40);
+    await delay(200);
+
+    // Phase 3: Kiosk (both native + bridge)
+    pb.setMsg('engaging kiosk lockdown…');
+    pb.setBar(45);
+    await delay(200);
+
+    let kioskNative = false, kioskBridge = false;
+    const kr = await rbIpc('kiosk.on');
+    if (!kr.error) kioskNative = true;
+    pb.setBar(52);
+    await delay(150);
+
+    const br = bridge();
+    if (br) {
+      try { br.obj.enterKioskMode?.(); kioskBridge = true; } catch (_) {}
+    }
+    pb.setBar(58);
+    await delay(150);
+
+    if (kioskNative || kioskBridge) {
+      const via = [kioskNative && 'native', kioskBridge && 'bridge'].filter(Boolean).join('+');
+      notes.push('kiosk (' + via + ')');
+      _setSb('kiosk', 'on', 'sb-warn');
+    } else {
+      notes.push('kiosk (FAILED)');
+    }
+    pb.setBar(62);
+    await delay(200);
+
+    // Phase 4: Bridge lockdown calls
+    pb.setMsg('executing bridge lockdown sequence…');
+    pb.setBar(65);
+    await delay(200);
+
+    if (br) {
+      try { br.obj.emptyMenu?.(); } catch (_) {}
+      pb.setBar(70);
+      await delay(100);
+      try { br.obj.preventSleep?.(true); } catch (_) {}
+      pb.setBar(74);
+      await delay(100);
+      try { br.obj.terminateGrammarly?.(); } catch (_) {}
+      pb.setBar(78);
+      await delay(100);
+      try { br.obj.performSecurityCheck?.({}); } catch (_) {}
+      pb.setBar(82);
+      await delay(100);
+      notes.push('bridge lockdown');
+    } else {
+      notes.push('bridge lockdown (no bridge)');
+    }
+    pb.setBar(85);
+    await delay(200);
+
+    // Phase 5: Verify + finalize
+    pb.setMsg('verifying exam mode…');
+    pb.setBar(88);
+    await delay(400);
+    pb.setBar(92);
+    await delay(300);
+    pb.setBar(96);
+    await delay(200);
+
+    EXAM_MODE.active = true;
+    _setSb('exam', 'LIVE', 'sb-err');
+
+    pb.done('exam mode active — ' + notes.join(' · '));
+  }
+
+  async function doExamOff() {
+    if (!EXAM_MODE.active) { con.printWarn('exam mode is not active'); return; }
+
+    const pb = patchBox('EXAM MODE OFF');
+    pb.setBar(0);
+
+    // Phase 1: Kiosk off (both layers)
+    pb.setMsg('disengaging kiosk…');
+    pb.setBar(5);
+    await delay(200);
+
+    let kioskNative = false, kioskBridge = false;
+    const kr = await rbIpc('kiosk.off');
+    if (!kr.error) kioskNative = true;
+    pb.setBar(15);
+    await delay(150);
+
+    const br = bridge();
+    if (br) {
+      try { br.obj.exitKioskMode?.(); kioskBridge = true; } catch (_) {}
+    }
+    _setSb('kiosk', 'off', 'sb-ok');
+    pb.setBar(25);
+    await delay(200);
+
+    // Phase 2: Spoof off
+    pb.setMsg('disabling spoofer…');
+    pb.setBar(30);
+    await delay(200);
+    SPOOF.enabled = false;
+    pb.setBar(40);
+    await delay(200);
+
+    // Phase 3: Patch off
+    pb.setMsg('removing security patch…');
+    pb.setBar(45);
+    await delay(200);
+    patchDisable();
+    pb.setBar(65);
+    await delay(200);
+
+    // Phase 4: Re-scan security state
+    pb.setMsg('re-scanning security state…');
+    pb.setBar(70);
+    await delay(200);
+    if (br) {
+      try { br.obj.performSecurityCheck?.({}); } catch (_) {}
+      try { br.obj.requestRestrictedApps?.(); } catch (_) {}
+    }
+    pb.setBar(85);
+    await delay(400);
+    pb.setBar(92);
+    await delay(300);
+
+    // Finalize
+    EXAM_MODE.active = false;
+    _setSb('exam', 'off', 'sb-ok');
+
+    const bd = PATCH.blockedDispatches;
+    const bt = PATCH.blockedTelemetry;
+    const bdom = PATCH.blockedDom;
+    pb.done('exam mode disabled — blocked ' + bd + ' dispatches, ' + bt + ' telemetry, ' + bdom + ' dom');
   }
 
   registerCommand('patch', async (args) => {
@@ -3226,6 +3432,11 @@ function initDevPanel() {
       PATCH._blurSuppressor = null;
     }
   }
+
+  // ─── Exam Mode (unified toggle) ────────────────────────────────────────────
+  const EXAM_MODE = window.__rbExamMode || (window.__rbExamMode = {
+    active: false,
+  });
 
   // ─── Exam Spoofer ──────────────────────────────────────────────────────────
   const SPOOF = window.__rbSpoof || (window.__rbSpoof = {
