@@ -2036,15 +2036,13 @@ function initDevPanel() {
   registerCommand('kiosk', async (args) => {
     const mode = (args[0] || '').toLowerCase();
     if (mode === 'on') {
-      let nativeOk = false, bridgeOk = false, keysOk = false;
+      let nativeOk = false, bridgeOk = false;
       const r = await rbIpc('kiosk.on');
       if (!r.error) nativeOk = true;
       const br = bridge();
       if (br) { try { br.obj.enterKioskMode?.(); bridgeOk = true; } catch (_) {} }
-      const kl = await rbIpc('kiosk.lockkeys');
-      if (!kl.error) keysOk = true;
-      if (nativeOk || bridgeOk || keysOk) {
-        const via = [nativeOk && 'native', bridgeOk && 'bridge', keysOk && 'keys'].filter(Boolean).join(' + ');
+      if (nativeOk || bridgeOk) {
+        const via = [nativeOk && 'native', bridgeOk && 'bridge'].filter(Boolean).join(' + ');
         con.printOk('kiosk on (' + via + ')');
         _setSb('kiosk', 'on', 'sb-warn');
       } else {
@@ -2056,7 +2054,6 @@ function initDevPanel() {
       if (!r.error) nativeOk = true;
       const br = bridge();
       if (br) { try { br.obj.exitKioskMode?.(); bridgeOk = true; } catch (_) {} }
-      await rbIpc('kiosk.unlockkeys');
       if (nativeOk || bridgeOk) {
         const via = [nativeOk && 'native', bridgeOk && 'bridge'].filter(Boolean).join(' + ');
         con.printOk('kiosk off (' + via + ')');
@@ -2068,12 +2065,10 @@ function initDevPanel() {
       const r = await rbIpc('kiosk.state');
       const nativeState = r.error ? '(unknown: ' + r.error + ')' : (r.kiosk ? 'on' : 'off');
       const fsState = r.error ? '?' : (r.fullscreen ? 'yes' : 'no');
-      const keysState = r.keysLocked ? 'locked' : 'unlocked';
       const heuristic = document.fullscreenElement ? 'likely on' : 'likely off';
       con.printKV([
         ['kiosk (native)',    nativeState],
         ['fullscreen (native)', fsState],
-        ['keys (alt+tab etc)', keysState, r.keysLocked ? 'ok' : ''],
         ['kiosk (heuristic)', heuristic],
       ]);
       con.printDim('usage: /kiosk on|off');
@@ -2648,31 +2643,26 @@ function initDevPanel() {
     pb.setBar(40);
     await delay(200);
 
-    // Phase 3: Kiosk (both native + bridge + key lock)
+    // Phase 3: Kiosk (native + bridge)
     pb.setMsg('engaging kiosk lockdown…');
     pb.setBar(45);
     await delay(200);
 
-    let kioskNative = false, kioskBridge = false, keysLocked = false;
+    let kioskNative = false, kioskBridge = false;
     const kr = await rbIpc('kiosk.on');
     if (!kr.error) kioskNative = true;
-    pb.setBar(50);
-    await delay(100);
+    pb.setBar(52);
+    await delay(150);
 
     const br = bridge();
     if (br) {
       try { br.obj.enterKioskMode?.(); kioskBridge = true; } catch (_) {}
     }
-    pb.setBar(54);
-    await delay(100);
-
-    const kl = await rbIpc('kiosk.lockkeys');
-    if (!kl.error) keysLocked = true;
     pb.setBar(58);
     await delay(150);
 
-    if (kioskNative || kioskBridge || keysLocked) {
-      const via = [kioskNative && 'native', kioskBridge && 'bridge', keysLocked && 'keys'].filter(Boolean).join('+');
+    if (kioskNative || kioskBridge) {
+      const via = [kioskNative && 'native', kioskBridge && 'bridge'].filter(Boolean).join('+');
       notes.push('kiosk (' + via + ')');
       _setSb('kiosk', 'on', 'sb-warn');
     } else {
@@ -2727,7 +2717,7 @@ function initDevPanel() {
     const pb = patchBox('EXAM MODE OFF');
     pb.setBar(0);
 
-    // Phase 1: Kiosk off (both layers + key unlock)
+    // Phase 1: Kiosk off (native + bridge)
     pb.setMsg('disengaging kiosk…');
     pb.setBar(5);
     await delay(200);
@@ -2735,17 +2725,13 @@ function initDevPanel() {
     let kioskNative = false, kioskBridge = false;
     const kr = await rbIpc('kiosk.off');
     if (!kr.error) kioskNative = true;
-    pb.setBar(10);
-    await delay(100);
+    pb.setBar(12);
+    await delay(150);
 
     const br = bridge();
     if (br) {
       try { br.obj.exitKioskMode?.(); kioskBridge = true; } catch (_) {}
     }
-    pb.setBar(15);
-    await delay(100);
-
-    await rbIpc('kiosk.unlockkeys');
     _setSb('kiosk', 'off', 'sb-ok');
     pb.setBar(25);
     await delay(200);
