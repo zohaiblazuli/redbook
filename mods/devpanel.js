@@ -2066,10 +2066,15 @@ function initDevPanel() {
       const nativeState = r.error ? '(unknown: ' + r.error + ')' : (r.kiosk ? 'on' : 'off');
       const fsState = r.error ? '?' : (r.fullscreen ? 'yes' : 'no');
       const heuristic = document.fullscreenElement ? 'likely on' : 'likely off';
+      const addonState = await rbIpc('exam.lockdown.state');
+      const addonStr = addonState.addonLoaded
+        ? 'loaded (' + addonState.exports.length + ' exports)'
+        : 'not loaded';
       con.printKV([
         ['kiosk (native)',    nativeState],
         ['fullscreen (native)', fsState],
         ['kiosk (heuristic)', heuristic],
+        ['security addon',   addonStr],
       ]);
       con.printDim('usage: /kiosk on|off');
       if (!r.error) _setSb('kiosk', r.kiosk ? 'on' : 'off', r.kiosk ? 'sb-warn' : 'sb-ok');
@@ -2668,8 +2673,22 @@ function initDevPanel() {
     } else {
       notes.push('kiosk (FAILED)');
     }
+    pb.setBar(60);
+    await delay(200);
+
+    // Phase 3.5: Native security lockdown (Bluebook's compiled C++ addon)
+    pb.setMsg('activating native security lockdown…');
     pb.setBar(62);
     await delay(200);
+
+    const lockdownResult = await rbIpc('exam.lockdown.on');
+    if (!lockdownResult.error && lockdownResult.ok) {
+      notes.push('native lockdown');
+    } else {
+      notes.push('native lockdown (FAILED: ' + (lockdownResult.error || 'no ok') + ')');
+    }
+    pb.setBar(66);
+    await delay(150);
 
     // Phase 4: Bridge lockdown calls
     pb.setMsg('executing bridge lockdown sequence…');
@@ -2717,9 +2736,17 @@ function initDevPanel() {
     const pb = patchBox('EXAM MODE OFF');
     pb.setBar(0);
 
+    // Phase 0: Release native security lockdown (Bluebook's compiled addon)
+    pb.setMsg('releasing native security lockdown…');
+    pb.setBar(2);
+    await delay(200);
+    await rbIpc('exam.lockdown.off');
+    pb.setBar(8);
+    await delay(150);
+
     // Phase 1: Kiosk off (native + bridge)
     pb.setMsg('disengaging kiosk…');
-    pb.setBar(5);
+    pb.setBar(12);
     await delay(200);
 
     let kioskNative = false, kioskBridge = false;

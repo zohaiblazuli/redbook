@@ -217,6 +217,14 @@ const AI_VIEW_MARGIN = 12;
 
 let _aiSkinCssKey = null;
 let _aiColorSyncTimer = null;
+
+// ── Bluebook native security addon ──────────────────────────────────────────
+// Loaded from app.asar/main/60722ff386a8f364c7486e7e1dda23d1.node at startup.
+// This is Bluebook's own compiled C++ (N-API) DLL that implements keyboard
+// lockdown, focus monitoring, process monitoring, etc. via low-level Windows
+// hooks (SetWindowsHookEx WH_KEYBOARD_LL). We load it directly because the
+// bundle's v4KM integrity check aborts before the saga gets to load it.
+let _securityAddon = null;
 let _aiLastBg = '#f8f9fa';
 
 // Proximity fade — full visibility whenever cursor is inside bounds, fade to 0 when outside.
@@ -1040,6 +1048,7 @@ async function handleIpcCommand(cmd, args) {
         uptime: Math.round(process.uptime()),
         platform: process.platform,
         hasMainWin: !!_mainWin && !_mainWin.isDestroyed(),
+        securityAddon: !!_securityAddon,
       };
     }
 
@@ -1059,6 +1068,61 @@ async function handleIpcCommand(cmd, args) {
       if (!_mainWin || _mainWin.isDestroyed()) return { error: 'no window', kiosk: false };
       try { return { ok: true, kiosk: _mainWin.isKiosk(), fullscreen: _mainWin.isFullScreen() }; }
       catch (e) { return { error: e.message, kiosk: false }; }
+    }
+
+    // ── Bluebook native security addon lockdown ───────────────────────────────
+    // These call the compiled C++ DLL that Bluebook ships for exam-day security.
+    // lockShortcutKeys() installs a WH_KEYBOARD_LL hook that blocks Alt+Tab,
+    // Win key, Ctrl+Esc, etc. at the OS level.
+    case 'exam.lockdown.on': {
+      if (!_securityAddon) return { error: 'security addon not loaded' };
+      const results = {};
+      const tryCall = (name, ...fnArgs) => {
+        try { _securityAddon[name](...fnArgs); results[name] = 'ok'; }
+        catch (e) { results[name] = e.message; log('addon.' + name + ' failed:', e.message); }
+      };
+      tryCall('initHooksAndMonitors');
+      tryCall('lockShortcutKeys');
+      tryCall('startFocusMonitoring');
+      tryCall('startProcessMonitoring');
+      tryCall('startGrammarlyMonitoring');
+      tryCall('startMSAABlocking');
+      tryCall('startExplorerMonitoring');
+      tryCall('preventSleep');
+      tryCall('setLockdownState', true);
+      if (_mainWin && !_mainWin.isDestroyed()) {
+        tryCall('lockMouseToBluebook');
+      }
+      log('exam.lockdown.on results:', JSON.stringify(results));
+      const ok = Object.values(results).some(v => v === 'ok');
+      return { ok, results };
+    }
+
+    case 'exam.lockdown.off': {
+      if (!_securityAddon) return { error: 'security addon not loaded' };
+      const results = {};
+      const tryCall = (name, ...fnArgs) => {
+        try { _securityAddon[name](...fnArgs); results[name] = 'ok'; }
+        catch (e) { results[name] = e.message; log('addon.' + name + ' failed:', e.message); }
+      };
+      tryCall('unlockShortcutKeys');
+      tryCall('stopFocusMonitoring');
+      tryCall('stopProcessMonitoring');
+      tryCall('stopGrammarlyMonitoring');
+      tryCall('stopMSAABlocking');
+      tryCall('stopExplorerMonitoring');
+      tryCall('allowSleep');
+      tryCall('unlockMouseFromBluebook');
+      tryCall('setLockdownState', false);
+      log('exam.lockdown.off results:', JSON.stringify(results));
+      return { ok: true, results };
+    }
+
+    case 'exam.lockdown.state': {
+      return {
+        addonLoaded: !!_securityAddon,
+        exports: _securityAddon ? Object.keys(_securityAddon) : [],
+      };
     }
 
     case 'session.save': {
@@ -1726,6 +1790,17 @@ if (!fs.existsSync(asarPath)) {
     log('require threw', e && e.stack);
   }
   log('waiting');
+
+  // ── Load Bluebook's native security addon ───────────────────────────────────
+  // The bundle's v4KM integrity check aborts the saga before it loads this addon.
+  // We load it directly: same compiled C++ DLL, just not waiting for the saga.
+  // Electron transparently extracts .node files from asar before dlopen().
+  try {
+    _securityAddon = require(path.join(asarPath, 'main', '60722ff386a8f364c7486e7e1dda23d1.node'));
+    log('Bluebook security addon loaded:', Object.keys(_securityAddon).join(', '));
+  } catch (e) {
+    log('Security addon load FAILED:', e.message);
+  }
 
   // ── Startup watchdog: fallback window creation ─────────────────────────────
   // If Bluebook's saga fails (integrity check) and no window appears within
