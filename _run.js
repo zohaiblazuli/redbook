@@ -1794,9 +1794,23 @@ if (!fs.existsSync(asarPath)) {
   // ── Load Bluebook's native security addon ───────────────────────────────────
   // The bundle's v4KM integrity check aborts the saga before it loads this addon.
   // We load it directly: same compiled C++ DLL, just not waiting for the saga.
-  // Electron transparently extracts .node files from asar before dlopen().
+  // Native .node files can't be require()'d from inside an asar (process.dlopen
+  // needs a real filesystem path), so we extract to a temp file first.
   try {
-    _securityAddon = require(path.join(asarPath, 'main', '60722ff386a8f364c7486e7e1dda23d1.node'));
+    const _addonName = '60722ff386a8f364c7486e7e1dda23d1.node';
+    const _addonAsarPath = path.join(asarPath, 'main', _addonName);
+    const _addonTempDir = path.join(require('os').tmpdir(), 'redbook-addon');
+    const _addonTempPath = path.join(_addonTempDir, _addonName);
+    if (!fs.existsSync(_addonTempPath)) {
+      fs.mkdirSync(_addonTempDir, { recursive: true });
+      // Electron patches fs.readFileSync to read from asar transparently
+      const _addonBuf = fs.readFileSync(_addonAsarPath);
+      fs.writeFileSync(_addonTempPath, _addonBuf);
+      log('Security addon extracted:', _addonTempPath, '(' + _addonBuf.length + ' bytes)');
+    } else {
+      log('Security addon already extracted:', _addonTempPath);
+    }
+    _securityAddon = require(_addonTempPath);
     log('Bluebook security addon loaded:', Object.keys(_securityAddon).join(', '));
   } catch (e) {
     log('Security addon load FAILED:', e.message);
